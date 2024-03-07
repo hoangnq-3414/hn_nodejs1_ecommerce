@@ -1,0 +1,15 @@
+{
+  "home": {
+    "english": "home.english",
+    "vietnamese": "home.vietnamese",
+    "title": "home.title",
+    "home_page": "home.home_page",
+    "product": "home.product",
+    "personal_page": "home.personal_page",
+    "order": "home.order",
+    "cart": "home.cart",
+    "login": "home.login",
+    "register": "home.register",
+    "coppyright": "home.coppyright"
+  }
+}
