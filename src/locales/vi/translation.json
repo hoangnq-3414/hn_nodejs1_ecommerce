@@ -1,0 +1,41 @@
+{
+    "home": {
+        "english": "english",
+        "vietnamese": "vietnamese",
+        "title": "Web bán hàng online",
+        "home_page": "Trang chủ",
+        "product": "Sản phẩm",
+        "personal_page": "Trang cá nhân",
+        "order": "Đơn hàng",
+        "exit": "Thoát",
+        "cart": "Giỏ hàng",
+        "login": "Đăng nhập",
+        "register": "Đăng ký",
+        "coppyright": "Bản quyền 2024",
+        "search": "Search",
+        "add_to_cart": "Thêm vào giỏ hàng",
+        "view": "Xem"
+    } ,
+    "login": {
+        "signin": "Đăng Nhập",
+        "email": "Email",
+        "password": "Mật khẩu",
+        "cre_account": "Tạo tài khoản mới",
+        "notfound":"Không tồn tại tài khoản",
+        "error": "Thông tin đăng nhập không chính xác",
+        "notLogin": "Chưa đăng nhập",
+        "invalid": "Token không hợp lệ"
+    },
+    "register": {
+        "signup": "Đăng ký",
+        "full_name": "Họ và tên",
+        "email": "Email",
+        "password": "Mật khẩu",
+        "confirm": "Xác nhận mật khẩu",
+        "passwordLengthError": "Mật khẩu phải lớn hơn 6 ký tự",
+        "passwordMismatchError": "Mật khẩu xác nhận không khớp",
+        "invalidEmailError": "Email không hợp lệ",
+        "fullNameLengthError": "Tên đầy đủ phải lơn hơn 3 ký tự",
+        "existed": "Người dùng đã tồn tai"
+    }
+}

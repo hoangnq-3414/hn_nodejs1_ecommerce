@@ -1,0 +1,41 @@
+{
+    "home": {
+        "english": "english",
+        "vietnamese": "vietnamese",
+        "title": "Online sales website",
+        "home_page": "Home page",
+        "product": "Product",
+        "personal_page": "Personal page",
+        "order": "Order",
+        "exit": "Exit",
+        "cart": "Cart",
+        "login": "Login",
+        "register": "Register",
+        "copyright": "Copyright 2024",
+        "search": "Search",
+        "add_to_cart": "Add to cart",
+        "view": "View"
+    },
+    "login": {
+        "signin": "Login",
+        "email": "Email",
+        "password": "Password",
+        "cre_account": "Create new account",
+        "notfound":"Account does not exist",
+        "error": "Incorrect login information",
+        "notLogin": "Not logged in",
+        "invalid": "Token is not valid"
+    },
+    "register": {
+        "signup": "Sign up",
+        "full_name": "Full name",
+        "email": "Email",
+        "password": "Password",
+        "confirm": "Confirm password",
+        "passwordLengthError": "Password must be at least 6 characters long",
+        "passwordMismatchError": "Password confirmation does not match",
+        "invalidEmailError": "Invalid email",
+        "fullNameLengthError": "Full name must be at least 3 characters long",
+        "existed": "The user already exists"
+    }
+}

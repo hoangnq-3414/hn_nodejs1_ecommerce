@@ -1,0 +1,85 @@
+/* main.css */
+.header{
+    height: 120px;
+    background-image: linear-gradient(0, #fe6433, #f53e2d );
+}
+
+.header__navbar{
+    display: flex;
+    justify-content: space-between;
+}
+
+.header__navbar-list{
+    list-style: none;
+    padding-left: 0;
+}
+
+.header__navbar-item{
+    margin: 0 8px;
+    position: relative;
+}
+
+.header__navbar-item, 
+.header__navbar-item-link,
+.header__navbar-link{
+    display: inline-block;
+    font-size: 1.5rem;
+    color: var(--white-color);
+    text-decoration: none;
+    font-weight: 300;
+
+}
+
+.header__navbar-item--strong,
+.header__navbar-link{
+    font-weight: 1000;
+}
+
+.header__navbar-item--separate::after{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 1px;
+    border-left: 1px solid #Fb9086;
+    height: 14px;
+    right: -9px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Authen model  */
+
+.auth-form__container{
+    padding: 32px;
+
+}
+
+.auth-form__header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.auth-form__heading{
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--text-color);
+}
+
+.auth-form__switch-btn{
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.auth-form__form{
+    margin-top: 16px;
+}
+
+.auth-form__input{
+    margin-top: 10px;
+}
+
+
+

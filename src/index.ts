@@ -1,23 +1,24 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import path from 'path';
-import dotenv from 'dotenv';
 import i18nextBackend from 'i18next-fs-backend';
 import i18nextMiddleware from 'i18next-http-middleware';
+import { engine } from 'express-handlebars';
 import i18next from 'i18next';
 import router from './routes';
 import winston from 'winston';
+import session from 'express-session';
+import flash from 'connect-flash';
 
-dotenv.config();
+const port = 3000;
+const app = express();
 import { AppDataSource } from './config/database';
 import { Request, Response, NextFunction } from 'express';
-const app = express();
-const port = 3000;
 
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-  ],
+  transports: [new winston.transports.Console()],
 });
 AppDataSource.initialize()
   .then(() => {
@@ -26,10 +27,13 @@ AppDataSource.initialize()
   .catch((err) => {
     logger.error('Error during Data Source initialization', err);
   });
-
-
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
+
+// app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+
 
 i18next
   .use(i18nextBackend)
@@ -54,10 +58,19 @@ i18next
   });
 app.use(i18nextMiddleware.handle(i18next));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// Use cookie-parser middleware
+app.use(cookieParser('keyboard cat'));
+app.use(session({ saveUninitialized: true, resave: true, secret: 'hoangnq' }));
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.messages = req.flash();
+  next();
+});
+app.set('views', path.join(__dirname, 'views'));
+// Template engine
+// app.engine('handlebars', exphbs());
+app.engine('.hbs', engine({ extname: '.hbs' }));
+app.set('view engine', '.hbs');
 
 // Use router
 app.use(router);
@@ -75,3 +88,6 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
+
+
+

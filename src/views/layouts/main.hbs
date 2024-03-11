@@ -1,0 +1,145 @@
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <!-- css -->
+    <link
+      href='/bootstrap/bootstrap.min.css'
+      rel='stylesheet'
+      integrity='sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH'
+      crossorigin='anonymous'
+    />
+    <link rel='stylesheet' href='/css/style.css' />
+    <link rel='stylesheet' href='/css/owl.carousel.min.css' />
+    <link rel='stylesheet' href='/css/all.min.css' />
+    <link rel='stylesheet' href='/bootstrap/bootstrap441.min.css' />
+    <link rel='stylesheet' href='/css/main.css' />
+    <!-- script -->
+    <script
+      src='/bootstrap/jquery.min.js'
+      integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=='
+      crossorigin='anonymous'
+      referrerpolicy='no-referrer'
+    ></script>
+    <script
+      src='/bootstrap/popper.min.js'
+      integrity='sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r'
+      crossorigin='anonymous'
+    ></script>
+    <script
+      src='/bootstrap/bootstrap.min.js'
+      integrity='sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy'
+      crossorigin='anonymous'
+    ></script>
+    <script src='/js/all.min.js'></script>
+    <script src='/js/myscript.js'></script>
+    <script src='/js/owl.carousel.min.js'></script>
+    <title>{{t 'home.title'}}</title>
+    <meta name='description' content='' />
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <link rel='stylesheet' href='' />
+  </head>
+  <body>
+    <!-- Menu -->
+    <nav class='navbar navbar-expand-lg bg-body-tertiary'>
+      <div class='container-fluid'>
+        <a class='navbar-brand' href='#'><img
+            src='/images/Neel.png'
+            width='50'
+            height='50'
+          /></a>
+        <button
+          class='navbar-toggler'
+          type='button'
+          data-bs-toggle='collapse'
+          data-bs-target='#navbarSupportedContent'
+          aria-controls='navbarSupportedContent'
+          aria-expanded='false'
+          aria-label='Toggle navigation'
+        >
+          <span class='navbar-toggler-icon'></span>
+        </button>
+        <div class='collapse navbar-collapse' id='navbarSupportedContent'>
+          <ul class='navbar-nav me-auto mb-2 mb-lg-0'>
+            <li class='nav-item'>
+              <a class='nav-link active' aria-current='page' href='/'>{{t
+                  'home.home_page'
+                }}</a>
+            </li>
+
+            <li class='nav-item dropdown'>
+              <a
+                class='nav-link dropdown-toggle'
+                href='#'
+                role='button'
+                data-bs-toggle='dropdown'
+                aria-expanded='false'
+              >
+                {{t 'home.product'}}
+              </a>
+              <ul class='dropdown-menu'>
+                <li><a class='dropdown-item' href='#'>Hoa quả Mỹ</a></li>
+                <li><a class='dropdown-item' href='#'>Hoa quả Pháp</a></li>
+                <li><hr class='dropdown-divider' /></li>
+                <li><a class='dropdown-item' href='#'>Hoa quả Đức</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class='d-flex' role='search'>
+            <input
+              class='form-control me-2'
+              type='search'
+              placeholder='Search'
+              aria-label='Search'
+            />
+            <button
+              class='btn btn-outline-success'
+              type='submit'
+            >{{t 'home.search'}}</button>
+          </form>
+        </div>
+        <ul class='navbar-nav me-auto mb-2 mb-lg-0'>
+          <li class='nav-item dropdown'>
+            <a
+              class='nav-link dropdown-toggle'
+              href='#'
+              role='button'
+              data-bs-toggle='dropdown'
+              aria-expanded='false'
+            >
+              User
+            </a>
+            <ul class='dropdown-menu'>
+              <li><a class='dropdown-item' href='#'>{{t 'home.personal_page'}}</a></li>
+              <li><a class='dropdown-item' href='#'>{{t 'home.order'}}</a></li>
+              <li><a class='dropdown-item' href='#'>{{t 'home.english'}}</a></li>
+            </ul>
+          </li>
+          <li class='nav-item'>
+            <a class='nav-link' href='#'>{{t 'home.cart'}}</a>
+          </li>
+          <li class='nav-item'>
+            <a class='nav-link' href='/auth/login'>{{t 'home.login'}}</a>
+          </li>
+          <li class='nav-item'>
+            <a class='nav-link' href='/auth/register'>{{t 'home.register'}}</a>
+          </li>
+        </ul>
+        <ul class='sidebar-nav'>
+          <li>
+            <a href='?locale=en'>{{t 'home.english'}}</a>
+            <a href='?locale=vi'>{{t 'home.vietnamese'}}</a>
+          </li>
+        </ul>
+
+      </div>
+    </nav>
+    <!-- main body -->
+    {{{body}}}
+    <footer
+      class='container-fluid bg-success text-center fixed-bottom p-2 mt-5'
+    >
+      {{t 'home.coppyright'}}
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,254 @@
+body{
+	background-color: hsl(0, 0%, 98%);
+}
+
+h1,h2,h3,h4,h5,h6{
+	color:hsl(0, 0%, 30%);
+}
+
+.box-element{
+	box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+	background-color: #fff;
+	border-radius: 4px;
+	padding: 5px;
+}
+
+.thumbnail{
+	width: 350px;
+	height:200px;
+	-webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+    -moz-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+    box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+}
+
+.product{
+	border-radius: 0 0 4px 4px;
+}
+
+.bg-dark{
+	background-color: #4f868c!important;
+}
+
+#cart-icon{
+	width:25px;
+	display: inline-block;
+	margin-left: 15px;
+}
+
+#cart-total{
+	display: block;
+	text-align: center;
+	color:#fff;
+	background-color: red;
+	width: 20px;
+	height: 25px;
+	border-radius: 50%;
+	font-size: 14px;
+}
+
+.col-lg-3, .col-lg-4, .col-lg-6, .col-lg-8, .col-lg-12{
+	margin-top: 10px;
+}
+
+.btn{
+	border-radius: 0;
+}
+
+.row-image{
+	width: 100px;
+}
+
+.form-field{
+	width:250px;
+	display: inline-block;
+	padding: 5px;
+}
+
+.cart-row{
+	display: flex;
+    align-items: flex-stretch;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ececec;
+
+}
+
+.quantity{
+	display: inline-block;
+	font-weight: 700;
+	padding-right:10px;
+	
+
+}
+
+.chg-quantity{
+	width: 12px;
+	cursor: pointer;
+	display: block;
+	margin-top: 5px;
+	transition:.1s;
+}
+
+.chg-quantity:hover{
+	opacity: .6;
+}
+
+
+.hidden{
+	display: none!important;
+}
+
+/* style login */
+.login {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background: #f5f5f5;
+  }
+  .login__container {
+	width: 100%;
+	max-width: 400px;
+	padding: 20px;
+	background: #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .login__container h1 {
+	margin-bottom: 20px;
+	font-size: 2rem;
+	text-align: center;
+  }
+  .login__container form {
+	display: flex;
+	flex-direction: column;
+  }
+  .login__container form label {
+	margin-bottom: 10px;
+	font-size: 1.2rem;
+  }
+  .login__container form input {
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin-bottom: 20px;
+  }
+  .login__container form button {
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	background: #333;
+	color: #fff;
+	font-size: 1.2rem;
+	cursor: pointer;
+  }
+  .login__container form button:hover {
+	background: #555;
+  }
+  .login__container form a {
+	text-align: center;
+	font-size: 1.2rem;
+	text-decoration: none;
+	color: #333;
+  }
+  .login__container form a:hover {
+	color: #555;
+  }
+  .login__registerButton {
+	margin-top: 20px;
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	color: black;
+	font-size: 1.2rem;
+	cursor: pointer;
+	display: block;
+  }
+  /* style signup */
+  .signup {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background: #f5f5f5;
+  }
+  .signup__container {
+	width: 100%;
+	max-width: 400px;
+	padding: 20px;
+	background: #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .signup__container h1 {
+	margin-bottom: 20px;
+	font-size: 2rem;
+	text-align: center;
+  }
+  .signup__container form {
+	display: flex;
+	flex-direction: column;
+  }
+  .signup__container form label {
+	margin-bottom: 10px;
+	font-size: 1.2rem;
+  }
+  .signup__container form input {
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin-bottom: 20px;
+  }
+  .signup__container form button {
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	background: #333;
+	color: #fff;
+	font-size: 1.2rem;
+	cursor: pointer;
+  }
+  .signup__container form button:hover {
+	background: #555;
+  }
+  .signup__container form a {
+	text-align: center;
+	font-size: 1.2rem;
+	text-decoration: none;
+	color: #333;
+  }
+  .signup__container form a:hover {
+	color: #555;
+  }
+  .signup__registerButton {
+	margin-top: 20px;
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	color: black;
+	font-size: 1.2rem;
+	cursor: pointer;
+	display: block;
+  }
+
+.sidebar-nav {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar-nav li {
+  margin-bottom: 10px;
+}
+
+.sidebar-nav a {
+  text-decoration: none;
+  color: #333; /* Màu chữ */
+  display: inline-block;
+  padding: 5px 10px; /* Kích thước nút */
+  border: 1px solid #ccc; /* Viền nút */
+  border-radius: 5px; /* Bo góc nút */
+}
+
+.sidebar-nav a:hover {
+  background-color: #f0f0f0; /* Màu nền khi di chuột vào */
+}
