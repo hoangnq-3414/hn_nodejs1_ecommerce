@@ -28,6 +28,7 @@
     "express-handlebars": "^7.1.2",
     "express-session": "^1.18.0",
     "express-validator": "^7.0.1",
+    "handlebars-i18next": "^1.0.3",
     "i18next": "^23.5.1",
     "i18next-fs-backend": "^2.3.1",
     "i18next-http-middleware": "^3.5.0",
@@ -35,6 +36,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^3.9.1",
     "typeorm": "^0.3.20",
+    "typeorm-pagination": "^2.0.3",
     "winston": "^3.12.0"
   },
   "devDependencies": {

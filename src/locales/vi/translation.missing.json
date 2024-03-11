@@ -10,6 +10,7 @@
     "cart": "home.cart",
     "login": "home.login",
     "register": "home.register",
-    "coppyright": "home.coppyright"
+    "coppyright": "home.coppyright",
+    "select": "home.select"
   }
 }

@@ -8,7 +8,6 @@ import { checkPassword, generateToken, hashPassword, decodeJWT } from '../untils
 
 const userRepository = AppDataSource.getRepository(User);
 
-const jwtSecret = process.env.JWT_SECRET;
 // POST register
 export const postRegister = [
   body('password')
@@ -77,20 +76,22 @@ export const postLogin = asyncHandler(
     });
 
     if (!user) {
-      req.flash('notfound', i18next.t('login.notfound'));
-      res.redirect('/auth/login')
+      req.flash('notfound', req.t('login.notfound'));
+      res.redirect('/auth/login');
+      return;
     }
 
     const isMatch = await checkPassword(password, user.password);
     if (!isMatch) {
-      req.flash('error', i18next.t('login.error'));
+      req.flash('error', req.t('login.error'));
       res.redirect('/auth/login')
+      return;
     }
 
     const token = await generateToken(user.id);
     res.cookie('token', token, { httpOnly: true });
     res.redirect('/');
-  },
+  }
 );
 
 export const logout = asyncHandler(
@@ -114,7 +115,12 @@ export const getRegister = asyncHandler(
 // GET login
 export const getLogin = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    res.render('login');
+    res.render('login', {
+      flash: {
+        notfound: req.flash('notfound'),
+        error: req.flash('error'),
+      }
+    });
   },
 );
 
