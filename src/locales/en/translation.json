@@ -1,5 +1,6 @@
 {
     "home": {
+        "select": "Select",
         "english": "english",
         "vietnamese": "vietnamese",
         "title": "Online sales website",
@@ -22,7 +23,7 @@
         "password": "Password",
         "cre_account": "Create new account",
         "notfound":"Account does not exist",
-        "error": "Incorrect login information",
+        "error": "Incorrect password information",
         "notLogin": "Not logged in",
         "invalid": "Token is not valid"
     },
@@ -37,5 +38,14 @@
         "invalidEmailError": "Invalid email",
         "fullNameLengthError": "Full name must be at least 3 characters long",
         "existed": "The user already exists"
+    },
+    "detail": {
+        "product_name": "Name",
+        "description": "Description",
+        "price": "Price",
+        "quantity": "Quantity",
+        "unit": "Unit",
+        "category": "Category",
+        "notfound": "product not exsits"
     }
 }

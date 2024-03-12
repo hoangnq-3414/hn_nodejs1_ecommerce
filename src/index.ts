@@ -11,11 +11,14 @@ import router from './routes';
 import winston from 'winston';
 import session from 'express-session';
 import flash from 'connect-flash';
-
 const port = 3000;
 const app = express();
 import { AppDataSource } from './config/database';
 import { Request, Response, NextFunction } from 'express';
+import Handlebars from 'handlebars';
+import registerI18nHelper from 'handlebars-i18next';
+
+registerI18nHelper(Handlebars, i18next);
 
 const logger = winston.createLogger({
   transports: [new winston.transports.Console()],
@@ -62,10 +65,7 @@ app.use(i18nextMiddleware.handle(i18next));
 app.use(cookieParser('keyboard cat'));
 app.use(session({ saveUninitialized: true, resave: true, secret: 'hoangnq' }));
 app.use(flash());
-app.use((req, res, next) => {
-  res.locals.messages = req.flash();
-  next();
-});
+
 app.set('views', path.join(__dirname, 'views'));
 // Template engine
 // app.engine('handlebars', exphbs());

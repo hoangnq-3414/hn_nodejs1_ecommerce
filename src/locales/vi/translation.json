@@ -1,5 +1,6 @@
 {
     "home": {
+        "select": "Lựa chọn",
         "english": "english",
         "vietnamese": "vietnamese",
         "title": "Web bán hàng online",
@@ -22,7 +23,7 @@
         "password": "Mật khẩu",
         "cre_account": "Tạo tài khoản mới",
         "notfound":"Không tồn tại tài khoản",
-        "error": "Thông tin đăng nhập không chính xác",
+        "error": "Mật khẩu không chính xác",
         "notLogin": "Chưa đăng nhập",
         "invalid": "Token không hợp lệ"
     },
@@ -37,5 +38,14 @@
         "invalidEmailError": "Email không hợp lệ",
         "fullNameLengthError": "Tên đầy đủ phải lơn hơn 3 ký tự",
         "existed": "Người dùng đã tồn tai"
+    },
+    "detail": {
+        "product_name": "Tên sản phẩm",
+        "description": "Mô tả",
+        "price": "Giá sản phẩm",
+        "quantity": "Số lượng",
+        "unit": "Đơn vị",
+        "category": "Loại sản phẩm",
+        "notfound": "sản phẩm không tồn tại"
     }
 }
