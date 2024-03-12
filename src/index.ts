@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import dotenv from 'dotenv';
 dotenv.config();
 import cookieParser from 'cookie-parser';
@@ -14,11 +15,15 @@ import flash from 'connect-flash';
 const port = 3000;
 const app = express();
 import { AppDataSource } from './config/database';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import Handlebars from 'handlebars';
 import registerI18nHelper from 'handlebars-i18next';
+import { registerCustomHelpers } from './untils/handlebars-helpers';
+
 
 registerI18nHelper(Handlebars, i18next);
+
+registerCustomHelpers();
 
 const logger = winston.createLogger({
   transports: [new winston.transports.Console()],
@@ -62,9 +67,16 @@ i18next
 app.use(i18nextMiddleware.handle(i18next));
 
 // Use cookie-parser middleware
-app.use(cookieParser('keyboard cat'));
-app.use(session({ saveUninitialized: true, resave: true, secret: 'hoangnq' }));
+app.use(cookieParser(process.env.JWT_SECRET));
+app.use(session({ saveUninitialized: true, resave: false, secret: process.env.JWT_SECRET }));
 app.use(flash());
+
+app.use((req, res, next) => {
+  // @ts-ignore
+  res.locals.user = req.session.user;
+  next();
+});
+
 
 app.set('views', path.join(__dirname, 'views'));
 // Template engine
@@ -76,7 +88,8 @@ app.set('view engine', '.hbs');
 app.use(router);
 
 // Error handling middleware
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+app.use((err: any, req: Request, res: Response) => {
   if (err) {
     console.error(err.stack);
   } else {
