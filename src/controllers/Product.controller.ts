@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response} from 'express';
 import { AppDataSource } from '../config/database';
 import { Product } from '../entities/Product';
 
@@ -7,8 +7,7 @@ const productRepository = AppDataSource.getRepository(Product);
 // GET product detail
 export const getProductDetail = async (
   req: Request,
-  res: Response,
-  next: NextFunction,
+  res: Response
 ) => {
   const product = await productRepository.findOne({
     where: { id: parseInt(req.params.id) },
