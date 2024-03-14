@@ -1,38 +1,99 @@
-var updateBtns = document.getElementsByClassName('update-cart')
+var cartItemsData = [];
 
-for (i=0; i<updateBtns.length;i++){
-    updateBtns[i].addEventListener('click',function(){
-        var productId = this.dataset.product
-        var action = this.dataset.action
-        console.log('productId',productId,'action',action)
-        console.log('user: ',user)
-        if (user === "AnonymousUser"){
-            console.log('user not logged in')
-        }
-        else{
-            updateUserOrder(productId, action)
-            
-        }
+function updateCartItemsData(cartITemId, quantity) {
+  // Kiểm tra xem sản phẩm có trong mảng cartItemsData không
+  var existingItem = cartItemsData.find(
+    (item) => item.cartITemId === cartITemId,
+  );
+  if (existingItem) {
+    // Nếu đã tồn tại, cập nhật số lượng
+    existingItem.quantity = quantity;
+  } else {
+    cartItemsData.push({ cartITemId: cartITemId, quantity: quantity });
+  }
+}
+
+$(document).ready(function() {
+  var totalPriceElement = $('.total-price');
+  var totalPrice = parseInt(totalPriceElement.text());
+
+  $('.chg-quantity').click(function() {
+    var quantityElement = $(this).closest('.cart-row').find('p.quantity');
+    var currentQuantity = parseInt(quantityElement.text());
+    var priceElement = $(this).closest('.cart-row').find('.product-price');
+    var currentPrice = parseInt(priceElement.text());
+    var totalEachProductElement = $(this).closest('.cart-row').find('.product-each-total');
+    var cartItemId = $(this).closest('.cart-row').data('id');
+
+    // Kiểm tra nếu là nút tăng số lượng
+    if ($(this).attr('src') === '/images/arrow-up.png') {
+      currentQuantity++;
+      totalPrice += currentPrice;
+    } else {
+      if (currentQuantity > 1) {
+        currentQuantity--;
+        totalPrice -= currentPrice;
+      }
     }
-    )
-}
 
-function updateUserOrder(productId, action){
-    console.log('user logged in,success add')
-    var url = '/update_item/'
-    fetch(url,{
-        method: 'POST',
-        headers: {
-            'Content-Type':'application/json',
-            'X-CSRFToken': csrftoken,
-        },
-        body: JSON.stringify({'productId':productId,'action':action})
+    quantityElement.text(currentQuantity);
+    updateCartItemsData(cartItemId, currentQuantity);
+    totalEachProductElement.text(`${currentPrice * currentQuantity}`);
+    totalPriceElement.text(totalPrice);
+    console.log(cartItemsData);
+  });
+});
 
+const updateCartBtn = document.getElementById('update-cart-btn');
+
+updateCartBtn.addEventListener('click', function (event) {
+  event.preventDefault();
+
+  sendCartItemsDataToServer(cartItemsData, () => {
+    window.location.href = this.getAttribute('href');
+  });
+});
+
+function sendCartItemsDataToServer(cartItemsData) {
+  fetch('/cart/update', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ cartItemsData: cartItemsData }), 
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      alert('Update successfully');
+      console.log(data); 
     })
-     .then((response)=>{return response.json()}
-      )
-     .then((data)=>{
-        console.log('data',data )
-        location.reload()
-    } )
+    .catch((error) => {
+      alert(error);
+      console.error('Lỗi:', error);
+    });
 }
+$(document).ready(function() {
+  const btnDelete = $('.btn-delete');
+  btnDelete.click(function(event) {
+      event.preventDefault();
+    
+      var itemId = $(this).data('item-id');
+      
+      var cartRow = $(this).closest('.cart-row');
+      
+      // Gửi yêu cầu AJAX để xóa mục với id đã được lấy
+      $.ajax({
+          type: 'GET', 
+          url: '/cart/delete/' + itemId, 
+          success: function(response) {             
+              console.log('Mục đã được xóa thành công!');
+              cartRow.hide();
+          },
+          error: function(xhr, status, error) {
+              console.error('Đã xảy ra lỗi khi xóa mục:', error);
+          }
+      });
+  });
+});
+
+

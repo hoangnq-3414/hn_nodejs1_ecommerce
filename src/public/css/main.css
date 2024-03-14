@@ -252,3 +252,39 @@ h1,h2,h3,h4,h5,h6{
 .sidebar-nav a:hover {
   background-color: #f0f0f0; /* Màu nền khi di chuột vào */
 }
+
+.page-node {
+	display: inline-flex;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	color: #333333;
+	font-weight: 600;
+	cursor: pointer;
+	text-decoration: none !important;
+	margin-left: 10px;
+}
+
+.page-node+.page-node {
+	margin-left: 5px;
+}
+
+.page-node span {
+	margin: auto;
+}
+
+.active-node {
+	background-color: rgb(83, 204, 83);
+}
+
+.none-active-node:hover {
+	background-color: rgba(75, 214, 75, 0.2);
+}
+
+.page-nav {
+	color: rgb(201, 197, 197);
+}
+
+.page-nav:hover {
+	color: #333333;
+}
