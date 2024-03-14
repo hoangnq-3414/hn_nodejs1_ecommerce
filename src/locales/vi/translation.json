@@ -46,7 +46,8 @@
         "quantity": "Số lượng",
         "unit": "Đơn vị",
         "category": "Loại sản phẩm",
-        "notfound": "sản phẩm không tồn tại"
+        "notfound": "sản phẩm không tồn tại",
+        "back": "Trở lại"
     },
     "cart": {
         "home": "Tiếp tục mua sắm",
@@ -57,5 +58,25 @@
         "product_exsist": "Sản phẩm đã tồn tại trong giỏ hàng",
         "updateItem": "Cập nhật giỏ hàng ",
         "removeItem": "Xóa sản phẩm"
-    }
+    },
+    "order": {
+        "nameLength": "Tên phải có ít nhất 2 ký tự",
+        "phoneLength": "Số điện thoại phải có từ 10 đến 11 ký tự",
+        "addressLength": "Địa chỉ phải có ít nhất 2 ký tự",
+        "typeOrderIsRequired": "Loại đơn hàng là bắt buộc",
+        "inventory": "Tồn kho",
+        "shippingInformation": "Thông tin vận chuyển",
+        "namePlaceholder": "Tên..",
+        "phonePlaceholder": "Số điện thoại...",
+        "addressPlaceholder": "Địa chỉ..",
+        "paymentInformation": "Thông tin thanh toán",
+        "cashOnDelivery": "Thanh toán khi nhận hàng",
+        "onlinePayment": "Thanh toán trực tuyến",
+        "orderNow": "Đặt hàng ngay",
+        "backToCart": "Quay lại giỏ hàng",
+        "orderSummary": "Tóm tắt đơn hàng",
+        "successTitle": "Thành công",
+        "successMessage": "Chúng tôi đã nhận được yêu cầu mua hàng của bạn;",
+        "successTouch": " chúng tôi sẽ liên hệ sớm!"
+    } 
 }

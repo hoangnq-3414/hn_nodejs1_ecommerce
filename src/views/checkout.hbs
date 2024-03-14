@@ -1,64 +1,139 @@
-<div class="row" style="width:100%">
-  <div class="col-lg-6">
-    <div class="box-element" id="form-wrapper">
-      <form id="form">
-        <div id="user-info">
-          <div class="form-field">
-            <input required class="form-control" type="text" name="name" placeholder="Name..">
+<div class='row' style='width:100%'>
+  <div class='col-lg-6'>
+    <div class='box-element' id='form-wrapper'>
+      <form
+        id='form'
+        action='/order'
+        method='POST'
+        enctype='multipart/form-data'
+      >
+        <div id='user-info'>
+          <hr />
+          <p>{{t 'order.shippingInformation'}}:</p>
+          <hr />
+          <div class='form-field'>
+            <input
+              required
+              class='form-control'
+              type='text'
+              name='name'
+              placeholder='{{t "order.namePlaceholder"}}'
+            />
           </div>
-          <div class="form-field">
-            <input required class="form-control" type="email" name="email" placeholder="Email..">
+          <div class='form-field'>
+            <input
+              required
+              class='form-control'
+              type='text'
+              name='phone'
+              placeholder='{{t "order.phonePlaceholder"}}'
+            />
           </div>
         </div>
-        <div id="shipping-info">
-          <hr>
-          <p>Shipping Information:</p>
-          <hr>
-          <div class="form-field">
-            <input class="form-control" type="text" name="address" placeholder="Address..">
-          </div>
-          <div class="form-field">
-            <input class="form-control" type="text" name="city" placeholder="City..">
-          </div>
-          <div class="form-field">
-            <input class="form-control" type="text" name="state" placeholder="State..">
-          </div>
-          <div class="form-field">
-            <input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
-          </div>
-          <div class="form-field">
-            <input class="form-control" type="text" name="country" placeholder="Zip code..">
+        <div id='shipping-info'>
+          <div class='form-field'>
+            <input
+              class='form-control'
+              type='text'
+              name='address'
+              placeholder='{{t "order.addressPlaceholder"}}'
+            />
           </div>
         </div>
-        <hr>
-        <input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+        <div id='payment-info'>
+          <hr />
+          <p>{{t 'order.paymentInformation'}}:</p>
+          <hr />
+          <div class='form-field'>
+            <select class='form-control' name='typeOrder' id='payment-type'>
+              <option value='1'>{{t 'order.cashOnDelivery'}}</option>
+              <option value='2'>{{t 'order.onlinePayment'}}</option>
+            </select>
+          </div>
+          <div class='form-field' id='image-upload' style='display: none;'>
+            <input
+              class='form-control'
+              type='file'
+              name='image'
+              id='image'
+              accept='image/*'
+            />
+          </div>
+          <input
+            type='hidden'
+            name='totalAmount'
+            id='total'
+            value='{{total}}'
+          />
+        </div>
+        <hr />
+        <input
+          id='form-button'
+          class='btn btn-success btn-block'
+          type='submit'
+          value='{{t "order.orderNow"}}'
+        />
       </form>
-    </div>
-    <br>
-    <div class="box-element hidden" id="payment-info">
-      <small>Paypal Options</small>
+      {{#if errors}}
+        <ul>
+          {{#each errors}}
+            <li>{{{msg}}}</li>
+          {{/each}}
+        </ul>
+      {{/if}}
     </div>
   </div>
-  <div class="col-lg-6">
-    <div class="box-element">
-      <a class="btn btn-outline-dark" href="/cart">&#x2190; Back to Cart</a>
-      <hr>
-      <h3>Order Summary</h3>
-      <hr>
-      <div class="cart-row">
-        <div style="flex:2"><img class="row-image" src="/images/placeholder.png"></div>
-        <div style="flex:2">
-          <p>Product 1</p>
-        </div>
-        <div style="flex:1">
-          <p>$20.00</p>
-        </div>
-        <div style="flex:1">
-          <p>x2</p>
-        </div>
+  <div class='col-lg-6'>
+    <div class='box-element'>
+      <a class='btn btn-outline-dark' href='/cart/list'>&#x2190;
+        {{t 'order.backToCart'}}</a>
+      <hr />
+      <h3>{{t 'order.orderSummary'}}</h3>
+      <hr />
+      <div class='cart-row'>
+        <div style='flex:1'></div>
+        <div style='flex:1'><strong>{{t 'cart.cartItems'}}</strong></div>
+        <div style='flex:1'><strong>{{t 'detail.price'}}</strong></div>
+        <div style='flex:1'><strong>{{t 'detail.quantity'}}</strong></div>
+        <div style='flex:1'><strong>{{t 'order.inventory'}}</strong></div>
+        <div style='flex:1'><strong>{{t 'detail.unit'}}</strong></div>
       </div>
-      <h5>Items: 2</h5>
-      <h5>Total: $4</h5>
+      {{#each cartItems}}
+        <div class='cart-row'>
+          <div style='flex:1'><img
+              class='row-image'
+              src='{{product.image}}'
+            /></div>
+          <div style='flex:1'>
+            <p class='product-name'>{{product.name}}</p>
+          </div>
+          <div style='flex:1'>
+            <p>{{product.price}}$</p>
+          </div>
+          <div style='flex:1'>
+            <p class='quantity'>{{quantity}}</p>
+          </div>
+          <div style='flex:1'>
+            <p class='product-quantity'>{{product.quantity}}</p>
+          </div>
+          <div style='flex:1'>
+            <p>{{product.unit}}</p>
+          </div>
+        </div>
+      {{/each}}
+      <ul class='pagination'>
+        {{#if paginationItemsLinks}}
+          {{{paginationItemsLinks}}}
+        {{/if}}
+      </ul>
+      <th>
+        <h5>{{t 'cart.items'}}: <strong>{{items}}</strong></h5>
+      </th>
+      <th>
+        <h5>{{t 'cart.total'}}:<strong>
+            $<span class='total-price'>{{total}}</span></strong></h5>
+      </th>
     </div>
   </div>
 </div>
+<script src='/js/order.js'></script>

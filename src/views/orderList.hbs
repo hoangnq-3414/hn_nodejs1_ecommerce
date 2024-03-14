@@ -1,0 +1,61 @@
+<div class='container bootdey'>
+  <div><a class='btn btn-outline-dark' href='/cart/list'>&#x2190;
+      {{t 'order.backToCart'}}</a>
+    <hr /></div>
+  <div class='box-element'>
+    <div class='panel panel-default panel-order'>
+      <div class='panel-heading'>
+        <strong>Order history</strong>
+        <div class='btn-group pull-right'>
+          <div class='btn-group'>
+            <button
+              type='button'
+              class='btn btn-default btn-xs dropdown-toggle'
+              data-toggle='dropdown'
+            >Filter history <i class='fa fa-filter'></i></button>
+            <ul class='dropdown-menu dropdown-menu-right'>
+              <li><a href='#'>Approved orders</a></li>
+              <li><a href='#'>Pending orders</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class='panel-body'>
+        <div class='row'>
+          <div class='col-md-1' style='width:100%'><img
+              src='/images/placeholder.png'
+              class='media-object img-thumbnail'
+            /></div>
+          <div class='col-md-11'>
+            <div class='row'>
+              <div class='col-md-12'>
+                <div class='pull-right'><label
+                    class='label label-rejected'
+                  >rejected</label></div>
+                <span><strong>Name</strong></span>
+                <span>: name</span><br />
+                <span><strong>Address</strong></span>
+                <span>: address</span><br />
+                <span><strong>Phone</strong></span>
+                <span>: phone</span><br />
+                <span><strong>Total Amount</strong></span>
+                <span>: cost</span><br />
+                <button
+                  id='cancelOrderBtn'
+                  class='btn btn-danger'
+                  style='display:none;'
+                >Cancel Order</button>
+                <br />
+              </div>
+              <div class='col-md-12'>Order made on: 05/31/2014</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </div>
+</div>
+
+<script src='/js/order.list.js'></script>

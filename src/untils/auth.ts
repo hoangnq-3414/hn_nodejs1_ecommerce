@@ -35,3 +35,12 @@ export const decodeJWT = async (token: string) => {
     });
   });
 };
+
+export const checkLoggedIn = async (req, res) => {
+  const user = req.session.user;
+  if (!user) {
+    res.redirect('/');
+  }
+  return user;
+}
+
