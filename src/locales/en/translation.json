@@ -54,6 +54,8 @@
         "total": "Total",
         "checkout": "Checkout",
         "cartItems": "Name item",
-        "product_exsist": "The product already exists in the shopping cart"
+        "product_exsist": "The product already exists in the shopping cart",
+        "updateItem": "Update Item",
+        "removeItem": "Remove Item"
     }
 }

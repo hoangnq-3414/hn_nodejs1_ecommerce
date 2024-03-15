@@ -74,40 +74,51 @@ export const postRegister = [
 
 // POST Login
 export const postLogin = asyncHandler(
-  async (req: Request, res: Response) => {
-    const { email, password } = req.body;
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email, password } = req.body;
 
-    const user = await userRepository.findOne({
-      where: { email: email },
-    });
+      const user = await userRepository.findOne({
+        where: { email: email },
+      });
 
-    if (!user) {
-      req.flash('notfound', req.t('login.notfound'));
-      res.redirect('/auth/login');
-      return;
+      if (!user) {
+        req.flash('notfound', req.t('login.notfound'));
+        res.redirect('/auth/login');
+        return;
+      }
+
+      const isMatch = await checkPassword(password, user.password);
+      if (!isMatch) {
+        req.flash('error', req.t('login.error'));
+        res.redirect('/auth/login')
+        return;
+      }
+
+      // const token = await generateToken(user.id);
+      // res.cookie('token', token, { httpOnly: true });
+      // @ts-ignore
+      req.session.user = user;
+      res.redirect('/');
+    } catch (err) {
+      console.error(err);
+      next(err);
     }
 
-    const isMatch = await checkPassword(password, user.password);
-    if (!isMatch) {
-      req.flash('error', req.t('login.error'));
-      res.redirect('/auth/login')
-      return;
-    }
-
-    // const token = await generateToken(user.id);
-    // res.cookie('token', token, { httpOnly: true });
-    // @ts-expect-error
-    req.session.user = user;
-    res.redirect('/');
   }
 );
 
 // GET Logout
-export const logout = (req: Request, res: Response) => {
-  // Xóa cookie chứa JWT
-  // res.clearCookie('token');
-  res.clearCookie('connect.sid');
-  res.redirect('/');
+export const logout = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Xóa cookie chứa JWT
+    // res.clearCookie('token');
+    res.clearCookie('connect.sid');
+    res.redirect('/');
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
 };
 
 // GET register

@@ -54,6 +54,8 @@
         "total": "Tổng tiền",
         "checkout": "Thanh toán",
         "cartItems": "Tên sản phẩm",
-        "product_exsist": "Sản phẩm đã tồn tại trong giỏ hàng"
+        "product_exsist": "Sản phẩm đã tồn tại trong giỏ hàng",
+        "updateItem": "Cập nhật giỏ hàng ",
+        "removeItem": "Xóa sản phẩm"
     }
 }
