@@ -6,6 +6,7 @@ import { CartItem } from '../entities/CartItem';
 import { Product } from '../entities/Product';
 import { generatePaginationLinks } from '../untils/pagenation';
 import { PAGE_SIZE, calculateOffset } from '../untils/constants';
+import {checkLoggedIn} from '../untils/auth'
 
 const cartRepository = AppDataSource.getRepository(Cart);
 const cartItemRepository = AppDataSource.getRepository(CartItem);
@@ -29,9 +30,8 @@ export const postAddCart = async (
   next: NextFunction,
 ) => {
   try {
-    // @ts-ignore
-    const userId = req.session.user.id;
-    const cart = await getUserCart(userId, res);
+    const user = await checkLoggedIn(req, res);
+    const cart = await getUserCart(user.id, res);
     const product = await productRepository.findOne({
       where: { id: parseInt(req.params.id) },
     });
@@ -40,11 +40,14 @@ export const postAddCart = async (
       return;
     }
     const exsistItem = await cartItemRepository.findOne({
-      where: { product: { id: parseInt(req.params.id) }, cart: { id: cart.id } },
+      where: {
+        product: { id: parseInt(req.params.id) },
+        cart: { id: cart.id },
+      },
     });
     if (exsistItem) {
       req.flash('product_exist', req.t('cart.product_exsist'));
-      res.redirect('/')
+      res.redirect('/');
       return;
     } else {
       const cartItem = new CartItem();
@@ -56,9 +59,8 @@ export const postAddCart = async (
     res.redirect('/cart/list');
   } catch (err) {
     console.error(err);
-    next(err);
+    next();
   }
-
 };
 
 // GET list item in cart
@@ -68,9 +70,8 @@ export const getListItemCart = async (
   next: NextFunction,
 ) => {
   try {
-    // @ts-ignore
-    const userId = req.session.user.id;
-    const cart = await getUserCart(userId, res);
+    const user = await checkLoggedIn(req, res);
+    const cart = await getUserCart(user.id, res);
     const page = parseInt(req.query.page as string) || 1;
     const offset = calculateOffset(page);
     const [cartItems, totalItems] = await cartItemRepository.findAndCount({
@@ -99,10 +100,9 @@ export const getListItemCart = async (
       cartItems,
     });
   } catch (err) {
-    // console.error(err);
+    console.error(err);
     next(err);
   }
-
 };
 
 export const updateListCartItem = async (
@@ -144,5 +144,4 @@ export const deleteCartItem = async (
     console.error(err);
     next(err);
   }
-
 };

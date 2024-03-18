@@ -11,13 +11,13 @@
     transform : scale(1.1);
 }
 
-/* .owl-carousel img{
+.owl-carousel img{
     transition: transform .5s ease;
   }
  .owl-carousel img:hover{
     
     transform : scale(1.25);
-} */
+}
 
 .owl-next{
  float:right;
@@ -33,9 +33,6 @@
  font-size: 24px;
  font-weight: bold;
 }
-
-
-
 
 .buttermilk{
     background-color:#fff;background-image:linear-gradient(#fff7ef, #fff);
@@ -78,9 +75,11 @@
     width:43%;
     margin:0 auto;
     text-align:center;
-    
 }
 
 .goodnesssec a{
     text-decoration: none;
 }
+
+.label-rejected { color: #dc3545; /* Màu đỏ */ } .label-pending { color:
+    #ffc107; /* Màu cam */ } .label-approved { color: #28a745; /* Màu xanh */ }

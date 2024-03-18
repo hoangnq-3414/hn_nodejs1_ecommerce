@@ -8,7 +8,7 @@ const productRepository = AppDataSource.getRepository(Product);
 export const getProductDetail = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const product = await productRepository.findOne({
@@ -25,5 +25,4 @@ export const getProductDetail = async (
     console.error(err);
     next(err);
   }
-
 };

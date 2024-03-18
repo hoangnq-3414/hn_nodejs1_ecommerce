@@ -46,7 +46,8 @@
         "quantity": "Quantity",
         "unit": "Unit",
         "category": "Category",
-        "notfound": "product not exsits"
+        "notfound": "product not exsits",
+        "back": "Back"
     },
     "cart": {
         "home": "Continue Shopping",
@@ -57,5 +58,24 @@
         "product_exsist": "The product already exists in the shopping cart",
         "updateItem": "Update Item",
         "removeItem": "Remove Item"
+    },
+    "order": {
+        "nameLength": "The name must have at least 2 characters",
+        "phoneLength": "Phone number must be between 10 and 11 characters",
+        "addressLength": "The address must have at least 2 characters",
+        "typeOrderIsRequired": "Type of order is required",
+        "inventory": "Inventory",
+        "shippingInformation": "Shipping Information",
+        "namePlaceholder": "Name..",
+        "phonePlaceholder": "Phone number...",
+        "addressPlaceholder": "Address..",
+        "cashOnDelivery": "Cash on Delivery",
+        "onlinePayment": "Online Payment",
+        "orderNow": "Oder now",
+        "backToCart": "Back to Cart",
+        "orderSummary": "Order Summary",
+        "successTitle": "Success",
+        "successMessage": "We received your purchase request;",
+        "successTouch": "we'll be in touch shortly!"
     }
 }
