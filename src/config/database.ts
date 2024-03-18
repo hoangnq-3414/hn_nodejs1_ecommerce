@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import { initializeTransactionalContext, addTransactionalDataSource, StorageDriver } from 'typeorm-transactional';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -17,3 +18,6 @@ export const AppDataSource = new DataSource({
   entities: ['src/entities/**/*.ts'],
   migrations: ['src/migrations/**/*.ts'],
 });
+
+initializeTransactionalContext({ storageDriver: StorageDriver.ASYNC_LOCAL_STORAGE });
+addTransactionalDataSource(AppDataSource);

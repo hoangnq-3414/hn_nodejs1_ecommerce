@@ -15,7 +15,8 @@
         "coppyright": "Copyright 2024",
         "search": "Search",
         "add_to_cart": "Add to cart",
-        "view": "View"
+        "view": "View",
+        "orderHistory": "Purchase history"
     },
     "login": {
         "signin": "Login",
@@ -46,7 +47,8 @@
         "quantity": "Quantity",
         "unit": "Unit",
         "category": "Category",
-        "notfound": "product not exsits"
+        "notfound": "product not exsits",
+        "back": "Back"
     },
     "cart": {
         "home": "Continue Shopping",
@@ -57,5 +59,50 @@
         "product_exsist": "The product already exists in the shopping cart",
         "updateItem": "Update Item",
         "removeItem": "Remove Item"
-    }
+    },
+    "order": {
+        "nameLength": "The name must have at least 2 characters",
+        "phoneLength": "Phone number must be between 10 and 11 characters",
+        "addressLength": "The address must have at least 2 characters",
+        "typeOrderIsRequired": "Type of order is required",
+        "inventory": "Inventory",
+        "shippingInformation": "Shipping Information",
+        "namePlaceholder": "Name..",
+        "phonePlaceholder": "Phone number...",
+        "addressPlaceholder": "Address..",
+        "paymentInformation": "Payment information",
+        "cashOnDelivery": "Cash on Delivery",
+        "onlinePayment": "Online Payment",
+        "orderNow": "Oder now",
+        "backToCart": "Back to Cart",
+        "orderSummary": "Order Summary",
+        "successTitle": "Success",
+        "successMessage": "We received your purchase request;",
+        "successTouch": "we'll be in touch shortly!",
+        "orderHistory": "Order history",
+        "filterHistory": "Filter history",
+        "approvedOrders": "Approved orders",
+        "pendingOrders": "Pending orders",
+        "detailLink": "Detail",
+        "cancelOrder": "Cancel Order",
+        "orderMadeOn": "Order made on" ,
+        "name": "Name",
+        "address": "Address",
+        "phone": "Phone",
+        "totalAmount": "Total Amount"
+    },
+    "status": {
+        "pending": "Pending",
+        "successful": "Successful",
+        "rejected": "Rejected",
+        "cancel": "Cancel",
+        "unknown": "Unknown"
+    },
+    "notFound": {
+        "title": "NOT FOUND",
+        "oops": "Oops!",
+        "pageNotFound": "Page not found.",
+        "pageNotFoundDescription": "The page you’re looking for doesn’t exist.",
+        "goHome": "Go Home"
+      }
 }

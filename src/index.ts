@@ -19,6 +19,7 @@ import { Request, Response } from 'express';
 import Handlebars from 'handlebars';
 import registerI18nHelper from 'handlebars-i18next';
 import { registerCustomHelpers } from './untils/handlebars-helpers';
+import multer from 'multer';
 
 registerI18nHelper(Handlebars, i18next);
 
@@ -39,6 +40,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+const storage = multer.diskStorage({
+  destination: './src/public/upload',
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + '-' + Date.now() + path.extname(file.originalname),
+    );
+  },
+});
+export const upload = multer({ storage: storage }).single('image');
 
 i18next
   .use(i18nextBackend)
@@ -89,7 +101,9 @@ app.set('view engine', '.hbs');
 // Use router
 app.use(router);
 
-app.all('*', (req: Request, res: Response) => res.json('error'));
+app.all('*', (req: Request, res: Response) => {
+  res.render('notfound')
+});
 
 // Start server
 app.listen(port, () => {

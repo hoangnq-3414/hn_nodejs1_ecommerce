@@ -1,11 +1,12 @@
 import express from 'express';
 import authRouter from './auth.route';
-import productRouter from './product.route'
-import cartRouter from './cart.route'
+import productRouter from './product.route';
+import cartRouter from './cart.route';
+import orderRouter from './order.route';
 import { Request, Response, NextFunction } from 'express';
 import { AppDataSource } from '../config/database';
 import { Product } from '../entities/Product';
-import { generatePaginationLinks } from '../untils/pagenation'
+import { generatePaginationLinks } from '../untils/pagenation';
 import { PAGE_SIZE, calculateOffset } from '../untils/constants';
 
 const productRepository = AppDataSource.getRepository(Product);
@@ -17,7 +18,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     const offset = calculateOffset(page);
     const [products, total] = await productRepository.findAndCount({
       take: PAGE_SIZE,
-      skip: offset
+      skip: offset,
     });
     const totalPages = Math.ceil(total / PAGE_SIZE);
 
@@ -29,7 +30,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
       flash: {
         notfound: req.flash('notfound'),
         product_exist: req.flash('product_exist'),
-      }
+      },
     });
   } catch (err) {
     console.error(err);
@@ -37,8 +38,13 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.use('/cart', cartRouter)
-router.use('/product', productRouter)
+router.get('/test', (req: Request, res: Response) => {
+  res.render('orderList');
+});
+
+router.use('/order', orderRouter);
+router.use('/cart', cartRouter);
+router.use('/product', productRouter);
 router.use('/auth', authRouter);
 
 export default router;
