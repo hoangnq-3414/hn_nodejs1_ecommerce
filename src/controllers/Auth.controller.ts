@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import i18next from 'i18next';
+import asyncHandler from 'express-async-handler';
+import { body, validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
 import { User } from '../entities/User';
 import { AppDataSource } from '../config/database';
-import asyncHandler from 'express-async-handler';
-import { body, validationResult } from 'express-validator';
-import i18next from 'i18next';
-import { checkPassword, hashPassword, decodeJWT } from '../untils/auth';
+import { checkPassword, hashPassword, decodeJWT } from '../utils/auth';
 import { Cart } from '../entities/Cart';
 
 const userRepository = AppDataSource.getRepository(User);
@@ -33,8 +33,7 @@ export const postRegister = [
     .notEmpty()
     .isLength({ min: 3 })
     .withMessage(() => i18next.t('register.fullNameLengthError')),
-  asyncHandler(async (req: Request, res: Response,
-  ) => {
+  asyncHandler(async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.render('register', {
@@ -51,7 +50,7 @@ export const postRegister = [
       });
       if (user) {
         req.flash('existed', i18next.t('register.existed'));
-        res.redirect('/auth/register')
+        res.redirect('/auth/register');
       }
       const hashedPassword = await hashPassword(password);
       const newUser = new User();
@@ -91,7 +90,7 @@ export const postLogin = asyncHandler(
       const isMatch = await checkPassword(password, user.password);
       if (!isMatch) {
         req.flash('error', req.t('login.error'));
-        res.redirect('/auth/login')
+        res.redirect('/auth/login');
         return;
       }
 
@@ -104,8 +103,7 @@ export const postLogin = asyncHandler(
       console.error(err);
       next(err);
     }
-
-  }
+  },
 );
 
 // GET Logout
@@ -122,23 +120,23 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
 };
 
 // GET register
-export const getRegister = asyncHandler(
-  async (req: Request, res: Response) => {
-    res.render('register');
-  },
-);
+export const getRegister = asyncHandler(async (req: Request, res: Response) => {
+  res.render('register', {
+    flash: {
+      exited: req.flash('existed'),
+    }
+  });
+});
 
 // GET login
-export const getLogin = asyncHandler(
-  async (req: Request, res: Response) => {
-    res.render('login', {
-      flash: {
-        notfound: req.flash('notfound'),
-        error: req.flash('error'),
-      }
-    });
-  },
-);
+export const getLogin = asyncHandler(async (req: Request, res: Response) => {
+  res.render('login', {
+    flash: {
+      notfound: req.flash('notfound'),
+      error: req.flash('error'),
+    },
+  });
+});
 
 // Middleware để xác thực và phân quyền JWT
 export const authenticateJWT = async (

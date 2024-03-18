@@ -16,5 +16,21 @@
   "cart": {
     "home": "cart.home",
     "updateCart": "cart.updateCart"
+  },
+  "order": {
+    "inventory": "order.inventory",
+    "shippingInformation": "order.shippingInformation",
+    "namePlaceholder": "order.namePlaceholder",
+    "phonePlaceholder": "order.phonePlaceholder",
+    "addressPlaceholder": "order.addressPlaceholder",
+    "paymentInformation": "order.paymentInformation",
+    "cashOnDelivery": "order.cashOnDelivery",
+    "onlinePayment": "order.onlinePayment",
+    "orderNow": "order.orderNow",
+    "backToCart": "order.backToCart",
+    "orderSummary": "order.orderSummary"
+  },
+  "status": {
+    "cancel": "status.cancel"
   }
 }

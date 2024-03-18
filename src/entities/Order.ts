@@ -15,7 +15,7 @@ export class Order extends ClassicEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'double' })
+  @Column({ type: 'float' })
   totalAmount: number;
 
   @Column()

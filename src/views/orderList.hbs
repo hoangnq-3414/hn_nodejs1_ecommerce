@@ -1,0 +1,73 @@
+<div class='container bootdey'>
+  <div><a class='btn btn-outline-dark' href='/cart/list'>&#x2190;
+      {{t 'order.backToCart'}}</a>
+    <hr />
+  </div>
+  <div class='box-element'>
+    <div class='panel panel-default panel-order'>
+      <div class='panel-heading'>
+        <strong>{{t 'order.orderHistory'}}</strong>
+        <div class='btn-group pull-right'>
+          <div class='btn-group'>
+            <button
+              type='button'
+              class='btn btn-default btn-xs dropdown-toggle'
+              data-toggle='dropdown'
+            >{{t 'order.filterHistory'}}
+              <i class='fa fa-filter'></i></button>
+            <ul class='dropdown-menu dropdown-menu-right'>
+              <li><a href='#'>{{t 'order.approvedOrders'}}</a></li>
+              <li><a href='#'>{{t 'order.pendingOrders'}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class='panel-body'>
+        <div class='row'>
+          <div class='col-md-11'>
+            <div class='row'>
+              {{#each modifiedOrderLists}}
+                <div class='col-md-1' style='width:100%'><img
+                    src='/images/placeholder.png'
+                    class='media-object img-thumbnail'
+                  /></div>
+                <div class='col-md-12'>
+                  <div class='col-md-12 text-right'><label
+                      class='label'
+                    >{{status}}</label></div>
+                  <span><strong>{{i18n 'order.name'}}</strong></span>
+                  <span>: {{name}}</span><br />
+                  <span><strong>{{i18n 'order.address'}}</strong></span>
+                  <span>: {{address}}</span><br />
+                  <span><strong>{{i18n 'order.phone'}}</strong></span>
+                  <span>: {{phone}}</span><br />
+                  <span><strong>{{i18n 'order.totalAmount'}}</strong></span>
+                  <span>: {{totalAmount}}</span><br />
+                  <a href='/order/detail/{{id}}'>{{i18n 'order.detailLink'}}</a><br
+                  />
+                  <button
+                    id='cancelBtn'
+                    class='cancelOrderBtn'
+                    style='display:none;'
+                    data-order-id='{{id}}'
+                  >{{i18n 'order.cancelOrder'}}</button>
+                  <div class='col-md-12'>{{i18n 'order.orderMadeOn'}}: {{date}}</div>
+                  <hr />
+                </div>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </div>
+  <ul class='pagination'>
+    {{#if paginationLinks}}
+      {{{paginationLinks}}}
+    {{/if}}
+  </ul>
+</div>
+
+<script src='/js/order.list.js'></script>
