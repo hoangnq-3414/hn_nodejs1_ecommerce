@@ -92,11 +92,15 @@
         "totalAmount": "Total Amount"
     },
     "status": {
+        "allStatus": "All Status",
+        "status": "Status",
         "pending": "Pending",
         "successful": "Successful",
         "rejected": "Rejected",
         "cancel": "Cancel",
-        "unknown": "Unknown"
+        "unknown": "Unknown",
+        "submit": "Submit",
+        "filter": "Filter"
     },
     "notFound": {
         "title": "NOT FOUND",

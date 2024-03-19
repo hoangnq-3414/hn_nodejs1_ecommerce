@@ -19,7 +19,6 @@ import { Product } from '../entities/Product';
 import { CartItem } from '../entities/CartItem';
 import { checkLoggedIn } from '../utils/auth';
 import { User } from '../entities/User';
-
 const orderRepository = AppDataSource.getRepository(Order);
 const orderDetailRepository = AppDataSource.getRepository(OrderDetail);
 const cartRepository = AppDataSource.getRepository(Cart);
@@ -85,7 +84,7 @@ class ProcessOrder {
     const user = await checkLoggedIn(req, res);
     const { name, phone, address, typeOrder, totalAmount } = req.body;
     const order = await createOrder(
-      { name, phone, address, typeOrder, totalAmount, imagePath },
+      { name, phone, address, typeOrder, totalAmount }, imagePath,
       user,
     );
     await orderRepository.save(order);
@@ -105,10 +104,11 @@ class ProcessOrder {
 }
 
 // Hàm để tạo đơn hàng
-const createOrder = async (options = {}, user: User) => {
+const createOrder = async (options = {}, image: string, user: User) => {
   const order: Order = orderRepository.create({
     ...options,
     status: 1,
+    image,
     user,
   });
   return order;
@@ -301,3 +301,55 @@ export const postChangeStatusOrder = async (
     next(err);
   }
 };
+
+// get filter status
+export const getFilterOrderStatus = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const user = await checkLoggedIn(req, res);
+    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
+    const offset = calculateOffset(page);
+
+    let queryBuilder = orderRepository.createQueryBuilder('order')
+      .where('order.userId = :userId', { userId: user.id })
+      .skip(offset)
+      .take(PAGE_SIZE)
+      .orderBy('order.createdAt', 'DESC')
+
+    let filterCondition = '';
+
+    if (req.query.status) {
+      const status = +req.query.status;
+      if (status) {
+        filterCondition += `status=${status}&`;
+        queryBuilder = queryBuilder.andWhere('order.status = :status', { status });
+      }
+    }
+    if (req.query.dateInput) {
+      const dateForm = req.query.dateInput;
+      filterCondition += `dateInput=${dateForm}`;
+      queryBuilder = queryBuilder.andWhere('order.createdAt LIKE :date', { date: `%${dateForm}%` });
+    }
+
+    const [orderLists, total] = await queryBuilder.getManyAndCount();
+
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const modifiedOrderLists = orderLists.map((order) => {
+      return {
+        ...order,
+        status: getStatusText(order.status),
+        date: formatDate(order.createdAt),
+      };
+    });
+
+    res.render('orderList', {
+      modifiedOrderLists,
+      totalPages: totalPages,
+      currentPage: page,
+      paginationLinks: generatePaginationLinks(page, totalPages, filterCondition),
+    });
+    return;
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+}

@@ -31,6 +31,7 @@
     "orderSummary": "order.orderSummary"
   },
   "status": {
-    "cancel": "status.cancel"
+    "cancel": "status.cancel",
+    "allStatus": "status.allStatus"
   }
 }
