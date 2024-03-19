@@ -86,11 +86,25 @@ app.use(
 );
 app.use(flash());
 
+// app.use((req, res, next) => {
+//   // @ts-ignore
+//   res.locals.user = req.session.user;
+//   next();
+// });
+
 app.use((req, res, next) => {
   // @ts-ignore
-  res.locals.user = req.session.user;
+  const user = req.session.user || null;
+  let isAdmin = false; // Mặc định user không phải là admin
+  
+  if (user && user.role === 2) {
+    isAdmin = true; 
+  }
+  res.locals.isAdmin = isAdmin;
+  res.locals.user = user;
   next();
 });
+
 
 app.set('views', path.join(__dirname, 'views'));
 // Template engine
