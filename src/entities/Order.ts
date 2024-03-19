@@ -18,6 +18,11 @@ export class Order extends ClassicEntity {
   @Column({ type: 'float' })
   totalAmount: number;
 
+  // pending: 1
+  // successful: 2
+  // reject: 3
+  // cancel: 4
+  // unknown: 5
   @Column()
   status: number;
 
@@ -39,6 +44,9 @@ export class Order extends ClassicEntity {
   @ManyToOne(() => User, (user) => user.orders)
   @JoinColumn()
   user: User;
+
+  @Column({nullable: true, type: 'text'})
+  comment: string;
 
   // One-to-Many relationship with OrderDetail entity
   @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.order)

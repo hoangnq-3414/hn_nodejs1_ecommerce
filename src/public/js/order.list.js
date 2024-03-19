@@ -6,7 +6,13 @@ $(document).ready(function () {
 
     // Nếu trạng thái là "Pending", hiển thị nút "Cancel Order"
     if (status === 'Pending') {
-      $(this).find('.cancelOrderBtn').show(); // Sử dụng lớp CSS chung 'cancelOrderBtn' thay vì id
+      $(this).find('.cancelOrderBtn').show();
+    }
+    if (status === 'Pending') {
+      $(this).find('.acceptOrderBtn').show();
+    }
+    if (status === 'Pending') {
+      $(this).find('.rejectOrderBtn').show();
     }
   });
 
@@ -14,7 +20,7 @@ $(document).ready(function () {
     var cancelBtn = $(this);
     var orderId = $(this).data('order-id');
 
-    var data = { orderId: orderId };
+    var data = { orderId: orderId, status: 4 };
     $.post('/order/status/', data)
       .done(function (response) {
         console.log('Order canceled successfully.');
@@ -26,8 +32,42 @@ $(document).ready(function () {
       });
   });
 
-  $('#statusButton').click(function() {
+  $('.rejectOrderBtn').click(function () {
+    var rejectBtn = $(this);
+    var orderId = $(this).data('order-id');
+
+    var data = { orderId: orderId, status: 3 };
+    $.post('/order/status/', data)
+      .done(function (response) {
+        console.log('Order reject successfully.');
+        rejectBtn.hide();
+        rejectBtn.siblings('.acceptOrderBtn').hide();
+        rejectBtn.siblings('.col-md-12').find('.label').text('Rejected');
+      })
+      .fail(function (xhr, status, error) {
+        console.error('Error canceling order:', error);
+      });
+  });
+
+  $('.acceptOrderBtn').click(function () {
+    var acceptBtn = $(this);
+    var orderId = $(this).data('order-id');
+
+    var data = { orderId: orderId, status: 2 };
+    $.post('/order/status/', data)
+      .done(function (response) {
+        console.log('Order successfully.');
+        acceptBtn.hide();
+        acceptBtn.siblings('.rejectOrderBtn').hide();
+        acceptBtn.siblings('.col-md-12').find('.label').text('Successful');
+      })
+      .fail(function (xhr, status, error) {
+        console.error('Error canceling order:', error);
+      });
+  });
+
+  $('#statusButton').click(function () {
     $('#statusModal').modal('show');
-    console.log("successfull")
+    console.log('successfull');
   });
 });

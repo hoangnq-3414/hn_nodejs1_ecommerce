@@ -3,6 +3,11 @@ import { Request, Response } from 'express';
 const router = express.Router();
 import * as orderController from '../controllers/Order.controller';
 
+// admin
+router.get('/adminStatus/:status', orderController.getAllFilterOrderStatus)
+router.get('/adminDate', orderController.getAllFilterDate)
+router.get('/allList', orderController.getAllOderList);
+// user
 router.get('/date', orderController.getFilterDate)
 router.get('/filter/:status', orderController.getFilterOrderStatus);
 router.post('/status', orderController.postChangeStatusOrder)

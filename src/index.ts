@@ -88,7 +88,14 @@ app.use(flash());
 
 app.use((req, res, next) => {
   // @ts-ignore
-  res.locals.user = req.session.user;
+  const user = req.session.user || null;
+  let isAdmin = false;
+
+  if (user && user.role == 2) {
+    isAdmin = true;
+  }
+  res.locals.isAdmin = isAdmin;
+  res.locals.user = user;
   next();
 });
 
@@ -102,7 +109,7 @@ app.set('view engine', '.hbs');
 app.use(router);
 
 app.all('*', (req: Request, res: Response) => {
-  res.render('notfound')
+  res.render('notfound');
 });
 
 // Start server

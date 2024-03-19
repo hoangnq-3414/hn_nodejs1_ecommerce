@@ -9,7 +9,13 @@ import {
   runOnTransactionRollback,
 } from 'typeorm-transactional';
 import { AppDataSource } from '../config/database';
-import { PAGE_SIZE, calculateOffset, DEFAULT_PAGE, formatDate, getStatusText } from '../utils/constants';
+import {
+  PAGE_SIZE,
+  calculateOffset,
+  DEFAULT_PAGE,
+  formatDate,
+  getStatusText,
+} from '../utils/constants';
 import { generatePaginationLinks } from '../utils/pagenation';
 import { upload } from '../index';
 import { Order } from '../entities/Order';
@@ -84,7 +90,8 @@ class ProcessOrder {
     const user = await checkLoggedIn(req, res);
     const { name, phone, address, typeOrder, totalAmount } = req.body;
     const order = await createOrder(
-      { name, phone, address, typeOrder, totalAmount },  imagePath,
+      { name, phone, address, typeOrder, totalAmount },
+      imagePath,
       user,
     );
     await orderRepository.save(order);
@@ -104,7 +111,7 @@ class ProcessOrder {
 }
 
 // Hàm để tạo đơn hàng
-const createOrder = async (options = {}, image: string,  user: User) => {
+const createOrder = async (options = {}, image: string, user: User) => {
   const order: Order = orderRepository.create({
     ...options,
     status: 1,
@@ -222,7 +229,7 @@ export const postOrder = async (
   }
 };
 
-// GET view history order
+// GET list view history order
 export const getOderList = async (
   req: Request,
   res: Response,
@@ -238,6 +245,50 @@ export const getOderList = async (
       skip: offset,
       order: { createdAt: 'DESC' },
     });
+
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const modifiedOrderLists = orderLists.map((order) => {
+      return {
+        ...order,
+        status: getStatusText(order.status),
+        date: formatDate(order.createdAt),
+      };
+    });
+    res.render('orderList', {
+      modifiedOrderLists,
+      totalPages: totalPages,
+      currentPage: page,
+      paginationLinks: generatePaginationLinks(page, totalPages),
+    });
+
+    return;
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
+
+// GET list view ADMIN history order
+export const getAllOderList = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = await checkLoggedIn(req, res);
+    if (user.role != 2) {
+      res.redirect('/');
+    }
+    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
+    const offset = calculateOffset(page);
+
+    const [orderLists, total] = await orderRepository.findAndCount({
+      relations: ['user'],
+      take: PAGE_SIZE,
+      skip: offset,
+      order: { createdAt: 'DESC' },
+    });
+
     const totalPages = Math.ceil(total / PAGE_SIZE);
     const modifiedOrderLists = orderLists.map((order) => {
       return {
@@ -247,7 +298,7 @@ export const getOderList = async (
       };
     });
 
-    res.render('orderList', {
+    res.render('orderManage', {
       modifiedOrderLists,
       totalPages: totalPages,
       currentPage: page,
@@ -291,10 +342,13 @@ export const getOderDetail = async (
 export const postChangeStatusOrder = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    await orderRepository.update({ id: parseInt(req.body.orderId) }, { status: 4 });
+    await orderRepository.update(
+      { id: parseInt(req.body.orderId) },
+      { status: parseInt(req.body.status) },
+    );
     res.redirect('/order/list');
   } catch (err) {
     console.error(err);
@@ -303,7 +357,11 @@ export const postChangeStatusOrder = async (
 };
 
 // get filter status
-export const getFilterOrderStatus = async (req: Request, res: Response, next: NextFunction) => {
+export const getFilterOrderStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const user = await checkLoggedIn(req, res);
     const status = parseInt(req.params.status);
@@ -315,7 +373,6 @@ export const getFilterOrderStatus = async (req: Request, res: Response, next: Ne
       skip: offset,
       order: { createdAt: 'DESC' },
     });
-
 
     const totalPages = Math.ceil(total / PAGE_SIZE);
     const modifiedOrderLists = orderLists.map((order) => {
@@ -337,10 +394,59 @@ export const getFilterOrderStatus = async (req: Request, res: Response, next: Ne
     console.error(err);
     next();
   }
-}
+};
+
+
+// get ADMIN filter status
+export const getAllFilterOrderStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = await checkLoggedIn(req, res);
+    if (user.role != 2) {
+      res.redirect('/');
+    }
+    const status = parseInt(req.params.status);
+    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
+    const offset = calculateOffset(page);
+    const [orderLists, total] = await orderRepository.findAndCount({
+      where: {status: status },
+      relations: ['user'],
+      take: PAGE_SIZE,
+      skip: offset,
+      order: { createdAt: 'DESC' },
+    });
+
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const modifiedOrderLists = orderLists.map((order) => {
+      return {
+        ...order,
+        status: getStatusText(order.status),
+        date: formatDate(order.createdAt),
+      };
+    });
+
+    res.render('orderManage', {
+      modifiedOrderLists,
+      totalPages: totalPages,
+      currentPage: page,
+      paginationLinks: generatePaginationLinks(page, totalPages),
+    });
+    return;
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
 
 // GET filter date
-export const getFilterDate = async (req: Request, res: Response, next: NextFunction) => {
+export const getFilterDate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const user = await checkLoggedIn(req, res);
     const dateForm = req.query.dateInput;
@@ -354,7 +460,7 @@ export const getFilterDate = async (req: Request, res: Response, next: NextFunct
       .skip(offset)
       .take(PAGE_SIZE)
       .orderBy('order.createdAt', 'DESC')
-      .getManyAndCount()
+      .getManyAndCount();
 
     const totalPages = Math.ceil(total / PAGE_SIZE);
     const modifiedOrderLists = orderLists.map((order) => {
@@ -369,13 +475,65 @@ export const getFilterDate = async (req: Request, res: Response, next: NextFunct
       modifiedOrderLists,
       totalPages: totalPages,
       currentPage: page,
-      paginationLinks: generatePaginationLinks(page, totalPages, `dateInput=${dateForm}`),
+      paginationLinks: generatePaginationLinks(
+        page,
+        totalPages,
+        `dateInput=${dateForm}`,
+      ),
     });
     return;
   } catch (err) {
     console.error(err);
     next();
   }
-}
+};
 
+// GET filter date ADMIN
+export const getAllFilterDate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = await checkLoggedIn(req, res);
+    if (user.role != 2) {
+      res.redirect('/');
+    }
+    const dateForm = req.query.dateInput;
+    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
+    const offset = calculateOffset(page);
 
+    const [orderLists, total] = await orderRepository
+      .createQueryBuilder('order')
+      .innerJoinAndSelect('order.user', 'user')
+      .andWhere('order.createdAt like :date', { date: `%${dateForm}%` })
+      .skip(offset)
+      .take(PAGE_SIZE)
+      .orderBy('order.createdAt', 'DESC')
+      .getManyAndCount();
+
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const modifiedOrderLists = orderLists.map((order) => {
+      return {
+        ...order,
+        status: getStatusText(order.status),
+        date: formatDate(order.createdAt),
+      };
+    });
+
+    res.render('orderManage', {
+      modifiedOrderLists,
+      totalPages: totalPages,
+      currentPage: page,
+      paginationLinks: generatePaginationLinks(
+        page,
+        totalPages,
+        `dateInput=${dateForm}`,
+      ),
+    });
+    return;
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};

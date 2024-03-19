@@ -23,7 +23,7 @@
               <li><a id='statusButton' class='dropdown-item' href='#'>{{t
                     'status.status'
                   }}</a></li>
-              <form action='/order/date' method='get'>
+              <form action='/order/adminDate' method='get'>
                 <input type='date' id='dateInput' name='dateInput' />
                 <button type='submit'>{{t 'status.submit'}}</button>
               </form>
@@ -53,15 +53,23 @@
                   <span>: {{phone}}</span><br />
                   <span><strong>{{i18n 'order.totalAmount'}}</strong></span>
                   <span>: {{totalAmount}}</span><br />
+                  <span><strong>Được tạo bởi</strong></span>
+                  <span>: {{user.email}}</span><br />
                   <a href='/order/detail/{{id}}'>{{i18n
                       'order.detailLink'
                     }}</a><br />
                   <button
-                    id='cancelBtn'
-                    class='cancelOrderBtn'
+                    id='acceptBtn'
+                    class='acceptOrderBtn'
                     style='display:none;'
                     data-order-id='{{id}}'
-                  >{{i18n 'order.cancelOrder'}}</button>
+                  >Accept</button>
+                  <button
+                    id='rejectBtn'
+                    class='rejectOrderBtn'
+                    style='display:none;'
+                    data-order-id='{{id}}'
+                  >reject</button>
                   <div class='col-md-12'>{{i18n 'order.orderMadeOn'}}:
                     {{date}}</div>
                   <hr />
@@ -102,16 +110,16 @@
       </div>
       <div class='modal-body'>
         <ul class='list-group'>
-          <li class='list-group-item'><a href='/order/filter/1'>{{t
+          <li class='list-group-item'><a href='/order/adminStatus/1'>{{t
                 'status.pending'
               }}</a></li>
-          <li class='list-group-item'><a href='/order/filter/4'>{{t
+          <li class='list-group-item'><a href='/order/adminStatus/4'>{{t
                 'status.cancel'
               }}</a></li>
-          <li class='list-group-item'><a href='/order/filter/3'>{{t
+          <li class='list-group-item'><a href='/order/adminStatus/3'>{{t
                 'status.rejected'
               }}</a></li>
-          <li class='list-group-item'><a href='/order/filter/2'>{{t
+          <li class='list-group-item'><a href='/order/adminStatus/2'>{{t
                 'status.successful'
               }}</a></li>
         </ul>
@@ -119,5 +127,8 @@
     </div>
   </div>
 </div>
-
+<br />
+<br />
+<br />
+<br />
 <script src='/js/order.list.js'></script>
