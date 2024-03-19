@@ -1,43 +1,22 @@
 <div class='row' style='width:100%'>
   <div class='col-lg-6'>
     <div class='box-element' id='form-wrapper'>
-      <form
-        id='form'
-        action='/order'
-        method='POST'
-        enctype='multipart/form-data'
-      >
+      <form id='form' action='/order' method='POST' enctype='multipart/form-data'>
         <div id='user-info'>
           <hr />
           <p>{{t 'order.shippingInformation'}}:</p>
           <hr />
           <div class='form-field'>
-            <input
-              required
-              class='form-control'
-              type='text'
-              name='name'
-              placeholder='{{t "order.namePlaceholder"}}'
-            />
+            <input required class='form-control' type='text' name='name' placeholder='{{t "order.namePlaceholder"}}' />
           </div>
           <div class='form-field'>
-            <input
-              required
-              class='form-control'
-              type='text'
-              name='phone'
-              placeholder='{{t "order.phonePlaceholder"}}'
-            />
+            <input required class='form-control' type='text' name='phone'
+              placeholder='{{t "order.phonePlaceholder"}}' />
           </div>
         </div>
         <div id='shipping-info'>
           <div class='form-field'>
-            <input
-              class='form-control'
-              type='text'
-              name='address'
-              placeholder='{{t "order.addressPlaceholder"}}'
-            />
+            <input class='form-control' type='text' name='address' placeholder='{{t "order.addressPlaceholder"}}' />
           </div>
         </div>
         <div id='payment-info'>
@@ -51,35 +30,19 @@
             </select>
           </div>
           <div class='form-field' id='image-upload' style='display: none;'>
-            <input
-              class='form-control'
-              type='file'
-              name='image'
-              id='image'
-              accept='image/*'
-            />
+            <input class='form-control' type='file' name='image' id='image' accept='image/*' />
           </div>
-          <input
-            type='hidden'
-            name='totalAmount'
-            id='total'
-            value='{{total}}'
-          />
+          <input type='hidden' name='totalAmount' id='total' value='{{total}}' />
         </div>
         <hr />
-        <input
-          id='form-button'
-          class='btn btn-success btn-block'
-          type='submit'
-          value='{{t "order.orderNow"}}'
-        />
+        <input id='form-button' class='btn btn-success btn-block' type='submit' value='{{t "order.orderNow"}}' />
       </form>
       {{#if errors}}
-        <ul>
-          {{#each errors}}
-            <li>{{{msg}}}</li>
-          {{/each}}
-        </ul>
+      <ul>
+        {{#each errors}}
+        <li>{{{msg}}}</li>
+        {{/each}}
+      </ul>
       {{/if}}
     </div>
   </div>
@@ -99,31 +62,29 @@
         <div style='flex:1'><strong>{{t 'detail.unit'}}</strong></div>
       </div>
       {{#each cartItems}}
-        <div class='cart-row'>
-          <div style='flex:1'><img
-              class='row-image'
-              src='{{product.image}}'
-            /></div>
-          <div style='flex:1'>
-            <p class='product-name'>{{product.name}}</p>
-          </div>
-          <div style='flex:1'>
-            <p>{{product.price}}$</p>
-          </div>
-          <div style='flex:1'>
-            <p class='quantity'>{{quantity}}</p>
-          </div>
-          <div style='flex:1'>
-            <p class='product-quantity'>{{product.quantity}}</p>
-          </div>
-          <div style='flex:1'>
-            <p>{{product.unit}}</p>
-          </div>
+      <div class='cart-row'>
+        <div style='flex:1'><a href='/product/detail/{{product.id}}'><img class='row-image'
+              src='{{product.image}}' /></a></div>
+        <div style='flex:1'>
+          <p class='product-name'>{{product.name}}</p>
         </div>
+        <div style='flex:1'>
+          <p>{{product.price}}$</p>
+        </div>
+        <div style='flex:1'>
+          <p class='quantity'>{{quantity}}</p>
+        </div>
+        <div style='flex:1'>
+          <p class='product-quantity'>{{product.quantity}}</p>
+        </div>
+        <div style='flex:1'>
+          <p>{{product.unit}}</p>
+        </div>
+      </div>
       {{/each}}
       <ul class='pagination'>
         {{#if paginationItemsLinks}}
-          {{{paginationItemsLinks}}}
+        {{{paginationItemsLinks}}}
         {{/if}}
       </ul>
       <th>

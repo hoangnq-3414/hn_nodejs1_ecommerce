@@ -3,19 +3,22 @@ import path from 'path';
 import i18next from 'i18next';
 import { Request, Response, NextFunction } from 'express-serve-static-core';
 import { body, validationResult } from 'express-validator';
+import {
+  Transactional,
+  runOnTransactionCommit,
+  runOnTransactionRollback,
+} from 'typeorm-transactional';
 import { AppDataSource } from '../config/database';
-import { PAGE_SIZE, calculateOffset } from '../untils/constants';
-import { generatePaginationLinks } from '../untils/pagenation';
+import { PAGE_SIZE, calculateOffset, DEFAULT_PAGE, formatDate, getStatusText } from '../utils/constants';
+import { generatePaginationLinks } from '../utils/pagenation';
 import { upload } from '../index';
 import { Order } from '../entities/Order';
 import { OrderDetail } from '../entities/OrderDetail';
 import { Cart } from '../entities/Cart';
 import { Product } from '../entities/Product';
 import { CartItem } from '../entities/CartItem';
-import { checkLoggedIn } from '../untils/auth'
+import { checkLoggedIn } from '../utils/auth';
 import { User } from '../entities/User';
-import { Transactional, runOnTransactionCommit, runOnTransactionRollback } from 'typeorm-transactional';
-
 
 const orderRepository = AppDataSource.getRepository(Order);
 const orderDetailRepository = AppDataSource.getRepository(OrderDetail);
@@ -42,7 +45,7 @@ export const getListItemOrder = async (
   try {
     const user = await checkLoggedIn(req, res);
     const cart = await getUserCart(user.id, res);
-    const page = parseInt(req.query.page as string) || 1;
+    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
     const offset = calculateOffset(page);
     const [cartItems, totalItems] = await cartItemRepository.findAndCount({
       where: { cart: { id: cart.id } },
@@ -81,7 +84,10 @@ class ProcessOrder {
   static async processOrder(req: Request, res: Response, imagePath: string) {
     const user = await checkLoggedIn(req, res);
     const { name, phone, address, typeOrder, totalAmount } = req.body;
-    const order = await createOrder({name, phone, address, typeOrder, totalAmount, imagePath}, user);
+    const order = await createOrder(
+      { name, phone, address, typeOrder, totalAmount, imagePath },
+      user,
+    );
     await orderRepository.save(order);
 
     const cart = await getUserCart(user.id, res);
@@ -99,14 +105,14 @@ class ProcessOrder {
 }
 
 // Hàm để tạo đơn hàng
-const createOrder = async (options={}, user: User) => {
+const createOrder = async (options = {}, user: User) => {
   const order: Order = orderRepository.create({
     ...options,
     status: 1,
     user,
   });
   return order;
-}
+};
 
 // Hàm để lấy danh sách mục giỏ hàng
 const getCartItems = async (cart: Cart) => {
@@ -119,7 +125,7 @@ const getCartItems = async (cart: Cart) => {
 
 // Hàm để tạo các chi tiết đơn hàng
 const createOrderDetails = async (order: Order, cartItems: CartItem[]) => {
-  const orderDetails = cartItems.map(cartItem => {
+  const orderDetails = cartItems.map((cartItem) => {
     return orderDetailRepository.create({
       ...cartItem,
       price: cartItem.product.price,
@@ -132,7 +138,7 @@ const createOrderDetails = async (order: Order, cartItems: CartItem[]) => {
 
 // Hàm để cập nhật số lượng sản phẩm
 const updateProductQuantities = async (cartItems: CartItem[]) => {
-  const products = cartItems.map(cartItem => {
+  const products = cartItems.map((cartItem) => {
     const count = cartItem.product.quantity - cartItem.quantity;
     const product = new Product();
     product.id = cartItem.product.id;
@@ -213,5 +219,85 @@ export const postOrder = async (
   } catch (error) {
     console.error(error);
     next(error);
+  }
+};
+
+// GET view history order
+export const getOderList = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = await checkLoggedIn(req, res);
+    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
+    const offset = calculateOffset(page);
+    const [orderLists, total] = await orderRepository.findAndCount({
+      where: { user: { id: user.id } },
+      take: PAGE_SIZE,
+      skip: offset,
+      order: { createdAt: 'DESC' },
+    });
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const modifiedOrderLists = orderLists.map((order) => {
+      return {
+        ...order,
+        status: getStatusText(order.status),
+        date: formatDate(order.createdAt),
+      };
+    });
+
+    res.render('orderList', {
+      modifiedOrderLists,
+      totalPages: totalPages,
+      currentPage: page,
+      paginationLinks: generatePaginationLinks(page, totalPages),
+    });
+    return;
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
+
+// GET order detail
+export const getOderDetail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const offset = calculateOffset(page);
+    const [orderDetail, totalItems] = await orderDetailRepository.findAndCount({
+      where: { order: { id: parseInt(req.params.id) } },
+      relations: ['product'],
+      take: PAGE_SIZE,
+      skip: offset,
+    });
+    const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+
+    res.render('orderDetail', {
+      paginationItemsLinks: generatePaginationLinks(page, totalPages),
+      orderDetail,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+// POST change status [user]
+export const postChangeStatusOrder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await orderRepository.update({ id: parseInt(req.body.orderId) }, { status: 4 });
+    res.redirect('/order/list');
+  } catch (err) {
+    console.error(err);
+    next(err);
   }
 };

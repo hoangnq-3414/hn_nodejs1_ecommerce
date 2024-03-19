@@ -15,7 +15,8 @@
         "coppyright": "Bản quyền 2024",
         "search": "Search",
         "add_to_cart": "Thêm vào giỏ hàng",
-        "view": "Xem"
+        "view": "Xem",
+        "orderHistory": "Lịch sử mua hàng"
     } ,
     "login": {
         "signin": "Đăng Nhập",
@@ -77,6 +78,31 @@
         "orderSummary": "Tóm tắt đơn hàng",
         "successTitle": "Thành công",
         "successMessage": "Chúng tôi đã nhận được yêu cầu mua hàng của bạn;",
-        "successTouch": " chúng tôi sẽ liên hệ sớm!"
-    } 
+        "successTouch": " chúng tôi sẽ liên hệ sớm!",
+        "orderHistory": "Lịch sử đơn hàng",
+        "filterHistory": "Lọc lịch sử",
+        "approvedOrders": "Đơn hàng đã phê duyệt",
+        "pendingOrders": "Đơn hàng đang chờ",
+        "detailLink": "Chi tiết",
+        "cancelOrder": "Hủy đơn hàng",
+        "orderMadeOn": "Đơn hàng được tạo vào",
+        "name": "Tên",
+        "address": "Địa chỉ",
+        "phone": "Điện thoại",
+        "totalAmount": "Tổng tiền"
+    },
+    "status": {
+        "pending": "Đang chờ xử lý",
+        "successful": "Thành công",
+        "rejected": "Bị từ chối",
+        "cancel": "Hủy",
+        "unknown": "không biết"
+    },
+    "notFound": {
+        "title": "KHÔNG TÌM THẤY",
+        "oops": "Oops!",
+        "pageNotFound": "Không tìm thấy trang.",
+        "pageNotFoundDescription": "Trang bạn đang tìm không tồn tại.",
+        "goHome": "Trở về Trang chủ"
+      } 
 }

@@ -4,9 +4,9 @@ import { AppDataSource } from '../config/database';
 import { Cart } from '../entities/Cart';
 import { CartItem } from '../entities/CartItem';
 import { Product } from '../entities/Product';
-import { generatePaginationLinks } from '../untils/pagenation';
-import { PAGE_SIZE, calculateOffset } from '../untils/constants';
-import {checkLoggedIn} from '../untils/auth'
+import { generatePaginationLinks } from '../utils/pagenation';
+import { PAGE_SIZE, calculateOffset, DEFAULT_PAGE } from '../utils/constants';
+import { checkLoggedIn } from '../utils/auth'
 
 const cartRepository = AppDataSource.getRepository(Cart);
 const cartItemRepository = AppDataSource.getRepository(CartItem);
@@ -72,7 +72,7 @@ export const getListItemCart = async (
   try {
     const user = await checkLoggedIn(req, res);
     const cart = await getUserCart(user.id, res);
-    const page = parseInt(req.query.page as string) || 1;
+    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
     const offset = calculateOffset(page);
     const [cartItems, totalItems] = await cartItemRepository.findAndCount({
       where: { cart: { id: cart.id } },

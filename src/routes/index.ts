@@ -6,15 +6,15 @@ import orderRouter from './order.route';
 import { Request, Response, NextFunction } from 'express';
 import { AppDataSource } from '../config/database';
 import { Product } from '../entities/Product';
-import { generatePaginationLinks } from '../untils/pagenation';
-import { PAGE_SIZE, calculateOffset } from '../untils/constants';
+import { generatePaginationLinks } from '../utils/pagenation';
+import { PAGE_SIZE, calculateOffset, DEFAULT_PAGE } from '../utils/constants';
 
 const productRepository = AppDataSource.getRepository(Product);
 const router = express.Router();
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const page = parseInt(req.query.page as string) || 1;
+    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
     const offset = calculateOffset(page);
     const [products, total] = await productRepository.findAndCount({
       take: PAGE_SIZE,

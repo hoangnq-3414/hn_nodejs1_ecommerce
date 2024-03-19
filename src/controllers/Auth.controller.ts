@@ -5,7 +5,7 @@ import { body, validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
 import { User } from '../entities/User';
 import { AppDataSource } from '../config/database';
-import { checkPassword, hashPassword, decodeJWT } from '../untils/auth';
+import { checkPassword, hashPassword, decodeJWT } from '../utils/auth';
 import { Cart } from '../entities/Cart';
 
 const userRepository = AppDataSource.getRepository(User);
@@ -121,7 +121,7 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
 
 // GET register
 export const getRegister = asyncHandler(async (req: Request, res: Response) => {
-  res.render('register',{
+  res.render('register', {
     flash: {
       exited: req.flash('existed'),
     }

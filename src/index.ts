@@ -18,7 +18,7 @@ import { AppDataSource } from './config/database';
 import { Request, Response } from 'express';
 import Handlebars from 'handlebars';
 import registerI18nHelper from 'handlebars-i18next';
-import { registerCustomHelpers } from './untils/handlebars-helpers';
+import { registerCustomHelpers } from './utils/handlebars-helpers';
 import multer from 'multer';
 
 registerI18nHelper(Handlebars, i18next);

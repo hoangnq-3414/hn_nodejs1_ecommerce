@@ -29,5 +29,8 @@
     "orderNow": "order.orderNow",
     "backToCart": "order.backToCart",
     "orderSummary": "order.orderSummary"
+  },
+  "status": {
+    "cancel": "status.cancel"
   }
 }
