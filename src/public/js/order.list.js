@@ -25,4 +25,9 @@ $(document).ready(function () {
         console.error('Error canceling order:', error);
       });
   });
+
+  $('#statusButton').click(function() {
+    $('#statusModal').modal('show');
+    console.log("successfull")
+  });
 });

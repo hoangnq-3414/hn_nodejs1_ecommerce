@@ -6,18 +6,20 @@
   <div class='box-element'>
     <div class='panel panel-default panel-order'>
       <div class='panel-heading'>
-        <strong>{{t 'order.orderHistory'}}</strong>
+        <strong><span>{{t 'order.orderHistory'}}</span></strong>
         <div class='btn-group pull-right'>
-          <div class='btn-group'>
-            <button
-              type='button'
-              class='btn btn-default btn-xs dropdown-toggle'
-              data-toggle='dropdown'
-            >{{t 'order.filterHistory'}}
-              <i class='fa fa-filter'></i></button>
-            <ul class='dropdown-menu dropdown-menu-right'>
-              <li><a href='#'>{{t 'order.approvedOrders'}}</a></li>
-              <li><a href='#'>{{t 'order.pendingOrders'}}</a></li>
+          <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <span>{{t 'status.filter'}}</span>
+              <i class="fa-solid fa-house"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a id="statusButton" class="dropdown-item" href="#">{{t 'status.status'}}</a></li>
+              <form action="/order/date" method="get">
+                <input type="date" id="dateInput" name="dateInput">
+                <button type="submit">{{t 'status.submit'}}</button>
+              </form>
             </ul>
           </div>
         </div>
@@ -28,33 +30,24 @@
           <div class='col-md-11'>
             <div class='row'>
               {{#each modifiedOrderLists}}
-                <div class='col-md-1' style='width:100%'><img
-                    src='/images/placeholder.png'
-                    class='media-object img-thumbnail'
-                  /></div>
-                <div class='col-md-12'>
-                  <div class='col-md-12 text-right'><label
-                      class='label'
-                    >{{status}}</label></div>
-                  <span><strong>{{i18n 'order.name'}}</strong></span>
-                  <span>: {{name}}</span><br />
-                  <span><strong>{{i18n 'order.address'}}</strong></span>
-                  <span>: {{address}}</span><br />
-                  <span><strong>{{i18n 'order.phone'}}</strong></span>
-                  <span>: {{phone}}</span><br />
-                  <span><strong>{{i18n 'order.totalAmount'}}</strong></span>
-                  <span>: {{totalAmount}}</span><br />
-                  <a href='/order/detail/{{id}}'>{{i18n 'order.detailLink'}}</a><br
-                  />
-                  <button
-                    id='cancelBtn'
-                    class='cancelOrderBtn'
-                    style='display:none;'
-                    data-order-id='{{id}}'
-                  >{{i18n 'order.cancelOrder'}}</button>
-                  <div class='col-md-12'>{{i18n 'order.orderMadeOn'}}: {{date}}</div>
-                  <hr />
-                </div>
+              <div class='col-md-1' style='width:100%'><img src='/images/placeholder.png'
+                  class='media-object img-thumbnail' /></div>
+              <div class='col-md-12'>
+                <div class='col-md-12 text-right'><label class='label'>{{status}}</label></div>
+                <span><strong>{{i18n 'order.name'}}</strong></span>
+                <span>: {{name}}</span><br />
+                <span><strong>{{i18n 'order.address'}}</strong></span>
+                <span>: {{address}}</span><br />
+                <span><strong>{{i18n 'order.phone'}}</strong></span>
+                <span>: {{phone}}</span><br />
+                <span><strong>{{i18n 'order.totalAmount'}}</strong></span>
+                <span>: {{totalAmount}}</span><br />
+                <a href='/order/detail/{{id}}'>{{i18n 'order.detailLink'}}</a><br />
+                <button id='cancelBtn' class='cancelOrderBtn' style='display:none;' data-order-id='{{id}}'>{{i18n
+                  'order.cancelOrder'}}</button>
+                <div class='col-md-12'>{{i18n 'order.orderMadeOn'}}: {{date}}</div>
+                <hr />
+              </div>
               {{/each}}
             </div>
           </div>
@@ -65,9 +58,29 @@
   </div>
   <ul class='pagination'>
     {{#if paginationLinks}}
-      {{{paginationLinks}}}
+    {{{paginationLinks}}}
     {{/if}}
   </ul>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="statusModalLabel">{{t 'status.status'}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          <li class="list-group-item"><a href="/order/filter/1">{{t 'status.pending'}}</a></li>
+          <li class="list-group-item"><a href="/order/filter/4">{{t 'status.cancel'}}</a></li>
+          <li class="list-group-item"><a href="/order/filter/3">{{t 'status.rejected'}}</a></li>
+          <li class="list-group-item"><a href="/order/filter/2">{{t 'status.successful'}}</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src='/js/order.list.js'></script>
