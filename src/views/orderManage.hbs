@@ -1,0 +1,107 @@
+<div class='container bootdey'>
+  <div><a class='btn btn-outline-dark' href='/cart/list'>&#x2190;
+      {{t 'order.backToCart'}}</a>
+    <hr />
+  </div>
+  <div class='box-element'>
+    <div class='panel panel-default panel-order'>
+      <div class='panel-heading'>
+        <strong><span>{{t 'order.orderHistory'}}</span></strong>
+        <div class='btn-group pull-right'>
+          <div class='dropdown'>
+            <a
+              class='btn btn-secondary dropdown-toggle'
+              href='#'
+              role='button'
+              data-bs-toggle='dropdown'
+              aria-expanded='false'
+            >
+              <span>{{t 'status.filter'}}</span>
+              <i class='fa-solid fa-house'></i>
+            </a>
+            <ul class='dropdown-menu'>
+              <form id='filterForm' action='/order/allFilter' method='get'>
+                <select id='statusInput' name='status'>
+                  <option value='0'>{{t 'status.allStatus'}}</option>
+                  <option value='1'>{{t 'status.pending'}}</option>
+                  <option value='4'>{{t 'status.cancel'}}</option>
+                  <option value='3'>{{t 'status.rejected'}}</option>
+                  <option value='2'>{{t 'status.successful'}}</option>
+                </select>
+                <input type='date' id='dateInput' name='dateInput' />
+                <button type='submit'>{{t 'status.submit'}}</button>
+              </form>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class='panel-body'>
+        <div class='row'>
+          <div class='col-md-11'>
+            <div class='row'>
+              {{#each modifiedOrderLists}}
+                <div class='col-md-1' style='width:100%'><img
+                    src='/images/placeholder.png'
+                    class='media-object img-thumbnail'
+                  /></div>
+                <div class='col-md-12'>
+                  <div class='col-md-12 text-right'><label
+                      class='label'
+                    >{{status}}</label></div>
+                  <span><strong>{{i18n 'order.name'}}</strong></span>
+                  <span>: {{name}}</span><br />
+                  <span><strong>{{i18n 'order.address'}}</strong></span>
+                  <span>: {{address}}</span><br />
+                  <span><strong>{{i18n 'order.phone'}}</strong></span>
+                  <span>: {{phone}}</span><br />
+                  <span><strong>{{i18n 'order.totalAmount'}}</strong></span>
+                  <span>: {{totalAmount}}</span><br />
+                  <span class="userEmail"><strong>{{i18n 'order.createBy'}}</strong></span>
+                  <span>: {{user.email}}</span><br />
+                  <a href='/order/detail/{{id}}'>{{i18n
+                      'order.detailLink'
+                    }}</a><br />
+                  <button
+                    id='acceptBtn'
+                    class='acceptOrderBtn'
+                    style='display:none;'
+                    data-order-id='{{id}}'
+                  >{{i18n 'order.accept'}}</button>
+                  <button
+                    id='rejectBtn'
+                    class='rejectOrderBtn'
+                    style='display:none;'
+                    data-order-id='{{id}}'
+                  >{{i18n 'order.reject'}}</button>
+                  <div class='col-md-12 reject-reason' style='display:none;'>
+                    <input
+                      type='text'
+                      id='rejectReason'
+                      placeholder='Enter rejection reason'
+                    />
+                    <button id='submitReject'>{{i18n 'status.submit'}}</button>
+                  </div>
+                  <div class='col-md-12'>{{i18n 'order.orderMadeOn'}}:
+                    {{date}}</div>
+                  <hr />
+                </div>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+    </div>
+  </div>
+  <ul class='pagination'>
+    {{#if paginationLinks}}
+      {{{paginationLinks}}}
+    {{/if}}
+  </ul>
+</div>
+<br />
+<br />
+<br />
+<br />
+<script src='/js/order.list.js'></script>

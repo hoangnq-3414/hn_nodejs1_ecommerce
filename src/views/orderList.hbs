@@ -48,6 +48,10 @@
                 <span><strong>{{i18n 'order.totalAmount'}}</strong></span>
                 <span>: {{totalAmount}}</span><br />
                 <a href='/order/detail/{{id}}'>{{i18n 'order.detailLink'}}</a><br />
+                {{#if comment }}
+                <span><strong>{{i18n 'order.reasonReject'}}</strong></span>
+                <span>: {{comment}}</span><br />
+                {{/if}}
                 <button id='cancelBtn' class='cancelOrderBtn' style='display:none;' data-order-id='{{id}}'>{{i18n
                   'order.cancelOrder'}}</button>
                 <div class='col-md-12'>{{i18n 'order.orderMadeOn'}}: {{date}}</div>
