@@ -26,3 +26,23 @@ $(document).ready(function () {
       });
   });
 });
+
+
+$(document).ready(function () {
+  $('#filterForm').submit(function (event) {
+    event.preventDefault();
+
+    var statusValue = $('#statusInput').val();
+
+    var dateValue = $('#dateInput').val();
+    var url = '/order/filter?status=' + statusValue + '&dateInput=' + dateValue;
+    if (statusValue == '0') {
+      var url = '/order/filter?dateInput=' + $('#dateInput').val();
+    } else {
+      var url = '/order/filter?status=' + statusValue + '&dateInput=' + $('#dateInput').val();
+    }
+    window.location.href = url;
+
+    console.log('gui thanh cong');
+  });
+});

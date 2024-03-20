@@ -92,11 +92,15 @@
         "totalAmount": "Tổng tiền"
     },
     "status": {
+        "allStatus": "Tất cả trạng thái",
+        "status": "Trạng thái",
         "pending": "Đang chờ xử lý",
         "successful": "Thành công",
         "rejected": "Bị từ chối",
         "cancel": "Hủy",
-        "unknown": "không biết"
+        "unknown": "không biết",
+        "submit": "Gửi",
+        "filter": "Lọc"
     },
     "notFound": {
         "title": "KHÔNG TÌM THẤY",

@@ -83,3 +83,44 @@
 
 .label-rejected { color: #dc3545; /* Màu đỏ */ } .label-pending { color:
     #ffc107; /* Màu cam */ } .label-approved { color: #28a745; /* Màu xanh */ }
+
+.panel-heading {
+    display: flex;
+    justify-content: space-between;
+}
+
+.panel-heading strong {
+    display: flex;
+}
+
+.panel-heading strong span {
+    margin: auto;
+}
+
+.panel-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.panel-body button {
+    display: flex;
+}
+
+.panel-body button span {
+    margin: auto;
+}
+
+.wapper-order-info {
+    flex: 1;
+}
+
+.wapper-status-btn {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.cancelOrderBtn {
+    width: 120px;
+    height: 30px;
+}
