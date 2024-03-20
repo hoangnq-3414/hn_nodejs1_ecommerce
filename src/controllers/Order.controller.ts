@@ -25,6 +25,7 @@ import { Product } from '../entities/Product';
 import { CartItem } from '../entities/CartItem';
 import { checkLoggedIn } from '../utils/auth';
 import { User } from '../entities/User';
+import {transporter} from '../index';
 const orderRepository = AppDataSource.getRepository(Order);
 const orderDetailRepository = AppDataSource.getRepository(OrderDetail);
 const cartRepository = AppDataSource.getRepository(Cart);
@@ -338,18 +339,41 @@ export const getOderDetail = async (
   }
 };
 
+const sendEmail = async ( status: any) => {
+  const subject = 'Đơn hàng của bạn đã được cập nhật';
+  // const html = `
+  //   <h1>Thông báo về đơn hàng ${order.id}</h1>
+  //   <p>Đơn hàng của bạn đã được ${status}.</p>
+  //   <p>Chi tiết đơn hàng:</p>
+  //   <ul>
+  //     <li>Tên sản phẩm: ${order.product.name}</li>
+  //     <li>Số lượng: ${order.quantity}</li>
+  //     <li>Giá tiền: ${order.price}</li>
+  //   </ul>
+  //   <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!</p>
+  // `;
+
+  await transporter.sendMail({
+    from: process.env.APP_EMAIL,
+    to: 'hoang.nq.13@gmail.com',
+    subject,
+  });
+};
+
 // POST change status [user]
 export const postChangeStatusOrder = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
+  const status = req.body.status
   try {
     await orderRepository.update(
       { id: parseInt(req.body.orderId) },
-      { status: parseInt(req.body.status) },
+      { status: status },
     );
     res.redirect('/order/list');
+    await sendEmail(status);
   } catch (err) {
     console.error(err);
     next(err);
@@ -419,6 +443,8 @@ export const getAllFilterOrderStatus = async (
       order: { createdAt: 'DESC' },
     });
 
+
+
     const totalPages = Math.ceil(total / PAGE_SIZE);
     const modifiedOrderLists = orderLists.map((order) => {
       return {
@@ -427,7 +453,6 @@ export const getAllFilterOrderStatus = async (
         date: formatDate(order.createdAt),
       };
     });
-
     res.render('orderManage', {
       modifiedOrderLists,
       totalPages: totalPages,

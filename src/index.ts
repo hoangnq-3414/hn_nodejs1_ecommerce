@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import dotenv from 'dotenv';
 dotenv.config();
@@ -20,6 +21,7 @@ import Handlebars from 'handlebars';
 import registerI18nHelper from 'handlebars-i18next';
 import { registerCustomHelpers } from './utils/handlebars-helpers';
 import multer from 'multer';
+import nodemailer from 'nodemailer';
 
 registerI18nHelper(Handlebars, i18next);
 
@@ -97,6 +99,16 @@ app.use((req, res, next) => {
   res.locals.isAdmin = isAdmin;
   res.locals.user = user;
   next();
+});
+
+export const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.APP_EMAIL,
+    pass: process.env.APP_PASSWORD,
+  },
 });
 
 app.set('views', path.join(__dirname, 'views'));
