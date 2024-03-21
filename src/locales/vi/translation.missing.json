@@ -28,7 +28,8 @@
     "onlinePayment": "order.onlinePayment",
     "orderNow": "order.orderNow",
     "backToCart": "order.backToCart",
-    "orderSummary": "order.orderSummary"
+    "orderSummary": "order.orderSummary",
+    "accpet": "order.accpet"
   },
   "status": {
     "cancel": "status.cancel",

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thông báo từ hệ thống</title>
+</head>
+<body>
+  <h1>Thông báo từ hệ thống</h1>
+  <p>Đơn hàng của bạn đã bị từ chối.</p>
+  <p>Lý do từ chối: {{rejectReason}}</p>
+  <p>Chi tiết: </p>
+  {{#each orderDetails}}
+  <p>Tên: {{product.name}}</p>
+  <p>Giá: {{price}}$</p>
+  <p>Số lượng: {{quantity}}</p>
+  <p>Đơn vị: {{product.unit}}</p>
+  <p>Đơn hàng được tạo vào lúc: {{createdAt}}</p>
+  <p>----------------------------------------</p>
+  {{/each}}
+  <p>Xin vui lòng liên hệ với chúng tôi để biết thêm chi tiết.</p>
+</body>
+</html>

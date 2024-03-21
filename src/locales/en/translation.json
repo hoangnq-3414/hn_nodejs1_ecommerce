@@ -16,7 +16,9 @@
         "search": "Search",
         "add_to_cart": "Add to cart",
         "view": "View",
-        "orderHistory": "Purchase history"
+        "orderHistory": "Purchase history",
+        "creatProduct": "Create Product",
+        "manageOder": "Manage Order"
     },
     "login": {
         "signin": "Login",
@@ -89,7 +91,11 @@
         "name": "Name",
         "address": "Address",
         "phone": "Phone",
-        "totalAmount": "Total Amount"
+        "totalAmount": "Total Amount",
+        "createBy": "Creat By",
+        "accept": "Accept",
+        "reject": "Reject",
+        "reasonReject": "Reason for refusal"
     },
     "status": {
         "allStatus": "All Status",

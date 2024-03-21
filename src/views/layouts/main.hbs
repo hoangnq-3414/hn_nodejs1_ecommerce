@@ -57,7 +57,7 @@
             </ul>
           </li>
         </ul>
-        <form class='d-flex' role='search'action='/product/search' method='GET'>
+        <form class='d-flex' role='search' action='/product/search' method='GET'>
           <input class='form-control me-2' type='search' placeholder='Search' aria-label='Search' name="searchText" />
           <button class='btn btn-outline-success' type='submit'>{{t
             'home.search'
@@ -73,6 +73,12 @@
           <ul class='dropdown-menu'>
             <li><a class='dropdown-item' href='#'>{{t 'home.personal_page'}}</a></li>
             <li><a class='dropdown-item' href='/order/list'>{{t 'home.orderHistory'}}</a></li>
+            {{#if isAdmin}}
+            <li><a class='dropdown-item' href='/products/create'>{{t 'home.creatProduct'}}</a>
+            </li>
+            <li><a class='dropdown-item' href='/order/allList'>{{t 'home.manageOder'}}</a>
+            </li>
+            {{/if}}
             <li><a class='dropdown-item' href='/auth/logout'>{{t 'home.exit'}}</a></li>
           </ul>
         </li>

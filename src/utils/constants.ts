@@ -2,6 +2,17 @@ export const PAGE_SIZE = 2;
 
 export const DEFAULT_PAGE = 1;
 
+export const ROLEADMIN = 2;
+
+export const checkAdmin = async (req, res) => {
+  const user = req.session.user;
+  if (!user || user.role !== ROLEADMIN) {
+    res.redirect('/');
+    return; 
+  }
+  return user; 
+}
+
 export const calculateOffset = (page: number): number => {
   return (page - 1) * PAGE_SIZE;
 };

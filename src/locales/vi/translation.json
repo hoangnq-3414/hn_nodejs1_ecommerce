@@ -16,7 +16,9 @@
         "search": "Search",
         "add_to_cart": "Thêm vào giỏ hàng",
         "view": "Xem",
-        "orderHistory": "Lịch sử mua hàng"
+        "orderHistory": "Lịch sử mua hàng",
+        "creatProduct": "Tạo sản phẩm",
+        "manageOder": "Quản lý đơn hàng"
     } ,
     "login": {
         "signin": "Đăng Nhập",
@@ -89,7 +91,11 @@
         "name": "Tên",
         "address": "Địa chỉ",
         "phone": "Điện thoại",
-        "totalAmount": "Tổng tiền"
+        "totalAmount": "Tổng tiền",
+        "createBy": "Được tạo bởi",
+        "accept": "Chấp nhận",
+        "reject": "Từ chối",
+        "reasonReject": "Lý do từ chối"
     },
     "status": {
         "allStatus": "Tất cả trạng thái",

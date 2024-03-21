@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import path from 'path';
 import i18next from 'i18next';
@@ -9,9 +11,9 @@ import {
   runOnTransactionRollback,
 } from 'typeorm-transactional';
 import { AppDataSource } from '../config/database';
-import { PAGE_SIZE, calculateOffset, DEFAULT_PAGE, formatDate, getStatusText } from '../utils/constants';
+import { PAGE_SIZE, calculateOffset, DEFAULT_PAGE, formatDate, getStatusText, checkAdmin } from '../utils/constants';
 import { generatePaginationLinks } from '../utils/pagenation';
-import { upload } from '../index';
+import { upload, transporter, handlebarOptions } from '../index';
 import { Order } from '../entities/Order';
 import { OrderDetail } from '../entities/OrderDetail';
 import { Cart } from '../entities/Cart';
@@ -19,6 +21,8 @@ import { Product } from '../entities/Product';
 import { CartItem } from '../entities/CartItem';
 import { checkLoggedIn } from '../utils/auth';
 import { User } from '../entities/User';
+
+
 const orderRepository = AppDataSource.getRepository(Order);
 const orderDetailRepository = AppDataSource.getRepository(OrderDetail);
 const cartRepository = AppDataSource.getRepository(Cart);
@@ -287,23 +291,80 @@ export const getOderDetail = async (
   }
 };
 
-// POST change status [user]
+// send email
+const sendEmail = async (status, rejectReason, email, orderDetails) => {
+  let mailOptions = {};
+
+  // Set subject and html content based on status
+  if (status === 3) {
+    mailOptions = {
+      subject: 'Thông báo',
+      from: `"Shop ecommerce" <${process.env.APP_EMAIL}>`,
+      template: "email_faile",
+      to: email,
+      context: {
+        rejectReason, orderDetails
+      },
+    }
+  } else if (status === 2) {
+    mailOptions = {
+      subject: 'Thông báo',
+      from: `"Shop ecommerce" <${process.env.APP_EMAIL}>`,
+      template: "email_success",
+      to: email,
+      context: {
+        orderDetails
+      },
+    }
+  } else {
+    throw new Error('Invalid status');
+  }
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully.');
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error;
+  }
+};
+
+// POST change status [user and admin]
 export const postChangeStatusOrder = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
-    await orderRepository.update({ id: parseInt(req.body.orderId) }, { status: 4 });
+    const status = parseInt(req.body.status);
+    const rejectReason = req.body.rejectReason;
+    const email = req.body.email;
+
+    const updateData: any = { status: status };
+    if (parseInt(req.body.status) === 3 && rejectReason) {
+      updateData.comment = rejectReason
+    }
+
+    await orderRepository.update(
+      { id: parseInt(req.body.orderId) },
+      updateData
+    );
+
+    const orderDetails = await orderDetailRepository.find({
+      where: { order:{id: parseInt(req.body.orderId)} },
+      relations: ['order', 'product']
+    })
     res.redirect('/order/list');
+    if (status === 3 || status === 2) {
+      await sendEmail(status, rejectReason, email, orderDetails);
+    }
   } catch (err) {
     console.error(err);
     next(err);
   }
 };
 
-// get filter status
-export const getFilterOrderStatus = async (req: Request, res: Response, next: NextFunction) => {
+// get filter status and date
+export const getFilterOrderStatusAndDate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await checkLoggedIn(req, res);
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
@@ -353,3 +414,99 @@ export const getFilterOrderStatus = async (req: Request, res: Response, next: Ne
     next();
   }
 }
+
+// get ADMIN filter status and date
+export const getAllFilterOrderStatusAndDate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = await checkAdmin(req, res);
+    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
+    const offset = calculateOffset(page);
+
+    let queryBuilder = orderRepository.createQueryBuilder('order')
+      .skip(offset)
+      .take(PAGE_SIZE)
+      .orderBy('order.createdAt', 'DESC')
+
+    let filterCondition = '';
+
+    if (req.query.status) {
+      const status = +req.query.status;
+      if (status) {
+        filterCondition += `status=${status}&`;
+        queryBuilder = queryBuilder.andWhere('order.status = :status', { status });
+      }
+    }
+    if (req.query.dateInput) {
+      const dateForm = req.query.dateInput;
+      filterCondition += `dateInput=${dateForm}`;
+      queryBuilder = queryBuilder.andWhere('order.createdAt LIKE :date', { date: `%${dateForm}%` });
+    }
+
+    const [orderLists, total] = await queryBuilder.getManyAndCount();
+
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const modifiedOrderLists = orderLists.map((order) => {
+      return {
+        ...order,
+        status: getStatusText(order.status),
+        date: formatDate(order.createdAt),
+      };
+    });
+
+    res.render('orderManage', {
+      modifiedOrderLists,
+      totalPages: totalPages,
+      currentPage: page,
+      paginationLinks: generatePaginationLinks(page, totalPages, filterCondition),
+    });
+    return;
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
+
+
+// GET list view ADMIN history order
+export const getAllOderList = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = await checkAdmin(req, res);
+    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
+    const offset = calculateOffset(page);
+
+    const [orderLists, total] = await orderRepository.findAndCount({
+      relations: ['user'],
+      take: PAGE_SIZE,
+      skip: offset,
+      order: { createdAt: 'DESC' },
+    });
+
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const modifiedOrderLists = orderLists.map((order) => {
+      return {
+        ...order,
+        status: getStatusText(order.status),
+        date: formatDate(order.createdAt),
+      };
+    });
+
+    res.render('orderManage', {
+      modifiedOrderLists,
+      totalPages: totalPages,
+      currentPage: page,
+      paginationLinks: generatePaginationLinks(page, totalPages),
+    });
+    return;
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};

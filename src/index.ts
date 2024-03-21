@@ -20,7 +20,8 @@ import Handlebars from 'handlebars';
 import registerI18nHelper from 'handlebars-i18next';
 import { registerCustomHelpers } from './utils/handlebars-helpers';
 import multer from 'multer';
-
+import nodemailer from 'nodemailer';
+import hbs from 'nodemailer-express-handlebars';
 registerI18nHelper(Handlebars, i18next);
 
 registerCustomHelpers();
@@ -88,9 +89,40 @@ app.use(flash());
 
 app.use((req, res, next) => {
   // @ts-ignore
-  res.locals.user = req.session.user;
+  const user = req.session.user || null;
+  let isAdmin = false;
+
+  if (user && user.role == 2) {
+    isAdmin = true;
+  }
+  res.locals.isAdmin = isAdmin;
+  res.locals.user = user;
   next();
 });
+
+export const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.APP_EMAIL,
+    pass: process.env.APP_PASSWORD,
+  },
+});
+
+// point to the template folder
+export const handlebarOptions = {
+  viewEngine: {
+    extName: '.hbs',
+    partialsDir: path.resolve('./src/views/'),
+    defaultLayout: false,
+  },
+  viewPath: path.resolve('./src/views/'),
+  extName: '.hbs',
+};
+
+// use a template file with nodemailer
+transporter.use('compile', hbs(handlebarOptions))
 
 app.set('views', path.join(__dirname, 'views'));
 // Template engine

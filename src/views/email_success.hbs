@@ -1,0 +1,22 @@
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thông báo từ hệ thống - Đặt hàng thành công</title>
+</head>
+<body>
+  <h1>Thông báo từ hệ thống</h1>
+  <p>Đơn hàng của bạn đã được đặt hàng thành công.</p>
+  <p>Chi tiết: </p>
+  {{#each orderDetails}}
+  <p>Tên: {{product.name}}</p>
+  <p>Giá: {{price}}$</p>
+  <p>Số lượng: {{quantity}}</p>
+  <p>Đơn vị: {{product.unit}}</p>
+  <p>Đơn hàng được tạo vào lúc: {{createdAt}}</p>
+  <p>----------------------------------------</p>
+  {{/each}}
+  <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!</p>
+</body>
+</html>
