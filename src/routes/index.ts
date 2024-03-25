@@ -3,6 +3,7 @@ import authRouter from './auth.route';
 import productRouter from './product.route';
 import cartRouter from './cart.route';
 import orderRouter from './order.route';
+import userRouter from './user.route';
 import { Request, Response, NextFunction } from 'express';
 import { AppDataSource } from '../config/database';
 import { Product } from '../entities/Product';
@@ -38,10 +39,11 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.get('/test', (req: Request, res: Response) => {
-  res.render('orderList');
+router.get('/dashboard', (req: Request, res: Response) => {
+  res.render('admin/dashboard');
 });
 
+router.use('/user', userRouter);
 router.use('/order', orderRouter);
 router.use('/cart', cartRouter);
 router.use('/product', productRouter);

@@ -7,69 +7,70 @@ import { User } from '../entities/User';
 import { AppDataSource } from '../config/database';
 import { checkPassword, hashPassword, decodeJWT } from '../utils/auth';
 import { Cart } from '../entities/Cart';
+import { DISABLE, ROLEADMIN } from '../utils/constants';
 
 const userRepository = AppDataSource.getRepository(User);
 const cartRepository = AppDataSource.getRepository(Cart);
 
 // POST register
-export const postRegister = [
-  body('password')
-    .notEmpty()
-    .isLength({ min: 6 })
-    .withMessage(() => i18next.t('register.passwordLengthError')),
-  body('confirmPassword')
-    .notEmpty()
-    .custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error(i18next.t('register.passwordMismatchError'));
+  export const postRegister = [
+    body('password')
+      .notEmpty()
+      .isLength({ min: 6 })
+      .withMessage(() => i18next.t('register.passwordLengthError')),
+    body('confirmPassword')
+      .notEmpty()
+      .custom((value, { req }) => {
+        if (value !== req.body.password) {
+          throw new Error(i18next.t('register.passwordMismatchError'));
+        }
+        return true;
+      }),
+    body('email')
+      .notEmpty()
+      .isLength({ min: 4 })
+      .withMessage(() => i18next.t('register.invalidEmailError')),
+    body('fullName')
+      .notEmpty()
+      .isLength({ min: 3 })
+      .withMessage(() => i18next.t('register.fullNameLengthError')),
+    asyncHandler(async (req: Request, res: Response) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        res.render('register', {
+          errors: errors.array(),
+        });
+        return;
       }
-      return true;
+
+      const { fullName, password, email } = req.body;
+
+      try {
+        const user = await userRepository.findOne({
+          where: { email: email },
+        });
+        if (user) {
+          req.flash('existed', i18next.t('register.existed'));
+          res.redirect('/auth/register');
+        }
+        const hashedPassword = await hashPassword(password);
+        const newUser = new User();
+        newUser.password = hashedPassword;
+        newUser.email = email;
+        newUser.fullName = fullName;
+        newUser.role = 1;
+        await userRepository.save(newUser);
+
+        const cart = new Cart();
+        cart.user = newUser;
+        await cartRepository.save(cart);
+
+        res.redirect('/auth/login');
+      } catch (error) {
+        console.error(error);
+      }
     }),
-  body('email')
-    .notEmpty()
-    .isLength({ min: 4 })
-    .withMessage(() => i18next.t('register.invalidEmailError')),
-  body('fullName')
-    .notEmpty()
-    .isLength({ min: 3 })
-    .withMessage(() => i18next.t('register.fullNameLengthError')),
-  asyncHandler(async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.render('register', {
-        errors: errors.array(),
-      });
-      return;
-    }
-
-    const { fullName, password, email } = req.body;
-
-    try {
-      const user = await userRepository.findOne({
-        where: { email: email },
-      });
-      if (user) {
-        req.flash('existed', i18next.t('register.existed'));
-        res.redirect('/auth/register');
-      }
-      const hashedPassword = await hashPassword(password);
-      const newUser = new User();
-      newUser.password = hashedPassword;
-      newUser.email = email;
-      newUser.fullName = fullName;
-      newUser.role = 1;
-      await userRepository.save(newUser);
-
-      const cart = new Cart();
-      cart.user = newUser;
-      await cartRepository.save(cart);
-
-      res.redirect('/auth/login');
-    } catch (error) {
-      console.error(error);
-    }
-  }),
-];
+  ];
 
 // POST Login
 export const postLogin = asyncHandler(
@@ -98,6 +99,15 @@ export const postLogin = asyncHandler(
       // res.cookie('token', token, { httpOnly: true });
       // @ts-ignore
       req.session.user = user;
+      if(user.role === ROLEADMIN){
+        res.redirect('/dashboard');
+        return;
+      }
+      
+      if(user.role === DISABLE){
+        res.redirect('/login');
+        return;
+      }
       res.redirect('/');
     } catch (err) {
       console.error(err);

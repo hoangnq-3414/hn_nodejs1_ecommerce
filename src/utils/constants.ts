@@ -4,6 +4,8 @@ export const DEFAULT_PAGE = 1;
 
 export const ROLEADMIN = 2;
 
+export const DISABLE = 0;
+
 export const checkAdmin = async (req, res) => {
   const user = req.session.user;
   if (!user || user.role !== ROLEADMIN) {

@@ -18,7 +18,8 @@
         "view": "Xem",
         "orderHistory": "Lịch sử mua hàng",
         "creatProduct": "Tạo sản phẩm",
-        "manageOder": "Quản lý đơn hàng"
+        "manageOder": "Quản lý đơn hàng",
+        "avatar": "Ảnh đại diện"
     } ,
     "login": {
         "signin": "Đăng Nhập",
@@ -114,5 +115,18 @@
         "pageNotFound": "Không tìm thấy trang.",
         "pageNotFoundDescription": "Trang bạn đang tìm không tồn tại.",
         "goHome": "Trở về Trang chủ"
+      },
+      "user": {
+        "manage": "Quản lý tài khoản",
+        "addUser": "Thêm user",
+        "operation": "Thao tác"
+      },
+      "dashboard":{
+        "totalReviews": "Số đánh giá",
+        "totalUser": "Số user",
+        "totalOnline": "Số lượt đang online",
+        "totalProductSell": "Số sản phẩm đã bán",
+        "image": "Hình ảnh",
+        "dashboard": "Bảng điều khiển"
       } 
 }

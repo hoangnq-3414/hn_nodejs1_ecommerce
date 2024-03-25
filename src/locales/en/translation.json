@@ -18,7 +18,8 @@
         "view": "View",
         "orderHistory": "Purchase history",
         "creatProduct": "Create Product",
-        "manageOder": "Manage Order"
+        "manageOder": "Manage Order",
+        "avatar": "Avatar"
     },
     "login": {
         "signin": "Login",
@@ -114,5 +115,18 @@
         "pageNotFound": "Page not found.",
         "pageNotFoundDescription": "The page you’re looking for doesn’t exist.",
         "goHome": "Go Home"
+      },
+      "user": {
+        "manage": "Account management",
+        "addUser": "Add user",
+        "operation": "Operation"
+      },
+      "dashboard":{
+        "totalReviews": "Number of reviews",
+        "totalUser": "Number of users",
+        "totalOnline": "Number of times online",
+        "totalProductSell": "Number of products sold",
+        "image": "Image",
+        "dashboard": "Dashboard"
       }
 }
