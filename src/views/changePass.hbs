@@ -1,0 +1,24 @@
+<link rel='stylesheet' href='/css/password.css' />
+<div class='container pass-form'>
+  <div class='cart border-0'>
+    <div class='cart-body'>
+      <div class='form-group'>
+        <label for='exampleInputPassword1'>{{t 'register.currentPass'}}</label>
+        <input type='password' class='form-control' id='currentPass' type='password' placeholder='****' />
+      </div>
+      <div class='form-group'>
+        <label for='exampleInputPassword1'>{{t 'register.newPass'}}</label>
+        <input type='password' class='form-control' id='newPass' type='password' placeholder='****' />
+      </div>
+      <div class='form-group'>
+        <label for='exampleInputPassword1'>{{t 'register.confirm'}}</label>
+        <input type='password' class='form-control' id='confirmPass' type='password' placeholder='****' />
+        <br>
+        <div class="col gap-4 d-flex justify-content-end">
+          <a class="btn btn-primary text-white" href="/user/detail">{{t 'register.changeProfile'}}</a>
+          <button type='submit' id="send" class='btn btn-primary'>{{t 'register.saveChange'}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/changePass.js"></script>

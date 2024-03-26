@@ -1,23 +1,32 @@
 import express from 'express';
 const router = express.Router();
-import * as userController from '../controllers/admin.user.controller';
+import * as manageUserController from '../controllers/admin.user.controller';
+import * as userController from '../controllers/user.controller';
 
-router.get('/search', userController.searchUser)
-router.delete('/delete/:id', userController.deleteUser);
+
+// user
+router.post('/changePass',userController.postPasswordValidation, userController.postChangePass)
+router.get('/changePass', userController.getChangePass);
+router.post('/edit', userController.handleUpload, userController.postRegisterValidation, userController.editDetailUser)
+router.get('/detail', userController.getDetailUser);
+
+// admin
+router.get('/search', manageUserController.searchUser)
+router.delete('/delete/:id', manageUserController.deleteUser);
 router.post(
   '/create',
-  userController.handleUpload,
-  userController.postRegisterValidation,
-  userController.postCreateUser,
+  manageUserController.handleUpload,
+  manageUserController.postRegisterValidation,
+  manageUserController.postCreateUser,
 );
 
 router.put(
   '/create',
-  userController.handleUpload,
-  userController.postRegisterValidation,
-  userController.editUser,
+  manageUserController.handleUpload,
+  manageUserController.postRegisterValidation,
+  manageUserController.editUser,
 );
 
-router.get('/list', userController.getListUser);
+router.get('/list', manageUserController.getListUser);
 
 export default router;
