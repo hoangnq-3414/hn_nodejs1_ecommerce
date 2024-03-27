@@ -46,3 +46,17 @@ export function getStatusText(statusNumber: number): string {
       return 'Unknown';
   }
 }
+
+// ham lay ngay trong thang
+export function getDaysInMonth(date: Date): string[] {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const daysArray = [];
+  for (let i = 1; i <= daysInMonth; i++) {
+    daysArray.push(
+      `${year}-${month.toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`,
+    );
+  }
+  return daysArray;
+}

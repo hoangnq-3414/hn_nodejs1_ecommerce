@@ -8,6 +8,12 @@
 	user-select: none;
 }
 
+.title-function {
+	span {
+		margin: auto;
+	}
+}
+
 .search-user {
 	font-weight: 600;
 	display: flex;
@@ -16,7 +22,7 @@
 	user-select: none;
 }
 
-.truong-gia-tri {
+.value-field {
 	display: flex;
 	width: 250px;
 	height: 30px;
@@ -29,7 +35,7 @@
 	font-size: 16px;
 }
 
-.truong-gia-tri:is(:focus, :hover) {
+.value-field:is(:focus, :hover) {
 	border-color: #1a66ff80;
 	outline: none;
 }
@@ -42,6 +48,15 @@
 	display: flex;
 	cursor: pointer;
 	margin-left: 15px;
+}
+
+.nut-search-user {
+	i {
+		margin: auto 10px auto auto;
+	};
+	span {
+		margin: auto auto auto 0px;
+	}
 }
 
 .nut-search-user:hover {
@@ -62,6 +77,19 @@
 
 .nut-them-user:hover {
 	opacity: 0.8;
+}
+
+.nut-them-user {
+	i {
+		margin: auto 10px auto auto;
+	}
+	span {
+		margin: auto auto auto 0px;
+	}
+}
+
+td {
+	border-bottom-width: 2px;
 }
 
 .thong-tin-thong-ke {
@@ -128,6 +156,18 @@ thead {
 .data-details span {
 	margin: auto;
 	text-align: center;
+}
+
+.text-index span{
+	color: #3d464d; font-weight: 600
+}
+
+.br-image img {
+	width: 80px; height: 80px; border-radius: 50%; border: 3px solid orange;
+}
+
+.td-div-username {
+	font-weight: 600;
 }
 
 .table-edit {
