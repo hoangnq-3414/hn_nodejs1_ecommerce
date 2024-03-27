@@ -19,7 +19,8 @@
         "orderHistory": "Purchase history",
         "creatProduct": "Create Product",
         "manageOder": "Manage Order",
-        "avatar": "Avatar"
+        "avatar": "Avatar",
+        "uploadError": "Error uploading image."
     },
     "login": {
         "signin": "Login",
@@ -41,7 +42,15 @@
         "passwordMismatchError": "Password confirmation does not match",
         "invalidEmailError": "Invalid email",
         "fullNameLengthError": "Full name must be at least 3 characters long",
-        "existed": "The user already exists"
+        "existed": "The user already exists",
+        "changePass": "Change Password",
+        "saveChange": "Save change",
+        "changeProfile": "Change Profile",
+        "currentPass": "Current Password",
+        "newPass": "New Password",
+        "oldPasswordIncorrect": "Current password is incorrect",
+        "passwordChangedSuccessfully": "Password changed successfully",
+        "registerSuccess": "Account registered successfully"
     },
     "detail": {
         "product_name": "Name",
@@ -119,7 +128,10 @@
       "user": {
         "manage": "Account management",
         "addUser": "Add user",
-        "operation": "Operation"
+        "operation": "Operation",
+        "setting": "Setting",
+        "profile": "Personal information",
+        "accountUpdateSuccess": "Account updated successfully"
       },
       "dashboard":{
         "totalReviews": "Number of reviews",

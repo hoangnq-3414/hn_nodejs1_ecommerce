@@ -26,6 +26,12 @@ export class User extends ClassicEntity {
   @Column({ nullable: true })
   image: string;
 
+  @Column({ nullable: true })
+  address: string;
+
+  @Column({ nullable: true })
+  phone: string;
+
   // One-to-Many relationship with Order entity
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];

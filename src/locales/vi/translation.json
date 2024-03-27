@@ -41,7 +41,16 @@
         "passwordMismatchError": "Mật khẩu xác nhận không khớp",
         "invalidEmailError": "Email không hợp lệ",
         "fullNameLengthError": "Tên đầy đủ phải lơn hơn 3 ký tự",
-        "existed": "Người dùng đã tồn tai"
+        "existed": "Người dùng đã tồn tai",
+        "changePass": "Đổi mật khẩu",
+        "saveChange": "Lưu thay đổi",
+        "changeProfile": "Đổi thông tin",
+        "currentPass": "Mật khẩu hiện tại",
+        "newPass": "Mật khẩu mới",
+        "oldPasswordIncorrect": "Mật khẩu cũ không chính xác",
+        "passwordChangedSuccessfully": "Thay đổi mật khẩu thành công",
+        "registerSuccess": "Đăng ký tài khoản thành công"
+        
     },
     "detail": {
         "product_name": "Tên sản phẩm",
@@ -119,7 +128,10 @@
       "user": {
         "manage": "Quản lý tài khoản",
         "addUser": "Thêm user",
-        "operation": "Thao tác"
+        "operation": "Thao tác",
+        "setting": "Cài đặt",
+        "profile": "Thông tin cá nhân",
+        "accountUpdateSuccess": "Cập nhật tài khoản thành công" 
       },
       "dashboard":{
         "totalReviews": "Số đánh giá",

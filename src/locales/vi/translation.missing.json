@@ -34,5 +34,7 @@
   "status": {
     "cancel": "status.cancel",
     "allStatus": "status.allStatus"
-  }
+  },
+  "passwordChangedSuccessfully": "passwordChangedSuccessfully",
+  "oldPasswordIncorrect": "oldPasswordIncorrect"
 }

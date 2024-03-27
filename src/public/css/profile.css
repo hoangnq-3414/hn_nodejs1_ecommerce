@@ -1,0 +1,13 @@
+#avatar-container {
+  height: 140px;
+  background-color: rgb(233, 236, 239);
+}
+
+#avatar-container img {
+  background-size: cover;
+  width: 100%;
+}
+
+#img-container {
+ width: 140px;
+}

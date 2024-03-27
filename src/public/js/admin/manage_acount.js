@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const apiURL = new URL(
-      'http://localhost:3000/user/create',
+      '/user/create',
       window.location.href,
     ).href;
 

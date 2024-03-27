@@ -39,10 +39,6 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.get('/dashboard', (req: Request, res: Response) => {
-  res.render('admin/dashboard');
-});
-
 router.use('/user', userRouter);
 router.use('/order', orderRouter);
 router.use('/cart', cartRouter);

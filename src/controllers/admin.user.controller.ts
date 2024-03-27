@@ -1,7 +1,15 @@
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from 'express';
 import { AppDataSource } from '../config/database';
 import { User } from '../entities/User';
-import { DEFAULT_PAGE, DISABLE, PAGE_SIZE, calculateOffset, checkAdmin } from '../utils/constants';
+import {
+  DEFAULT_PAGE,
+  DISABLE,
+  PAGE_SIZE,
+  calculateOffset,
+  checkAdmin,
+} from '../utils/constants';
 import { generatePaginationLinks } from '../utils/pagenation';
 import { upload } from '../index';
 import path from 'path';
@@ -25,7 +33,7 @@ export const getListUser = async (
       .where('user.role <> :role', { role: DISABLE })
       .skip(offset)
       .take(PAGE_SIZE)
-      .getManyAndCount()
+      .getManyAndCount();
 
     const totalPages = Math.ceil(totalUser / PAGE_SIZE);
 
@@ -63,16 +71,27 @@ export const editUser = async (
       console.error(errors);
       return;
     }
-    const { id,  email, fullName, password } = req.body;
+    const { id, email, fullName, password } = req.body;
     const hashedPassword = await hashPassword(password);
     let imagePath = '';
 
     if (req.file && req.file.path) {
-      imagePath = path.join('/upload', req.file.path.split('/upload')[1]);
+      const uploadDir = path.resolve(__dirname, '../public/upload');
+      const relativePath = path.relative(uploadDir, req.file.path);
+      imagePath = '/upload/' + relativePath;
     }
-    await userRepository.update({id: parseInt(id)}, {email, fullName, password: hashedPassword, image: imagePath});
 
-    res.status(200).json({ message: 'Update successfully' });
+    let updateFields: { [key: string]: any } = {
+      email,
+      fullName,
+      password: hashedPassword,
+    };
+
+    if (imagePath !== '') {
+      updateFields.image = imagePath;
+    }
+    await userRepository.update({ id: parseInt(id) }, updateFields);
+    res.status(200).json({ message: req.t('user.accountUpdateSuccess') });
   } catch (error) {
     console.error(error);
     next(error);
@@ -85,7 +104,6 @@ export const postCreateUser = async (
   res: Response,
   next: NextFunction,
 ) => {
-
   try {
     await checkAdmin(req, res);
     const errors = validationResult(req);
@@ -98,7 +116,9 @@ export const postCreateUser = async (
     let imagePath = '';
 
     if (req.file && req.file.path) {
-      imagePath = path.join('/upload', req.file.path.split('/upload')[1]);
+      const uploadDir = path.resolve(__dirname, '../public/upload');
+      const relativePath = path.relative(uploadDir, req.file.path);
+      imagePath = '/upload/' + relativePath;
     }
     const user = await userRepository.create({
       email,
@@ -108,13 +128,12 @@ export const postCreateUser = async (
       image: imagePath,
     });
     await userRepository.save(user);
-    res.status(200).json({ message: 'Đăng ký tài khoản thành công' });
+    res.status(200).json({ message: req.t('register.registerSuccess') });
   } catch (error) {
     console.error(error);
     next(error);
   }
 };
-
 
 export const postRegisterValidation = [
   body('password')
@@ -128,7 +147,7 @@ export const postRegisterValidation = [
   body('fullName')
     .notEmpty()
     .isLength({ min: 3 })
-    .withMessage(() => i18next.t('register.fullNameLengthError'))
+    .withMessage(() => i18next.t('register.fullNameLengthError')),
 ];
 
 // [DELETE] admin detele user
@@ -141,7 +160,7 @@ export const deleteUser = async (
     await checkAdmin(req, res);
     const userId = parseInt(req.params.id);
     await userRepository.update({ id: userId }, { role: 0 });
-    res.status(200)
+    res.status(200);
   } catch (error) {
     console.error(error);
     next(error);
@@ -159,11 +178,14 @@ export const searchUser = async (
     const text = req.query.text;
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
     const offset = calculateOffset(page);
-    let filterCondition =''
+    let filterCondition = '';
     filterCondition += `text=${text}&`;
     const [listUser, totalUser] = await userRepository
       .createQueryBuilder('user')
-      .where('user.email LIKE :email OR user.fullName LIKE :fullName', { email: `%${text}%`, fullName: `%${text}%` })
+      .where('user.email LIKE :email OR user.fullName LIKE :fullName', {
+        email: `%${text}%`,
+        fullName: `%${text}%`,
+      })
       .skip(offset)
       .take(PAGE_SIZE)
       .getManyAndCount();
@@ -171,12 +193,14 @@ export const searchUser = async (
     const totalPages = Math.ceil(totalUser / PAGE_SIZE);
     res.render('admin/manageUser', {
       listUser,
-      paginationItemsLinks: generatePaginationLinks(page, totalPages, filterCondition),
+      paginationItemsLinks: generatePaginationLinks(
+        page,
+        totalPages,
+        filterCondition,
+      ),
     });
-
   } catch (error) {
     console.error(error);
     next(error);
   }
 };
-

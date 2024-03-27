@@ -1,0 +1,92 @@
+<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' rel='stylesheet' />
+<link rel="stylesheet" href="/css/profile.css">
+<div class='container'>
+  <div class='row flex-lg-nowrap'>
+    <div class='col'>
+      <div class='row'>
+        <div class='col mb-3'>
+          <div class='card'>
+            <div class='card-body'>
+              <div class='e-profile'>
+                <div class='row'>
+                  <div class='col-12 col-sm-auto mb-3'>
+                    <div class='mx-auto' id="img-container">
+                      <div id="avatar-container" class='d-flex justify-content-center align-items-center rounded'>
+                        <div>
+                          <img src='{{image}}' alt='' />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col d-flex flex-column flex-sm-row justify-content-between mb-3'>
+                    <div class='text-center text-sm-left mb-2 mb-sm-0'>
+                      <h4 class='pt-sm-2 pb-1 mb-0 text-nowrap'>"{{email}}"</h4>
+                      <p class='mb-0'>"{{fullName}}"</p>
+                      <div class='form-field' id='image-upload'>
+                        <input class='form-control' type='file' name='image' id='image' accept='image/*' />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <ul class='nav nav-tabs'>
+                  <li class='nav-item'><a href='' class='active nav-link'>{{t 'user.setting'}}</a></li>
+                </ul>
+                <div class='tab-content pt-3'>
+                  <div class='tab-pane active'>
+                    <div class='form' novalidate=''>
+                      <div class='row'>
+                        <div class='col'>
+                          <div class='row'>
+                            <div class='col'>
+                              <div class='form-group'>
+                                <label>{{t 'register.full_name'}}</label>
+                                <input class='form-control' type='text' name='name' placeholder='name...'
+                                  value='{{fullName}}' />
+                              </div>
+                            </div>
+                            <div class='col'>
+                              <div class='form-group'>
+                                <label>{{t 'order.phone'}}</label>
+                                <input class='form-control' type='text' name='phone' placeholder='...'
+                                  value='{{phone}}' />
+                              </div>
+                            </div>
+                          </div>
+                          <div class='row'>
+                            <div class='col'>
+                              <div class='form-group'>
+                                <label>{{t 'order.address'}}</label>
+                                <input class='form-control' type='text' name='address' placeholder='address...'
+                                  value='{{address}}' />
+                              </div>
+                            </div>
+                          </div>
+                          <div class='row'>
+                            <div class='col'>
+                              <div class='form-group'>
+                                <label>{{t 'login.email'}}</label>
+                                <input class='form-control' type='email' name='email' placeholder='user@example.com'
+                                  value='{{email}}' />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='row'>
+                        <div class='col gap-4 d-flex justify-content-end'>
+                          <a class='btn btn-primary text-white' href='/user/changePass'>{{t 'register.changePass'}}</a>
+                          <button class='btn btn-primary' id='submit'>{{t 'register.saveChange'}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src='/js/user.profile.js'></script>
