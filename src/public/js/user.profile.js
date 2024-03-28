@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
       .then((response) => response.json())
       .then((data) => {
         alert(data['message']);
+        window.location.href = '/user/detail';
       })
       .catch((error) => console.log('Error: ', error));
   };

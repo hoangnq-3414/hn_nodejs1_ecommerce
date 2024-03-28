@@ -30,6 +30,9 @@ export class Product extends ClassicEntity {
   @Column()
   quantity: number;
 
+  @Column()
+  numberSold: number;
+
   @Column({ nullable: true })
   image: string;
 

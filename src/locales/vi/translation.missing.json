@@ -11,7 +11,11 @@
     "login": "home.login",
     "register": "home.register",
     "coppyright": "home.coppyright",
-    "select": "home.select"
+    "select": "home.select",
+    "rating": "home.rating",
+    "categoryStarLabel": "home.categoryStarLabel",
+    "allCategory": "home.allCategory",
+    "numberSoldLabel": "home.numberSoldLabel"
   },
   "cart": {
     "home": "cart.home",

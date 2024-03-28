@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/detail.css">
 <div class='container mt-5 mb-5'>
   <div class='row d-flex justify-content-center'>
     <div class='col-md-10'>
@@ -20,28 +21,36 @@
               <div class='d-flex justify-content-between align-items-center'>
                 <div class='d-flex align-items-center'>
                   <i class='fa fa-long-arrow-left'></i>
-                  <span class='ml-1'><a href="/">{{t 'detail.back'}}</a></span>
+                  <span class='ml-1'><a href='/'>{{t 'detail.back'}}</a></span>
                 </div>
                 <i class='fa fa-shopping-cart text-muted'></i>
               </div>
               <div class='mt-4 mb-3'>
-                <h5 class='text-uppercase'>{{t 'detail.product_name'}}: {{product.name}}</h5>
-                <p class='about'>{{t 'detail.description'}}: {{product.description}}</p>
+                <h5 class='text-uppercase'>{{t 'detail.product_name'}}:
+                  {{product.name}}</h5>
+                <p class='about'>{{t 'detail.description'}}:
+                  {{product.description}}</p>
                 <div class='price d-flex flex-row align-items-center'>
-                  <span class='act-price'>{{t 'detail.price'}}: {{product.price}}</span>
+                  <span class='act-price'>{{t 'detail.price'}}:
+                    {{product.price}}</span>
                 </div>
                 <div class='price d-flex flex-row align-items-center'>
-                  <span class='act-price'>{{t 'detail.quantity'}}: {{product.quantity}}</span>
+                  <span class='act-price'>{{t 'detail.quantity'}}:
+                    {{product.quantity}}</span>
                 </div>
                 <div class='price d-flex flex-row align-items-center'>
-                  <span class='act-price'>{{t 'detail.unit'}}: {{product.unit}}</span>
+                  <span class='act-price'>{{t 'detail.unit'}}:
+                    {{product.unit}}</span>
                 </div>
                 <div class='price d-flex flex-row align-items-center'>
-                  <span class='act-price'>{{t 'detail.category'}}: {{product.category.name}}</span>
+                  <span class='act-price'>{{t 'detail.category'}}:
+                    {{product.category.name}}</span>
                 </div>
               </div>
-              <form action="/cart/add/{{product.id}}" method="post" style="display: inline;">
-                <button type="submit" class="btn btn-outline-success">{{i18n 'home.add_to_cart'}}</button>
+              <form action='/cart/add/{{product.id}}' method='post' style='display: inline;'>
+                <button type='submit' class='btn btn-outline-success'>{{i18n
+                  'home.add_to_cart'
+                  }}</button>
               </form>
               <i class='fa fa-heart text-muted'></i>
               <i class='fa fa-share-alt text-muted'></i>
@@ -52,4 +61,87 @@
     </div>
   </div>
 </div>
+
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+  integrity='sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=='
+  crossorigin='anonymous' referrerpolicy='no-referrer' />
+
+<link rel='stylesheet' href='/css/order.css' />
+<div class='container'>
+  <h2>{{t 'home.reviewTitle'}}</h2>
+  <div class='review-wapper'>
+    <div class='review-p1'>
+      <div class='review-p1-1'>
+        <div class='review-p1-1-1'><span>{{averageRating}}</span></div>
+        <div class='review-p1-1-2'>
+          <i class='fa-solid fa-star'></i>
+          <span>{{countStar.totalReviews}} {{t 'home.rating'}}</span>
+        </div>
+      </div>
+
+      <div class='review-p1-2'>
+        <div class='review-p1-2row'>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star star-active'></i>
+          <span>{{countStar.fiveStar}}</span>
+        </div>
+
+        <div class='review-p1-2row'>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star'></i>
+          <span>{{countStar.fourStar}}</span>
+        </div>
+
+        <div class='review-p1-2row'>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star'></i>
+          <i class='fa-solid fa-star'></i>
+          <span>{{countStar.threeStar}}</span>
+        </div>
+
+        <div class='review-p1-2row'>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star'></i>
+          <i class='fa-solid fa-star'></i>
+          <i class='fa-solid fa-star'></i>
+          <span>{{countStar.twoStar}}</span>
+        </div>
+
+        <div class='review-p1-2row'>
+          <i class='fa-solid fa-star star-active'></i>
+          <i class='fa-solid fa-star'></i>
+          <i class='fa-solid fa-star'></i>
+          <i class='fa-solid fa-star'></i>
+          <i class='fa-solid fa-star'></i>
+          <span>{{countStar.oneStar}}</span>
+        </div>
+      </div>
+    </div>
+    <div class='review-p2'>
+      <div class='review-p2-1'>
+        <div class='category-star'>{{t 'home.categoryStarLabel'}} </div>
+        <a href='#' class='all' onclick='showCommentsByRating({{product.id}},0)'>
+          <div class='choose-active'><span>{{t 'home.allCategory'}}</span></div>
+        </a>
+        {{#each stars}}
+        <a href='#' onclick='showCommentsByRating({{../product.id}}, {{this}})'>
+          <div><span>{{this}}</span> <i class='fa-solid fa-star star-active'></i></div>
+        </a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  <ul class='pagination'>
+  </ul>
 </div>
+
+<script src='/js/product.detail.js'></script>

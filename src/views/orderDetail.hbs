@@ -52,8 +52,8 @@
         </div>
         <div class='col-md-2 '>
           <form class='rating' action='/product/rating' method='post'>
-            <input type="hidden" name="productId" value="{{product.id}}">
-            <input type="hidden" name="orderDetailId" value="{{id}}">
+            <input type="hidden" id="value-productId" name="productId" value="{{product.id}}">
+            <input type="hidden" id="value-orderDetai" name="orderDetailId" value="{{id}}">
             <div class='star-input-wapper'>
               <label>
                 <input type='radio' name='rating' value='1' />
