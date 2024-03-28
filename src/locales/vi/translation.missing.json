@@ -36,5 +36,11 @@
     "allStatus": "status.allStatus"
   },
   "passwordChangedSuccessfully": "passwordChangedSuccessfully",
-  "oldPasswordIncorrect": "oldPasswordIncorrect"
+  "oldPasswordIncorrect": "oldPasswordIncorrect",
+  "dashboard": {
+    "pageTitle": "dashboard.pageTitle",
+    "revenueChart": "dashboard.revenueChart",
+    "quantityChart": "dashboard.quantityChart",
+    "chartCreate": "dashboard.chartCreate"
+  }
 }

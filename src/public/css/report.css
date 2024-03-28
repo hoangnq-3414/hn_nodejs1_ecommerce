@@ -1,0 +1,51 @@
+.headFunc {
+	font-size: 30px;
+	font-weight: 600;
+	display: flex;
+	height: 60px;
+	width: 100%;
+	border-bottom: 3px solid #d8dee2;
+	user-select: none;
+	span {
+		margin: auto;
+	}
+}
+
+.selectMonth {
+	font-weight: 600;
+	display: flex;
+	padding-left: 60%;
+	margin-top: 50px;
+	user-select: none;
+}
+
+.value-field + .value-field {
+	margin-left: 15px;
+}
+
+.value-field {
+	position: relative; 
+}
+
+.createChartBtn {
+	border-radius: 6px;
+	width: 120px;
+	height: 30px;
+	background-color: ffd333;
+	display: flex;
+	cursor: not-allowed;
+	margin-left: 15px;
+	opacity: 0.5;
+	pointer-events: none;
+	span{
+		margin: auto;
+	}
+}
+
+canvas {
+	width: 1000px;
+	height: 400px;
+	margin: 70px auto auto auto;
+	position: relative;
+	z-index: 1;
+}

@@ -20,7 +20,10 @@
         "creatProduct": "Create Product",
         "manageOder": "Manage Order",
         "avatar": "Avatar",
-        "uploadError": "Error uploading image."
+        "uploadError": "Error uploading image.",
+        "revenue": "Revenue Report",
+        "editButton": "Edit",
+        "deleteButton": "Delete"
     },
     "login": {
         "signin": "Login",
@@ -139,6 +142,10 @@
         "totalOnline": "Number of times online",
         "totalProductSell": "Number of products sold",
         "image": "Image",
-        "dashboard": "Dashboard"
+        "dashboard": "Dashboard",
+        "pageTitle": "Statistical chart",
+         "chartCreate": "Create chart",
+         "revenueChart": "Revenue chart",
+         "quantityChart": "Quantity chart"  
       }
 }

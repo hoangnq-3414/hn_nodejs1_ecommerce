@@ -19,7 +19,10 @@
         "orderHistory": "Lịch sử mua hàng",
         "creatProduct": "Tạo sản phẩm",
         "manageOder": "Quản lý đơn hàng",
-        "avatar": "Ảnh đại diện"
+        "avatar": "Ảnh đại diện",
+        "revenue": "Biểu đồ thống kê doanh thu",
+        "editButton": "Sửa",
+        "deleteButton": "Xóa"
     } ,
     "login": {
         "signin": "Đăng Nhập",
@@ -139,6 +142,10 @@
         "totalOnline": "Số lượt đang online",
         "totalProductSell": "Số sản phẩm đã bán",
         "image": "Hình ảnh",
-        "dashboard": "Bảng điều khiển"
+        "dashboard": "Bảng điều khiển",
+        "pageTitle": "Biểu đồ thống kê",
+        "chartCreate": "Tạo biểu đồ",
+        "revenueChart": "doanh thu",
+        "quantityChart": "số lượng"
       } 
 }
