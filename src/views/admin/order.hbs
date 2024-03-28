@@ -1,0 +1,81 @@
+<link rel="stylesheet" href="/css/admin/common.css">
+<link rel="stylesheet" href="/css/order_one.css">
+<link rel="icon" type="image/x-icon" href="./img/shop_icon.ico">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+	integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<body>
+	<div class="body-website">
+		<div class="dieu-huong-va-tieu-de">
+			<div class="tieu-de-cua-hang">
+				<h4>{{t 'home.order'}}</h4>
+			</div>
+		</div>
+
+		<div class="thanh-classify-orders">
+
+			<a href="/order/OrderByStatus/1" id="choose1" class="classify-orders"><span style="margin: auto;">{{t
+					'status.pending'}}</span></a>
+			<a href="/order/OrderByStatus/2" id="choose2" class="classify-orders"><span style="margin: auto;">{{t
+					'status.successful'}}</span></a>
+			<a href="/order/OrderByStatus/3" id="choose3" class="classify-orders"><span style="margin: auto;">{{t
+					'status.rejected'}}</span></a>
+			<a href="/order/OrderByStatus/4" id="choose4" class="classify-orders"><span style="margin: auto;">{{t
+					'status.cancel'}}</span></a>
+		</div>
+		{{#each modifiedOrderLists}}
+		<div class="each-order">
+			<div class="order-infomation">
+				<div class="ma-don-hang__don-hang order-table-header ">{{i18n 'order.codeOrder'}}: <span class="orderId"
+						style="font-size: 16px; font-weight: 300; color: #ff2626; font-weight: 600;">{{id}}<span
+							class="ma-don-hang">
+						</span></span></div>
+				<div class="order-table-header ">{{i18n 'order.name'}}: <span class="infor-detail-order">{{name}}
+					</span></div>
+				<div class="order-table-header">{{i18n 'order.address'}}: <span class="infor-detail-order">{{address}}
+					</span></div>
+				<div class="order-table-header">{{i18n 'order.phone'}}: <span class="infor-detail-order">{{phone}}
+					</span></div>
+				<div class="order-table-header email">{{i18n 'order.createBy'}}: <span
+						class="infor-detail-order email">{{user.email}}
+
+					</span></div>
+				<div class="order-table-header">{{i18n 'order.totalAmount'}}: <span class="infor-detail-order">{{totalAmount}}
+					</span></div>
+				<div class="order-table-header">{{i18n 'order.paymentMethod'}}: <span class="infor-detail-order">{{typeOrder}}
+					</span></div>
+				<div class="order-table-header">{{i18n 'order.orderMadeOn'}}: <span class="infor-detail-order">{{date}}
+					</span></div>
+			</div>
+			<div class="user-don-hang">
+				<div style="margin: auto;">
+					<a class="detail-order-order" href="/order/detail/{{id}}"><span style="margin: auto; font-weight: 600;">{{i18n
+							'order.detailLink'}}</span></a>
+					{{#if isPending}}
+					<a class="cancel-order" href="./huy-don-hang"><span style="margin: auto; font-weight: 600;">{{i18n
+							'order.reject'}}</span></a>
+					<div class='col-md-12 reject-reason' style='display:none;'>
+						<input type='text' id='rejectReason' placeholder='Enter rejection reason' />
+						<button id='submitReject'>{{i18n 'status.submit'}}</button>
+					</div>
+					<a class="accept-order " href="./huy-don-hang"><span style="margin: auto; font-weight: 600;">{{i18n
+							'order.accept'}}</span></a>
+					{{/if}}
+				</div>
+			</div>
+		</div>
+		{{/each}}
+	</div>
+	<ul class='pagination'>
+		{{#if paginationLinks}}
+		{{{paginationLinks}}}
+		{{/if}}
+	</ul>
+</body>
+<script src='/js/admin/admin.order.list.js'></script>
+
+</html>
+<br>
+<br>
+<br>

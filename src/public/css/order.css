@@ -1,0 +1,61 @@
+.wapper-review {
+  display: flex;
+  padding: 10px;
+  width: 600px;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: -2px 0px 1px rgba(0, 0, 0, 0.1), 2px 0px 1px rgba(0, 0, 0, 0.1), 0px 5px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rv-avt {
+  margin: 10px;
+  border-right: 2px solid #cac9c9;
+  padding-right: 10px;
+}
+
+.rv-avt img {
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.rv-detail-content {
+  padding-top: 10px;
+}
+
+.rv-name {
+  font-weight: 600;
+}
+
+.rv-stars {
+  display: flex;
+}
+
+.rv-star {
+  color: #dddde3;
+}
+
+.star-active {
+  color: #fdd836;
+}
+
+.rv-time {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.rv-order,
+.rv-proname {
+  color: red;
+}
+
+.rv-order span,
+.rv-proname span {
+  font-weight: 600;
+  color: #3d464d;
+}
+
+.rv-comment {
+  margin-top: 15px;
+  font-size: 20px;
+}

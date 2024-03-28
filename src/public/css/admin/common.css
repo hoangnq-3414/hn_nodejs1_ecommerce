@@ -683,7 +683,7 @@ html {
 }
 /*end header*/
 
-.than-website {
+.body-website {
     /* position: relative; */
     width: 1110px;
     margin: 15px auto auto auto;
@@ -691,7 +691,7 @@ html {
     flex-direction: column;
 }
 
-.than-website + .than-website {
+.body-website + .body-website {
     margin-top: 25px;
 }
 

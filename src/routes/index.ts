@@ -44,6 +44,10 @@ router.get('/dashboard', (req: Request, res: Response) => {
   res.render('admin/dashboard')
 })
 
+router.get('/test', (req: Request, res: Response) => {
+  res.render('test')
+})
+
 router.use('/report', reportRouter);
 router.use('/user', userRouter);
 router.use('/order', orderRouter);

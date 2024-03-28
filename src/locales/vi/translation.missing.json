@@ -29,7 +29,9 @@
     "orderNow": "order.orderNow",
     "backToCart": "order.backToCart",
     "orderSummary": "order.orderSummary",
-    "accpet": "order.accpet"
+    "accpet": "order.accpet",
+    "haveEvaluated": "order.haveEvaluated",
+    "codeOrder": "order.codeOrder"
   },
   "status": {
     "cancel": "status.cancel",

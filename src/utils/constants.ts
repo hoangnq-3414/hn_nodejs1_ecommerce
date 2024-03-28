@@ -24,7 +24,7 @@ export function formatDate(date) {
   return formattedDate;
 }
 
-enum OrderStatus {
+export enum OrderStatus {
   Pending = 1,
   Successful = 2,
   Rejected = 3,

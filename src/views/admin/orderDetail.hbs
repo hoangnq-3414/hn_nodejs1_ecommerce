@@ -1,0 +1,45 @@
+<div class='col-lg-12'>
+  <div class='box-element'>
+    <a class='btn btn-outline-dark' href='/order/allList'>&#x2190;
+      {{t 'order.backToCart'}}</a>
+    <hr />
+    <h3>{{t 'order.orderSummary'}}</h3>
+    <hr />
+    <div class='cart-row'>
+      <div style='flex:1'></div>
+      <div style='flex:1'><strong>{{t 'cart.cartItems'}}</strong></div>
+      <div style='flex:1'><strong>{{t 'detail.price'}}</strong></div>
+      <div style='flex:1'><strong>{{t 'detail.quantity'}}</strong></div>
+      <div style='flex:1'><strong>{{t 'detail.unit'}}</strong></div>
+      <div style='flex:1'><strong>{{t 'order.totalAmount'}}</strong></div>
+    </div>
+    {{#each orderDetail}}
+    <div class='cart-row'>
+      <div style='flex:1'><a href='/product/detail/{{product.id}}'><img class='row-image' src='{{product.image}}' /></a>
+      </div>
+      <div style='flex:1'>
+        <p class='product-name'>{{product.name}}</p>
+      </div>
+      <div style='flex:1'>
+        <p class='price'>{{price}}$</p>
+      </div>
+      <div style='flex:1'>
+        <p class='quantity'>{{quantity}}</p>
+      </div>
+      <div style='flex:1'>
+        <p class='unit'>{{product.unit}}</p>
+      </div>
+      <div style='flex:1'>
+        <p class='total'></p>
+      </div>
+    </div>
+    {{/each}}
+    <ul class='pagination'>
+      {{#if paginationItemsLinks}}
+      {{{paginationItemsLinks}}}
+      {{/if}}
+    </ul>
+  </div>
+</div>
+
+<script src='/js/admin/admin.order.detail.js'></script>
