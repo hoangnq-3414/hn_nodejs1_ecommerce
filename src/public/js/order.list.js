@@ -25,7 +25,6 @@ $(document).ready(function () {
     var data = { orderId: orderId, status: 4 };
     $.post('/order/status/', data)
       .done(function (response) {
-        console.log('Order canceled successfully.');
         cancelBtn.hide();
         cancelBtn.siblings('.col-md-12').find('.label').text('Cancel');
       })
@@ -116,7 +115,6 @@ $(document).ready(function () {
     }
     window.location.href = url;
 
-    console.log('gui thanh cong');
   });
 });
 
@@ -139,7 +137,5 @@ $(document).ready(function () {
         $('#dateInput').val();
     }
     window.location.href = url;
-
-    console.log('gui thanh cong');
   });
 });

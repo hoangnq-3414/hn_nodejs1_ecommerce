@@ -1,0 +1,205 @@
+.dieu-huong-va-tieu-de {
+	padding: 0px 15px 32px;
+	font-size: 14px;
+}
+
+.tieu-de-cua-hang {
+	padding-top: 10px;
+	font-size: 25.6px;
+}
+
+.back-btn {
+	display: flex;
+	text-decoration: none;
+	cursor: pointer;
+	width: 85px;
+	height: 32px;
+	margin-top: 24px;
+	background: #ffd333;
+	color: #3d464d;
+	border-radius: 6px;
+}
+
+.title-order {
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 17px;
+}
+
+.order-detail-infor {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.ket-thuc-website {
+	margin-top: 50px;
+}
+
+.back-btn {
+	display: flex;
+	text-decoration: none;
+	cursor: pointer;
+	width: 85px;
+	height: 32px;
+	margin-top: 24px;
+	background: #ffd333;
+	color: #3d464d;
+	border-radius: 6px;
+}
+
+.back-btn:hover {
+	background: #3d464d;
+	color: #fff;
+}
+
+.each-order + .each-order {
+	margin-top: 30px;
+}
+
+.each-order {
+	display: flex;
+	border: 3px #ebebeb solid;
+	margin-left: auto;
+	margin-right: auto;
+	width: 85%;
+	padding: 20px;
+	border-radius: 5px;
+}
+
+.each-order:hover {
+	border-color: orange;
+}
+
+.order-table-header {
+	font-weight: 600;
+	line-height: 25px;
+	font-size: 16px;
+}
+
+.infor-detail-order {
+	font-size: 16px;
+	font-weight: 300;
+}
+
+.thong-tin-invalid {
+	font-size: 16px;
+	font-weight: 300;
+	color: #ff2626;
+}
+
+.order-infomation {
+	border-right: 3px #ebebeb solid;
+	flex: 8;
+}
+
+.user-don-hang {
+	padding-left: 20px;
+	flex: 2;
+	display: flex;
+	flex-direction: column;
+}
+
+.anh-user {
+	width: 175px;
+	height: 175px;
+	border-radius: 50%;
+	border: 3px orange solid;
+}
+
+.detail-order-order {
+	display: block;
+	text-decoration: none;
+	color: #3d464d;
+	background: #ffd333;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	width: 100%;
+	height: 40px;
+	display: flex;
+	border-radius: 6px;
+}
+
+.detail-order-order:hover {
+	color: #fff;
+	background: #3d464d;
+}
+
+.cancel-order {
+	display: block;
+	text-decoration: none;
+	color: #fff;
+	background: #bb0202;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	width: 100%;
+	height: 40px;
+	display: flex;
+	border-radius: 6px;
+}
+
+.cancel-order:hover {
+	opacity: 0.8;
+}
+
+.accept-order {
+	display: block;
+	text-decoration: none;
+	color: #fff;
+	background: #1bac1b;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	width: 100%;
+	height: 40px;
+	display: flex;
+	border-radius: 6px;
+}
+
+.apccept-don-hang__don-hang:hover {
+	opacity: 0.8;
+}
+
+.vo-hieu-hoa {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.vo-hieu-hoa:hover {
+	opacity: 0.6;
+}
+
+.thanh-classify-orders {
+	width: 85%;
+	display: flex;
+	margin: 0px auto 30px auto;
+	justify-content: space-around;
+	background-color: #f7f7f7;
+	border-radius: 6px;
+}
+
+.classify-orders {
+	display: flex;
+	text-decoration: none;
+	color: #3d464d;
+	font-size: 25px;
+	font-weight: 600;
+	flex: 1;
+	height: 50px;
+	border-radius: 6px;
+}
+
+.classify-orders:hover {
+	border: 1px solid orange;
+}
+
+.status-active {
+	border: 1px solid rgb(10, 104, 255);
+	color: rgb(10, 104, 255) !important;
+	text-decoration: none !important;
+}
+
+.status-active:hover {
+	border: 1px solid rgb(10, 104, 255);
+}

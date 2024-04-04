@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typ
 import { Order } from './Order';
 import { Cart } from './Cart';
 import { ClassicEntity } from '../base/BaseEntity';
+import { ProductReview } from './ProductReview';
 
 @Entity('user')
 export class User extends ClassicEntity {
@@ -39,4 +40,7 @@ export class User extends ClassicEntity {
   // One-to-Many relationship with Cart entity
   @OneToOne(() => Cart, (cart) => cart.user)
   cart: Cart;
+
+  @OneToMany(() => ProductReview, (productReview) => productReview.user)
+  productReviews: ProductReview[];
 }

@@ -5,13 +5,21 @@ import path from 'path';
 import i18next from 'i18next';
 import { Request, Response, NextFunction } from 'express-serve-static-core';
 import { body, validationResult } from 'express-validator';
+import cron from 'node-cron';
 import {
   Transactional,
   runOnTransactionCommit,
   runOnTransactionRollback,
 } from 'typeorm-transactional';
 import { AppDataSource } from '../config/database';
-import { PAGE_SIZE, calculateOffset, DEFAULT_PAGE, formatDate, getStatusText, checkAdmin } from '../utils/constants';
+import {
+  PAGE_SIZE,
+  calculateOffset,
+  DEFAULT_PAGE,
+  formatDate,
+  getStatusText,
+  OrderStatus,
+} from '../utils/constants';
 import { generatePaginationLinks } from '../utils/pagenation';
 import { upload, transporter, handlebarOptions } from '../index';
 import { Order } from '../entities/Order';
@@ -21,7 +29,6 @@ import { Product } from '../entities/Product';
 import { CartItem } from '../entities/CartItem';
 import { checkLoggedIn } from '../utils/auth';
 import { User } from '../entities/User';
-
 
 const orderRepository = AppDataSource.getRepository(Order);
 const orderDetailRepository = AppDataSource.getRepository(OrderDetail);
@@ -88,7 +95,8 @@ class ProcessOrder {
     const user = await checkLoggedIn(req, res);
     const { name, phone, address, typeOrder, totalAmount } = req.body;
     const order = await createOrder(
-      { name, phone, address, typeOrder, totalAmount }, imagePath,
+      { name, phone, address, typeOrder, totalAmount },
+      imagePath,
       user,
     );
     await orderRepository.save(order);
@@ -226,8 +234,56 @@ export const postOrder = async (
   }
 };
 
-// GET view history order
-export const getOderList = async (
+// [GET] status order of user
+export const getAllOderListByStatusOfUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = await checkLoggedIn(req, res);
+    let isPending = false;
+
+    if (parseInt(req.params.status) == 1) {
+      isPending = true;
+    }
+    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
+    const offset = calculateOffset(page);
+    const [orderLists, total] = await orderRepository.findAndCount({
+      relations: ['user'],
+      where: {
+        user: { id: +user.id },
+        status: parseInt(req.params.status),
+      },
+      take: PAGE_SIZE,
+      skip: offset,
+      order: { createdAt: 'DESC' },
+    });
+
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const modifiedOrderLists = orderLists.map((order) => {
+      return {
+        ...order,
+        status: getStatusText(order.status),
+        date: formatDate(order.createdAt),
+        isPending,
+      };
+    });
+
+    res.render('order', {
+      modifiedOrderLists,
+      totalPages: totalPages,
+      currentPage: page,
+      paginationLinks: generatePaginationLinks(page, totalPages),
+    });
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
+
+// GET view user history order
+export const getUserAllOderList = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -237,6 +293,7 @@ export const getOderList = async (
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
     const offset = calculateOffset(page);
     const [orderLists, total] = await orderRepository.findAndCount({
+      relations: ['user'],
       where: { user: { id: user.id } },
       take: PAGE_SIZE,
       skip: offset,
@@ -251,7 +308,7 @@ export const getOderList = async (
       };
     });
 
-    res.render('orderList', {
+    res.render('order', {
       modifiedOrderLists,
       totalPages: totalPages,
       currentPage: page,
@@ -264,14 +321,14 @@ export const getOderList = async (
   }
 };
 
-// GET order detail
-export const getOderDetail = async (
+// GET user order detail
+export const getUserOderDetail = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const page = parseInt(req.query.page as string) || 1;
+    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
     const offset = calculateOffset(page);
     const [orderDetail, totalItems] = await orderDetailRepository.findAndCount({
       where: { order: { id: parseInt(req.params.id) } },
@@ -300,22 +357,23 @@ const sendEmail = async (status, rejectReason, email, orderDetails) => {
     mailOptions = {
       subject: 'Thông báo',
       from: `"Shop ecommerce" <${process.env.APP_EMAIL}>`,
-      template: "email_faile",
+      template: 'email_faile',
       to: email,
       context: {
-        rejectReason, orderDetails
+        rejectReason,
+        orderDetails,
       },
-    }
+    };
   } else if (status === 2) {
     mailOptions = {
       subject: 'Thông báo',
       from: `"Shop ecommerce" <${process.env.APP_EMAIL}>`,
-      template: "email_success",
+      template: 'email_success',
       to: email,
       context: {
-        orderDetails
+        orderDetails,
       },
-    }
+    };
   } else {
     throw new Error('Invalid status');
   }
@@ -340,23 +398,41 @@ export const postChangeStatusOrder = async (
     const email = req.body.email;
 
     const updateData: any = { status: status };
-    if (parseInt(req.body.status) === 3 && rejectReason) {
-      updateData.comment = rejectReason
+    if (parseInt(req.body.status) === OrderStatus.Rejected && rejectReason) {
+      updateData.comment = rejectReason;
     }
 
     await orderRepository.update(
       { id: parseInt(req.body.orderId) },
-      updateData
+      updateData,
     );
-
     const orderDetails = await orderDetailRepository.find({
-      where: { order:{id: parseInt(req.body.orderId)} },
-      relations: ['order', 'product']
-    })
+      where: { order: { id: parseInt(req.body.orderId) } },
+      relations: ['order', 'product'],
+    });
+
+    const updatedOrderDetails = orderDetails.map((orderDetail) => {
+      orderDetail.reviewed = true;
+      return orderDetail;
+    });
+
+    await orderDetailRepository.save(updatedOrderDetails);
+
     res.redirect('/order/list');
-    if (status === 3 || status === 2) {
+    if (status === OrderStatus.Rejected || status === OrderStatus.Successful) {
       await sendEmail(status, rejectReason, email, orderDetails);
     }
+
+    const sevenDaysLater = new Date();
+    sevenDaysLater.setDate(sevenDaysLater.getDate() + 7);
+
+    cron.schedule(`0 0 ${sevenDaysLater.getDate()} ${sevenDaysLater.getMonth() + 1} *`, async () => {
+      const resetOrderDetails = updatedOrderDetails.map(orderDetail => {
+        orderDetail.reviewed = false;
+        return orderDetail;
+      });
+      await orderDetailRepository.save(resetOrderDetails);
+    });
   } catch (err) {
     console.error(err);
     next(err);
@@ -364,17 +440,22 @@ export const postChangeStatusOrder = async (
 };
 
 // get filter status and date
-export const getFilterOrderStatusAndDate = async (req: Request, res: Response, next: NextFunction) => {
+export const getFilterOrderStatusAndDate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const user = await checkLoggedIn(req, res);
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
     const offset = calculateOffset(page);
 
-    let queryBuilder = orderRepository.createQueryBuilder('order')
+    let queryBuilder = orderRepository
+      .createQueryBuilder('order')
       .where('order.userId = :userId', { userId: user.id })
       .skip(offset)
       .take(PAGE_SIZE)
-      .orderBy('order.createdAt', 'DESC')
+      .orderBy('order.createdAt', 'DESC');
 
     let filterCondition = '';
 
@@ -382,13 +463,17 @@ export const getFilterOrderStatusAndDate = async (req: Request, res: Response, n
       const status = +req.query.status;
       if (status) {
         filterCondition += `status=${status}&`;
-        queryBuilder = queryBuilder.andWhere('order.status = :status', { status });
+        queryBuilder = queryBuilder.andWhere('order.status = :status', {
+          status,
+        });
       }
     }
     if (req.query.dateInput) {
       const dateForm = req.query.dateInput;
       filterCondition += `dateInput=${dateForm}`;
-      queryBuilder = queryBuilder.andWhere('order.createdAt LIKE :date', { date: `%${dateForm}%` });
+      queryBuilder = queryBuilder.andWhere('order.createdAt LIKE :date', {
+        date: `%${dateForm}%`,
+      });
     }
 
     const [orderLists, total] = await queryBuilder.getManyAndCount();
@@ -406,103 +491,11 @@ export const getFilterOrderStatusAndDate = async (req: Request, res: Response, n
       modifiedOrderLists,
       totalPages: totalPages,
       currentPage: page,
-      paginationLinks: generatePaginationLinks(page, totalPages, filterCondition),
-    });
-    return;
-  } catch (err) {
-    console.error(err);
-    next();
-  }
-}
-
-// get ADMIN filter status and date
-export const getAllFilterOrderStatusAndDate = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const user = await checkAdmin(req, res);
-    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
-    const offset = calculateOffset(page);
-
-    let queryBuilder = orderRepository.createQueryBuilder('order')
-      .skip(offset)
-      .take(PAGE_SIZE)
-      .orderBy('order.createdAt', 'DESC')
-
-    let filterCondition = '';
-
-    if (req.query.status) {
-      const status = +req.query.status;
-      if (status) {
-        filterCondition += `status=${status}&`;
-        queryBuilder = queryBuilder.andWhere('order.status = :status', { status });
-      }
-    }
-    if (req.query.dateInput) {
-      const dateForm = req.query.dateInput;
-      filterCondition += `dateInput=${dateForm}`;
-      queryBuilder = queryBuilder.andWhere('order.createdAt LIKE :date', { date: `%${dateForm}%` });
-    }
-
-    const [orderLists, total] = await queryBuilder.getManyAndCount();
-
-    const totalPages = Math.ceil(total / PAGE_SIZE);
-    const modifiedOrderLists = orderLists.map((order) => {
-      return {
-        ...order,
-        status: getStatusText(order.status),
-        date: formatDate(order.createdAt),
-      };
-    });
-
-    res.render('orderManage', {
-      modifiedOrderLists,
-      totalPages: totalPages,
-      currentPage: page,
-      paginationLinks: generatePaginationLinks(page, totalPages, filterCondition),
-    });
-    return;
-  } catch (err) {
-    console.error(err);
-    next();
-  }
-};
-
-
-// GET list view ADMIN history order
-export const getAllOderList = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const user = await checkAdmin(req, res);
-    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
-    const offset = calculateOffset(page);
-
-    const [orderLists, total] = await orderRepository.findAndCount({
-      relations: ['user'],
-      take: PAGE_SIZE,
-      skip: offset,
-      order: { createdAt: 'DESC' },
-    });
-
-    const totalPages = Math.ceil(total / PAGE_SIZE);
-    const modifiedOrderLists = orderLists.map((order) => {
-      return {
-        ...order,
-        status: getStatusText(order.status),
-        date: formatDate(order.createdAt),
-      };
-    });
-
-    res.render('orderManage', {
-      modifiedOrderLists,
-      totalPages: totalPages,
-      currentPage: page,
-      paginationLinks: generatePaginationLinks(page, totalPages),
+      paginationLinks: generatePaginationLinks(
+        page,
+        totalPages,
+        filterCondition,
+      ),
     });
     return;
   } catch (err) {

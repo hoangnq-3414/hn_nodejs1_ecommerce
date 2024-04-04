@@ -45,6 +45,9 @@ export class Order extends ClassicEntity {
   @JoinColumn()
   user: User;
 
+  @Column({type: 'timestamp',})
+  dateOrder: Date;
+
   @Column({nullable: true, type: 'text'})
   comment: string
 

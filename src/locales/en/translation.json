@@ -98,7 +98,7 @@
         "filterHistory": "Filter history",
         "approvedOrders": "Approved orders",
         "pendingOrders": "Pending orders",
-        "detailLink": "Detail",
+        "detailLink": "Order details",
         "cancelOrder": "Cancel Order",
         "orderMadeOn": "Order made on" ,
         "name": "Name",
@@ -108,7 +108,14 @@
         "createBy": "Creat By",
         "accept": "Accept",
         "reject": "Reject",
-        "reasonReject": "Reason for refusal"
+        "reasonReject": "Reason for refusal",
+        "paymentMethod": "Payment method",
+        "haveEvaluated" : "Have evaluated",
+        "codeOrder": "Code orders",
+        "evaluated": "Evaluated",
+        "reviewButton": "Review",
+        "buyButton": "Buy Again",
+        "reviewTitle": "Review"
     },
     "status": {
         "allStatus": "All Status",
@@ -134,7 +141,8 @@
         "operation": "Operation",
         "setting": "Setting",
         "profile": "Personal information",
-        "accountUpdateSuccess": "Account updated successfully"
+        "accountUpdateSuccess": "Account updated successfully",
+        "ratingSuccessMessage": "Rating submitted successfully"
       },
       "dashboard":{
         "totalReviews": "Number of reviews",

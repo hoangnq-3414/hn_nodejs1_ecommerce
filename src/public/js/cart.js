@@ -42,7 +42,6 @@ $(document).ready(function () {
     updateCartItemsData(cartItemId, currentQuantity);
     totalEachProductElement.text(`${currentPrice * currentQuantity}`);
     totalPriceElement.text(totalPrice);
-    console.log(cartItemsData);
   });
 });
 
@@ -67,7 +66,6 @@ function sendCartItemsDataToServer(cartItemsData) {
     .then((response) => response.text())
     .then((data) => {
       alert('Update successfully');
-      console.log(data);
     })
     .catch((error) => {
       alert(error);
@@ -101,11 +99,9 @@ $(document).ready(function () {
           type: 'GET',
           url: '/cart/delete/' + itemId,
           success: function (response) {
-            console.log('Mục đã được xóa thành công!');
             cartRow.hide();
           },
           error: function (xhr, status, error) {
-            console.error('Đã xảy ra lỗi khi xóa mục:', error);
           },
         });
       }

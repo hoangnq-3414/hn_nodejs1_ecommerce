@@ -27,4 +27,11 @@ export class OrderDetail extends ClassicEntity {
   @ManyToOne(() => Product, (product) => product.orderDetails)
   @JoinColumn()
   product: Product;
+
+  @Column({ type: 'boolean', default: false })
+  reviewed: boolean;
+
+  @Column({type: 'timestamp',})
+  dateReview: Date;
+
 }

@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="/css/admin/common.css">
+<link rel="stylesheet" href="/css/order_one.css">
+<link rel="icon" type="image/x-icon" href="./img/shop_icon.ico">
+<link rel="stylesheet" href="/css/order.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+	integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<body>
+	<div class="body-website">
+		<div class="dieu-huong-va-tieu-de">
+			<div class="tieu-de-cua-hang">
+				<h4>{{t 'home.order'}}</h4>
+			</div>
+		</div>
+		<div class="thanh-classify-orders">
+			<a href="/order/ByStatusOfUser/1" id="choose1" class="classify-orders"><span style="margin: auto;">{{t
+					'status.pending'}}</span></a>
+			<a href="/order/ByStatusOfUser/2" id="choose2" class="classify-orders"><span style="margin: auto;">{{t
+					'status.successful'}}</span></a>
+			<a href="/order/ByStatusOfUser/3" id="choose3" class="classify-orders"><span style="margin: auto;">{{t
+					'status.rejected'}}</span></a>
+			<a href="/order/ByStatusOfUser/4" id="choose4" class="classify-orders"><span style="margin: auto;">{{t
+					'status.cancel'}}</span></a>
+			<a href="/product/ratingProductOfUser" id="choose0" class="classify-orders"><span style="margin: auto;">{{t
+					'order.haveEvaluated'}}</span></a>
+		</div>
+
+		{{#each modifiedOrderLists}}
+		<div class="each-order">
+			<div class="order-infomation">
+				<div class="ma-don-hang__don-hang order-table-header ">{{i18n 'order.codeOrder'}}: <span class="orderId"
+						style="font-size: 16px; font-weight: 300; color: #ff2626; font-weight: 600;">{{id}}<span
+							class="ma-don-hang">
+						</span></span></div>
+				<div class="order-table-header ">{{i18n 'order.name'}}: <span class="infor-detail-order">{{name}}
+					</span></div>
+				<div class="order-table-header">{{i18n 'order.address'}}: <span class="infor-detail-order">{{address}}
+					</span></div>
+				<div class="order-table-header">{{i18n 'order.phone'}}: <span class="infor-detail-order">{{phone}}
+					</span></div>
+				<div class="order-table-header email">{{i18n 'order.createBy'}}: <span
+						class="infor-detail-order email">{{user.email}}
+
+					</span></div>
+				<div class="order-table-header">{{i18n 'order.totalAmount'}}: <span class="infor-detail-order">{{totalAmount}}
+					</span></div>
+				<div class="order-table-header">{{i18n 'order.paymentMethod'}}: <span class="infor-detail-order">{{typeOrder}}
+					</span></div>
+				<div class="order-table-header">{{i18n 'order.orderMadeOn'}}: <span class="infor-detail-order">{{date}}
+					</span></div>
+			</div>
+			<div class="user-don-hang">
+				<div style="margin: auto;">
+					<a class="detail-order-order" href="/order/detailOfUser/{{id}}"><span
+							style="margin: auto; font-weight: 600;">{{i18n 'order.detailLink'}}</span></a>
+					{{#if isPending}}
+					<a class="cancel-order" href="./huy-don-hang"><span style="margin: auto; font-weight: 600;">{{i18n
+							'order.cancelOrder'}}</span></a>
+					{{/if}}
+				</div>
+			</div>
+		</div>
+		{{/each}}
+	</div>
+
+	{{#each productReviews}}
+	<div class="wapper-review">
+		<div class="rv-avt"><img width="50px" height="50px" src="{{user.image}}"></div>
+		<div class="rv-detail-content">
+			<div class="rv-name">{{user.fullName}}</div>
+			<div class="rv-stars">
+				{{#eachArray rating}}
+				<div class="rv-star star-active"><i class="fa-solid fa-star"></i></div>
+				{{/eachArray}}
+				{{#eachArray (subtract 5 rating)}}
+				<div class="rv-star"><i class="fa-solid fa-star"></i></div>
+				{{/eachArray}}
+			</div>
+			<div class="rv-time">{{createdAt}}</div>
+			<div class="rv-proname"><span>{{i18n 'detail.product_name'}}:</span><a
+					href="/product/detail/{{product.id}}">{{product.name}}</a>
+			</div>
+			<div class="rv-comment">{{comment}}</div>
+		</div>
+	</div>
+	{{/each}}
+	<ul class='pagination'>
+		{{#if paginationLinks}}
+		{{{paginationLinks}}}
+		{{/if}}
+	</ul>
+</body>
+<script src='/js/user.order.list.js'></script>
+
+</html>
+<br>
+<br>
+<br>

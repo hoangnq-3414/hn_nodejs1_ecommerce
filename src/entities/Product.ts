@@ -11,6 +11,7 @@ import { CartItem } from './CartItem';
 import { OrderDetail } from './OrderDetail';
 import { ProductImage } from './ProductImage';
 import { ClassicEntity } from '../base/BaseEntity';
+import { ProductReview } from './ProductReview';
 
 @Entity('product')
 export class Product extends ClassicEntity {
@@ -52,4 +53,7 @@ export class Product extends ClassicEntity {
 
   @OneToMany(() => ProductImage, (productImage) => productImage.product)
   productImages: ProductImage[];
+
+  @OneToMany(() => ProductReview, (productReview) => productReview.product)
+  productReviews: ProductReview[];
 }

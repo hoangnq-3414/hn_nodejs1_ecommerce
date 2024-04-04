@@ -98,7 +98,7 @@
         "filterHistory": "Lọc lịch sử",
         "approvedOrders": "Đơn hàng đã phê duyệt",
         "pendingOrders": "Đơn hàng đang chờ",
-        "detailLink": "Chi tiết",
+        "detailLink": "Chi tiết đơn hàng",
         "cancelOrder": "Hủy đơn hàng",
         "orderMadeOn": "Đơn hàng được tạo vào",
         "name": "Tên",
@@ -106,14 +106,21 @@
         "phone": "Điện thoại",
         "totalAmount": "Tổng tiền",
         "createBy": "Được tạo bởi",
-        "accept": "Chấp nhận",
-        "reject": "Từ chối",
-        "reasonReject": "Lý do từ chối"
+        "accept": "Chấp nhận đơn hàng",
+        "reject": "Từ chối đơn hàng",
+        "reasonReject": "Lý do từ chối",
+        "paymentMethod": "Hình thức thanh toán",
+        "haveEvaluated" : "Đã đánh giá",
+        "codeOrder": "Mã đơn hàng",
+        "evaluated": "Đánh giá",
+        "reviewButton": "Đánh giá",
+        "buyButton": "Mua lại",
+        "reviewTitle": "Đánh giá"
     },
     "status": {
         "allStatus": "Tất cả trạng thái",
         "status": "Trạng thái",
-        "pending": "Đang chờ xử lý",
+        "pending": "Chờ xử lý",
         "successful": "Thành công",
         "rejected": "Bị từ chối",
         "cancel": "Hủy",
@@ -134,7 +141,8 @@
         "operation": "Thao tác",
         "setting": "Cài đặt",
         "profile": "Thông tin cá nhân",
-        "accountUpdateSuccess": "Cập nhật tài khoản thành công" 
+        "accountUpdateSuccess": "Cập nhật tài khoản thành công",
+        "ratingSuccessMessage": "Đánh giá đã được gửi thành công"    
       },
       "dashboard":{
         "totalReviews": "Số đánh giá",
