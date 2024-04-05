@@ -20,7 +20,10 @@ export const getDetailUser = async (
 ) => {
   try {
     const user = await checkLoggedIn(req, res);
-    res.render('profileUser', { ...user });
+    const newUser = await userRepository.findOne({
+      where: {id :+ user.id}
+    })
+    res.render('profileUser', { ...newUser });
   } catch (err) {
     next(err);
   }

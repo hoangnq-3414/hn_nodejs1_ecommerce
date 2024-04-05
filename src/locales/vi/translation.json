@@ -22,7 +22,19 @@
         "avatar": "Ảnh đại diện",
         "revenue": "Biểu đồ thống kê doanh thu",
         "editButton": "Sửa",
-        "deleteButton": "Xóa"
+        "deleteButton": "Xóa",
+        "priceLabel": "GIÁ:",
+        "productLineLabel": "DÒNG SẢN PHẨM",
+        "bestSellerTitle": "Bán chạy nhất",
+        "newProductTitle": "Sản phẩm mới",
+        "viewButton": "Xem",
+        "previous": "Trước",
+        "next": "Tiếp theo",
+        "reviewTitle": "Đánh giá từ Khách hàng",
+        "rating": "đánh giá ",
+        "categoryStarLabel": "Phân loại theo:",
+        "allCategory": "tất cả",
+        "numberSoldLabel": "Lượt bán:"
     } ,
     "login": {
         "signin": "Đăng Nhập",

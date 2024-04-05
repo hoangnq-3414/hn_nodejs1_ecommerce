@@ -1,0 +1,120 @@
+ .review-wapper {
+    font-weight: 600;
+    display: flex;
+    background-color: #fff;
+    border: 3px solid #f0f0f0;
+    padding: 25px;
+    border-radius: 6px;
+  }
+
+  .review-p1 {
+    flex: 3;
+  }
+
+  .review-p2 {
+    flex: 7;
+  }
+
+  .review-p1-1 {
+    display: flex;
+  }
+
+  .review-p1-1-1 {
+    font-weight: 600;
+    display: flex;
+    margin-right: 5px;
+
+    span {
+      margin: auto;
+      font-size: 25px;
+    }
+  }
+
+  .review-p1-1-2 {
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+
+    span {
+      font-weight: 400;
+      font-size:
+        12px;
+      color: #808089;
+    }
+
+    i {
+      color: rgb(253, 216, 54);
+      font-size: 20px;
+    }
+  }
+
+  .review-p1-2row {
+    i {
+      color: #dddde3;
+    }
+  }
+
+  .star-active {
+    color: rgb(253, 216,
+        54) !important;
+  }
+
+  .review-p2-1 {
+    display: flex;
+
+    a {
+      text-decoration: none;
+      color: #3d464d !important;
+      font-weight: 300;
+      display: flex;
+      width: 50px;
+      height: 25px;
+      background-color: #f5f5fa;
+      border-radius: 6px;
+      margin-left:
+        12px;
+
+      div {
+        display: flex;
+
+        i {
+          margin-left: 15px;
+          padding-top: 3px;
+        }
+
+        span {
+          padding-left: 5px;
+        }
+      }
+    }
+  }
+
+  .category-star {
+    font-weight: 400;
+    color: #38383d;
+    margin-right: 15px;
+  }
+
+  .choose-active {
+    background-color: #f0f8ff;
+    border: 1px solid #1a94ff;
+    color: #0b74e5;
+    border-radius: 6px;
+  }
+
+  .all {
+    width: 53px;
+  }
+
+  .wapper-review {
+    margin: 15px 0px 0px 0px !important;
+  }
+
+  .container h2 {
+    font-weight: 600;
+  }
+
+  .pagination{
+    margin-bottom: 50px;
+  }
+

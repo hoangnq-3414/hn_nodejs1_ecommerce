@@ -19,6 +19,7 @@ import {
   formatDate,
   getStatusText,
   OrderStatus,
+  checkAdmin,
 } from '../utils/constants';
 import { generatePaginationLinks } from '../utils/pagenation';
 import { upload, transporter, handlebarOptions } from '../index';
@@ -103,8 +104,10 @@ class ProcessOrder {
 
     const cart = await getUserCart(user.id, res);
     const cartItems = await getCartItems(cart);
-
+      
+    // tao chi tiet don hang
     await createOrderDetails(order, cartItems);
+    //  cap nhat so luong san pham
     await updateProductQuantities(cartItems);
     await deleteCartItems(cart);
 
@@ -122,6 +125,7 @@ const createOrder = async (options = {}, image: string, user: User) => {
     status: 1,
     image,
     user,
+    dateOrder: new Date(),
   });
   return order;
 };
@@ -142,6 +146,7 @@ const createOrderDetails = async (order: Order, cartItems: CartItem[]) => {
       ...cartItem,
       price: cartItem.product.price,
       order,
+      dateReview: new Date(),
     });
   });
 
@@ -155,13 +160,14 @@ const updateProductQuantities = async (cartItems: CartItem[]) => {
     const product = new Product();
     product.id = cartItem.product.id;
     product.quantity = count;
+    product.numberSold = cartItem.quantity;
     return product;
   });
   return await Promise.all(
     products.map((product) => {
       return productRepository.update(
         { id: product.id },
-        { quantity: product.quantity },
+        { quantity: product.quantity, numberSold: product.numberSold },
       );
     }),
   );
@@ -321,6 +327,33 @@ export const getUserAllOderList = async (
   }
 };
 
+// GET admin order detail
+export const getOderDetail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
+    const offset = calculateOffset(page);
+    const [orderDetail, totalItems] = await orderDetailRepository.findAndCount({
+      where: { order: { id: parseInt(req.params.id) } },
+      relations: ['product'],
+      take: PAGE_SIZE,
+      skip: offset,
+    });
+    const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+
+    res.render('admin/orderDetail', {
+      paginationItemsLinks: generatePaginationLinks(page, totalPages),
+      orderDetail,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
 // GET user order detail
 export const getUserOderDetail = async (
   req: Request,
@@ -328,7 +361,7 @@ export const getUserOderDetail = async (
   next: NextFunction,
 ) => {
   try {
-    const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
+    const page = parseInt(req.query.page as string) || 1;
     const offset = calculateOffset(page);
     const [orderDetail, totalItems] = await orderDetailRepository.findAndCount({
       where: { order: { id: parseInt(req.params.id) } },
@@ -410,7 +443,6 @@ export const postChangeStatusOrder = async (
       where: { order: { id: parseInt(req.body.orderId) } },
       relations: ['order', 'product'],
     });
-
     const updatedOrderDetails = orderDetails.map((orderDetail) => {
       orderDetail.reviewed = true;
       return orderDetail;

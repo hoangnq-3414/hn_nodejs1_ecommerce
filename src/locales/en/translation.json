@@ -23,7 +23,19 @@
         "uploadError": "Error uploading image.",
         "revenue": "Revenue Report",
         "editButton": "Edit",
-        "deleteButton": "Delete"
+        "deleteButton": "Delete",
+        "priceLabel": "PRICE:",
+        "productLineLabel": "PRODUCT LINE",
+        "bestSellerTitle": "Best Seller",
+        "newProductTitle": "New Product",
+        "viewButton": "View",
+        "previous": "Previous",
+        "next": "Next",
+        "reviewTitle": "Customer Reviews",
+        "rating": "rating",
+        "categoryStarLabel": "Categorized by:",
+        "allCategory": "All",
+        "numberSoldLabel": "Number Sold:"
     },
     "login": {
         "signin": "Login",

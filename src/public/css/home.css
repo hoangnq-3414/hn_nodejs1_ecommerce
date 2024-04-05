@@ -1,0 +1,52 @@
+
+.dashed-border { border-top-style: dashed; border-width: 2px; border-color:
+#000; padding: 10px; margin-top: 20px; }
+
+#productList {
+display: flex;
+flex-wrap: wrap;
+}
+
+#productList .col-lg-4 {
+flex: 0 0 calc(33.33% - 20px);
+margin: 10px; 
+}
+
+.priceLabel {
+  color: f15e2c;
+}
+
+.row{
+  width: 100%;
+}
+
+.section-heading{
+  padding: 10px; 
+  padding-left:20px
+}
+
+.product-item{
+  padding: 20px;
+}
+
+.product-item h4{
+  display: inline-block;
+}
+
+.thumbnail{
+  object-fit: cover; width: 300px;
+}
+
+.form-cart{
+  display: inline;
+}
+
+.product{
+  width: 300px
+}
+
+.pagination{
+  display: flex; 
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
