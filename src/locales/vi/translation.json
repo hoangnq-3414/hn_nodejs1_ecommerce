@@ -205,7 +205,8 @@
         "categoryUpdateSuccess": "Cập nhật danh mục thành công",
         "categoryCreateSuccess": "Tạo danh mục thành công",
         "productCreateSuccess": "Tạo sản phẩm thành công",
-        "productUpdateSuccess": "Cập nhật sản phẩm thành công"
+        "productUpdateSuccess": "Cập nhật sản phẩm thành công",
+        "addProduct": "Thêm sản phẩm"
       },
       "validate":{
         "fullNameRequiredMessage": "*Tên đầy đủ không được để trống.",

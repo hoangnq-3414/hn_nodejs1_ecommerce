@@ -203,7 +203,8 @@
         "categoryUpdateSuccess": "Category update successfully",
         "categoryCreateSuccess": "Category created successfully",
         "productCreateSuccess": "Product created successfully",
-        "productUpdateSuccess": "Product updated successfully"
+        "productUpdateSuccess": "Product updated successfully",
+        "addProduct": "Add product"
       },
       "validate":{
         "fullNameRequiredMessage": "*Full name cannot be empty.",

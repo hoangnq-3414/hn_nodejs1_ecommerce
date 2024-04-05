@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   var cancelBtns = document.querySelectorAll('.cancel-order');
+  console.log(cancelBtns);
 
   cancelBtns.forEach(function (cancelBtn) {
     var rejectReasonDiv = cancelBtn.nextElementSibling;

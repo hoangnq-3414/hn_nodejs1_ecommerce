@@ -22,7 +22,10 @@ export const getProductDetail = async (
 ) => {
   try {
     const product = await productRepository.findOne({
-      where: { id: parseInt(req.params.id) },
+      where: {
+        id: parseInt(req.params.id),
+        disable: false
+      },
       relations: ['category', 'productImages', 'productReviews'],
     });
     if (!product) {
@@ -60,7 +63,7 @@ export const getProductDetail = async (
 
     const averageRating = calculateAverageRating(countStar);
 
-    const stars = [5, 4, 3, 2, 1] ;
+    const stars = [5, 4, 3, 2, 1];
 
     res.render('detail', { product, countStar, averageRating, stars });
   } catch (err) {
@@ -70,12 +73,12 @@ export const getProductDetail = async (
 };
 
 const calculateAverageRating = (reviewCounts): number => {
-  const totalReviews =+ reviewCounts.totalReviews;
-  const oneStar =+ reviewCounts.oneStar;
-  const twoStar =+ reviewCounts.twoStar;
-  const threeStar =+ reviewCounts.threeStar;
-  const fourStar =+ reviewCounts.fourStar;
-  const fiveStar =+ reviewCounts.fiveStar;
+  const totalReviews = + reviewCounts.totalReviews;
+  const oneStar = + reviewCounts.oneStar;
+  const twoStar = + reviewCounts.twoStar;
+  const threeStar = + reviewCounts.threeStar;
+  const fourStar = + reviewCounts.fourStar;
+  const fiveStar = + reviewCounts.fiveStar;
 
   const totalStars =
     oneStar + twoStar * 2 + threeStar * 3 + fourStar * 4 + fiveStar * 5;
@@ -234,7 +237,7 @@ export const getHome = async (
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
     const offset = calculateOffset(page);
     const [products, total] = await productRepository.findAndCount({
-      where:{
+      where: {
         disable: false
       },
       take: PAGE_SIZE,
@@ -302,7 +305,7 @@ export const multiSearch = async (
       const categoryConditions = categories.map((category) => {
         return `product.categoryId = ${category}`;
       });
-      conditions.push(`(${categoryConditions.join(' OR ')})`); 
+      conditions.push(`(${categoryConditions.join(' OR ')})`);
     }
 
     let query = productRepository.createQueryBuilder('product');
