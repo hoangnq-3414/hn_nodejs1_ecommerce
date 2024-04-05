@@ -7,7 +7,7 @@ import { User } from '../entities/User';
 import { AppDataSource } from '../config/database';
 import { checkPassword, hashPassword, decodeJWT } from '../utils/auth';
 import { Cart } from '../entities/Cart';
-import { DISABLE, ROLEADMIN } from '../utils/constants';
+import { ROLEADMIN } from '../utils/constants';
 
 const userRepository = AppDataSource.getRepository(User);
 const cartRepository = AppDataSource.getRepository(Cart);
@@ -50,8 +50,8 @@ const cartRepository = AppDataSource.getRepository(Cart);
           where: { email: email },
         });
         if (user) {
-          req.flash('existed', i18next.t('register.existed'));
-          res.redirect('/auth/register');
+          res.render('register', { accountExists: true });
+          return;
         }
         const hashedPassword = await hashPassword(password);
         const newUser = new User();
@@ -65,7 +65,8 @@ const cartRepository = AppDataSource.getRepository(Cart);
         cart.user = newUser;
         await cartRepository.save(cart);
 
-        res.redirect('/auth/login');
+        res.render('register', { accountCreated: true });
+
       } catch (error) {
         console.error(error);
       }
@@ -100,12 +101,12 @@ export const postLogin = asyncHandler(
       // @ts-ignore
       req.session.user = user;
       if(user.role === ROLEADMIN){
-        res.redirect('/dashboard');
+        res.redirect('/report/dashboard');
         return;
       }
       
-      if(user.role === DISABLE){
-        res.redirect('/login');
+      if(user.disable === true){
+        res.render('login',{ accountDisable: true });
         return;
       }
       res.redirect('/');

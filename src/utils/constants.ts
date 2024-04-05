@@ -4,6 +4,8 @@ export const PAGE_SIZE = 6;
 
 export const DEFAULT_PAGE = 1;
 
+export const ROLEUSER = 1;
+
 export const ROLEADMIN = 2;
 
 export const DISABLE = 0;
@@ -71,3 +73,11 @@ export function getDaysInMonth(date: Date): string[] {
   }
   return daysArray;
 }
+
+// lấy ngày đầu và cuối của tháng
+export const getFirstAndLastDayOfMonth = (date: Date) => {
+  const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+  const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  lastDayOfMonth.setHours(23, 59, 59, 999);
+  return { firstDayOfMonth, lastDayOfMonth };
+};

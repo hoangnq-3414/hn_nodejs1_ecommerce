@@ -1,5 +1,4 @@
 <html>
-
 <head>
   <meta charset='utf-8' />
   <meta http-equiv='X-UA-Compatible' content='IE=edge' />
@@ -57,40 +56,34 @@
             </ul>
           </li>
         </ul>
-        <form class='d-flex' role='search' action='/product/search' method='GET'>
-          <input class='form-control me-2' type='search' placeholder='Search' aria-label='Search' name="searchText" />
-          <button class='btn btn-outline-success' type='submit'>{{t
-            'home.search'
-            }}</button>
-        </form>
       </div>
       <ul class='navbar-nav me-auto mb-2 mb-lg-0'>
         {{#if user}}
         <li class='nav-item dropdown'>
-          <a class='nav-link dropdown-toggle' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
-            {{user.fullName}}
+          <a class='nav-link dropdown-toggle' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'><i class="fa fa-user" aria-hidden="true" ></i>{{user.fullName}}
           </a>
           <ul class='dropdown-menu'>
-            <li><a class='dropdown-item' href='#'>{{t 'home.personal_page'}}</a></li>
-            <li><a class='dropdown-item' href='/order/userAllList'>{{t 'home.orderHistory'}}</a></li>
             <li><a class='dropdown-item' href='/user/detail'>{{t 'user.profile'}}</a></li>
+            <li><a class='dropdown-item' href='/order/userAllList'>{{t 'home.orderHistory'}}</a></li>
             {{#if isAdmin}}
-            <li><a class='dropdown-item' href='/products/create'>{{t 'home.creatProduct'}}</a>
+            <li><a class='dropdown-item' href='/product/manage'>{{t 'product.productManagement'}}</a>
             </li>
             <li><a class='dropdown-item' href='/order/allList'>{{t 'home.manageOder'}}</a>
             </li>
-            <li><a class='dropdown-item' href='/dashboard'>{{t 'dashboard.dashboard'}}</a>
+            <li><a class='dropdown-item' href='/report/dashboard'>{{t 'dashboard.dashboard'}}</a>
             </li>
             <li><a class='dropdown-item' href='/user/list'>{{t 'user.manage'}}</a>
             </li>
-            <li><a class='dropdown-item' href='/report/revenu'>{{t 'home.revenue'}}</a>
+            <li><a class='dropdown-item' href='/report/revenu'>{{t 'home.businessStatistics'}}</a>
+            </li>
+            <li><a class='dropdown-item' href='/category'>{{t 'home.categoryManagement'}}</a>
             </li>
             {{/if}}
             <li><a class='dropdown-item' href='/auth/logout'>{{t 'home.exit'}}</a></li>
           </ul>
         </li>
         <li class='nav-item'>
-          <a class='nav-link' href='/cart/list'>{{t 'home.cart'}}</a>
+          <a class='nav-link' href='/cart/list'><i class='fa fa-shopping-cart text-muted' style=""></i></a>
         </li>
         {{/if}}
         {{#unless user}}

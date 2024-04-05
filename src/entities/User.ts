@@ -33,6 +33,9 @@ export class User extends ClassicEntity {
   @Column({ nullable: true })
   phone: string;
 
+  @Column({ default: false })
+  disable: boolean;
+
   // One-to-Many relationship with Order entity
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];

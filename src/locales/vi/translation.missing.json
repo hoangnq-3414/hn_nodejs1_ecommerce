@@ -47,6 +47,16 @@
     "pageTitle": "dashboard.pageTitle",
     "revenueChart": "dashboard.revenueChart",
     "quantityChart": "dashboard.quantityChart",
-    "chartCreate": "dashboard.chartCreate"
+    "chartCreate": "dashboard.chartCreate",
+    "phone": "dashboard.phone"
+  },
+  "product": {
+    "addCategoryTitle": "product.addCategoryTitle",
+    "manageCategoryTitle": "product.manageCategoryTitle",
+    "productNameRequiredMessage": "product.productNameRequiredMessage",
+    "descriptionRequiredMessage": "product.descriptionRequiredMessage",
+    "priceRequiredMessage": "product.priceRequiredMessage",
+    "unitRequiredMessage": "product.unitRequiredMessage",
+    "categoryInfoMessage": "product.categoryInfoMessage"
   }
 }

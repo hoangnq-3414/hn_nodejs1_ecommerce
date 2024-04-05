@@ -36,8 +36,8 @@ export class Product extends ClassicEntity {
   @Column({ nullable: true })
   image: string;
 
-  @Column({ nullable: true })
-  disable: number;
+  @Column({ default: false })
+  disable: boolean;
 
   @Column({ nullable: true })
   unit: string;

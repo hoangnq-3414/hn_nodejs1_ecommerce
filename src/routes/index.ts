@@ -4,19 +4,17 @@ import productRouter from './product.route';
 import cartRouter from './cart.route';
 import orderRouter from './order.route';
 import userRouter from './user.route';
-import reportRouter from './report.route'
-import { Request, Response} from 'express';
+import reportRouter from './report.route';
+import categoryRouter from './category.route';
+import { Request, Response } from 'express';
 
 const router = express.Router();
 
-router.get('/dashboard', (req: Request, res: Response) => {
-  res.render('admin/dashboard')
-})
-
 router.get('/test', (req: Request, res: Response) => {
-  res.render('test')
+  res.render('admin/manageCategory')
 })
 
+router.use('/category', categoryRouter);
 router.use('/report', reportRouter);
 router.use('/user', userRouter);
 router.use('/order', orderRouter);

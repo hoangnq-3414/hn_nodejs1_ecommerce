@@ -21,7 +21,7 @@ export const getDetailUser = async (
   try {
     const user = await checkLoggedIn(req, res);
     const newUser = await userRepository.findOne({
-      where: {id :+ user.id}
+      where: { id: + user.id }
     })
     res.render('profileUser', { ...newUser });
   } catch (err) {
@@ -48,7 +48,7 @@ export const editDetailUser = async (
   try {
     const errors = validationResult(req).array();
     if (errors.length) {
-      res.status(200).json({
+      res.status(400).json({
         message: errors.reduce((preValue: string, currValue: any) => {
           return currValue.msg !== 'Invalid value'
             ? `${preValue}\n${currValue.path}: ${currValue.msg}`
@@ -87,7 +87,7 @@ export const editDetailUser = async (
 export const postRegisterValidation = [
   body('email')
     .notEmpty()
-    .isLength({ min: 4 })
+    .isLength({ min: 6 })
     .withMessage(() => i18next.t('register.invalidEmailError')),
   body('fullName')
     .notEmpty()
@@ -95,12 +95,12 @@ export const postRegisterValidation = [
     .withMessage(() => i18next.t('register.fullNameLengthError')),
   body('address')
     .notEmpty()
-    .isLength({ min: 3 })
-    .withMessage(() => i18next.t('register.fullNameLengthError')),
+    .isLength({ min: 6 })
+    .withMessage(() => i18next.t('register.addressLengthError')),
   body('phone')
     .notEmpty()
-    .isLength({ min: 8 })
-    .withMessage(() => i18next.t('register.fullNameLengthError')),
+    .isLength({ min: 10 })
+    .withMessage(() => i18next.t('register.phoneLengthError'))
 ];
 
 // GET change password

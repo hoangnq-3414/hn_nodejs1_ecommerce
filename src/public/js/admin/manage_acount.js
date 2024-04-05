@@ -1,20 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
   var formUser = document.querySelector('.form-user');
   var wapperForm = document.querySelector('.wapper-form');
-  var btnUserOK = document.querySelector('.user-btn-ok');
-  var titleFormUser = document.querySelector('.form-user h1');
-  var userEmail = document.querySelector('#user-email');
-  var userTen = document.querySelector('#user-ten');
-  var userMatKhau = document.querySelector('#user-mat-khau');
-  var userId = document.querySelector('#user-id');
-  var userCloseImage = document.querySelector('#user-close-image');
-  var userAvatar = document.querySelector('#user-avatar');
-  var nutThemUser = document.querySelector('.nut-them-user');
-  var cancelBtn = document.querySelector('.user-btn-cancel');
-  var deleteUserBtn = document.querySelectorAll('.table-delete');
   var searchButton = document.querySelector('.nut-search-user');
   var queryTextInput = document.querySelector('#query-text');
-  var editUserButtons = document.querySelectorAll('.table-edit');
+  var cateDisableBtn = document.querySelectorAll('.cate-disable');
+  var cateActiveBtn = document.querySelectorAll('.cate-active');
 
   searchButton.addEventListener('click', function () {
     let queryText = queryTextInput.value;
@@ -24,95 +14,46 @@ document.addEventListener('DOMContentLoaded', function () {
     searchUser(queryText);
   });
 
-  deleteUserBtn.forEach(function (deleteButton) {
-    deleteButton.addEventListener('click', function () {
-      var id = deleteButton.getAttribute('data-user-id');
-      var deleteUserElement = deleteButton.closest('.detailUser');
-      tableUserDelete(id, deleteUserElement);
-    });
-  });
-
-  nutThemUser.addEventListener('click', function () {
-    hienThiFormUser();
-  });
-
-  cancelBtn.addEventListener('click', function () {
-    closeFormUser();
-  });
-
-  editUserButtons.forEach(function (editButton) {
-    editButton.addEventListener('click', function () {
-      var id = editButton.getAttribute('data-user-id');
-      btnUserOK.dataset.userId = id;
-      hienThiFormUser();
-      titleFormUser.textContent = 'Chỉnh sửa tài khoản';
-    });
-  });
-
-  btnUserOK.onclick = () => {
-    const id = btnUserOK.dataset.userId || '';
-    const email = userEmail.value;
-    const ten = userTen.value;
-    const matKhau = userMatKhau.value;
-    const discardImage = userCloseImage.value;
-
-    var data = new FormData();
-    data.append('id', id);
-    data.append('email', email);
-    data.append('fullName', ten);
-    data.append('password', matKhau);
-    data.append('discardImage', discardImage);
-    data.append('image', userAvatar.files[0]);
-
-    var method = 'POST';
-    if (titleFormUser.innerText == 'Chỉnh sửa tài khoản') {
-      method = 'PUT';
-      data.append('id', id);
-    }
-
-    const apiURL = new URL(
-      '/user/create',
-      window.location.href,
-    ).href;
-
-    fetch(apiURL, {
-      method: method,
-      body: data,
-    })
-      .then((response) => response.json())
-      .then((dataResponse) => {
-        alert(dataResponse['message']);
-        wapperForm.style.display = 'none';
-        formUser.style.display = 'none';
-        if (response.status === 200) {
-          userEmail.value = '';
-          userTen.value = '';
-          userMatKhau.value = '';
-          userAvatar.value = '';
-          userId.value = '';
-          userCloseImage.value = '0';
-          if (method == 'PUT') {
-            updateRowTableUser(id, iframe, dataResponse['newUser']);
-          }
-        }
-      })
-      .catch((error) => console.error('Error:', error));
-  };
 
   function hienThiFormUser() {
-    formUser.style.display = 'flex'; // Hiển thị form-user
-    wapperForm.style.display = 'block'; // Hiển thị phần nền
+    formUser.style.display = 'flex'; 
+    wapperForm.style.display = 'block'; 
   }
 
   function closeFormUser() {
-    formUser.style.display = 'none'; // Hiển thị form-user
-    wapperForm.style.display = 'none'; // Hiển thị phần nền
+    formUser.style.display = 'none'; 
+    wapperForm.style.display = 'none'; 
   }
+
+  cateDisableBtn.forEach(function (disableButton) {
+    disableButton.addEventListener('click', function () {
+      var id = disableButton.getAttribute('data-user-id');
+      disableCate(id);
+    });
+  });
+
+  // kich hoat
+  cateActiveBtn.forEach(function (activeButton) {
+    activeButton.addEventListener('click', function () {
+      var id = activeButton.getAttribute('data-user-id');
+      enableCate(id);
+    });
+  });
+
+
 });
+
+function disableCate(id) {
+  updateUserStatus(id, true);
+}
+
+function enableCate(id) {
+  updateUserStatus(id, false);
+}
 
 function tableUserDelete(id, deleteUserElement) {
   Swal.fire({
-    title: 'Bạn có chắc chắn muốn xóa?',
+    title: 'Bạn có chắc chắn muốn vo hieu hoa danh muc?',
     text: 'Bạn sẽ không thể khôi phục lại được sau khi xóa!',
     icon: 'warning',
     showCancelButton: true,
@@ -152,6 +93,55 @@ function tableUserDelete(id, deleteUserElement) {
           Swal.fire({
             title: 'Đã có lỗi xảy ra!',
             text: 'Có lỗi khi gửi yêu cầu xóa tài khoản.',
+            icon: 'error',
+          });
+        });
+    }
+  });
+}
+
+
+function updateUserStatus(id, disable) {
+  Swal.fire({
+    title: disable ? 'Bạn có chắc chắn muốn vô hiệu hóa tài khoản?' : 'Bạn có chắc chắn muốn kích hoạt tài khoản?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'OK',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const apiURL = new URL(`/user/changeStatus/${id}`, window.location.href).href;
+      fetch(apiURL, {
+        method: 'POST',
+        body: JSON.stringify({ disable }), // Sending the status to backend
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((dataResponse) => {
+          Swal.fire({
+            title: 'Thành công!',
+            text: dataResponse['message'],
+            icon: 'success',
+            confirmButtonText: 'OK',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            }
+          })
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          Swal.fire({
+            title: 'Đã có lỗi xảy ra!',
+            text: 'Có lỗi khi gửi yêu cầu',
             icon: 'error',
           });
         });

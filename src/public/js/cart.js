@@ -1,12 +1,10 @@
 var cartItemsData = [];
 
 function updateCartItemsData(cartITemId, quantity) {
-  // Kiểm tra xem sản phẩm có trong mảng cartItemsData không
   var existingItem = cartItemsData.find(
     (item) => item.cartITemId === cartITemId,
   );
   if (existingItem) {
-    // Nếu đã tồn tại, cập nhật số lượng
     existingItem.quantity = quantity;
   } else {
     cartItemsData.push({ cartITemId: cartITemId, quantity: quantity });
@@ -37,7 +35,6 @@ $(document).ready(function () {
         totalPrice -= currentPrice;
       }
     }
-
     quantityElement.text(currentQuantity);
     updateCartItemsData(cartItemId, currentQuantity);
     totalEachProductElement.text(`${currentPrice * currentQuantity}`);
@@ -65,7 +62,13 @@ function sendCartItemsDataToServer(cartItemsData) {
   })
     .then((response) => response.text())
     .then((data) => {
-      alert('Update successfully');
+      // 
+      Swal.fire({
+        title: 'Success!',
+        text: 'Update successfully',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
     })
     .catch((error) => {
       alert(error);
@@ -92,13 +95,17 @@ $(document).ready(function () {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Delete',
     }).then((result) => {
-      // Nếu người dùng nhấn nút xác nhận
       if (result.isConfirmed) {
-        // Gửi yêu cầu AJAX để xóa mục với id đã được lấy
         $.ajax({
           type: 'GET',
           url: '/cart/delete/' + itemId,
           success: function (response) {
+            Swal.fire({
+              title: 'Đã xóa!',
+              text: 'Mục đã được xóa thành công.',
+              icon: 'success',
+              confirmButtonText: 'OK',
+            });
             cartRow.hide();
           },
           error: function (xhr, status, error) {

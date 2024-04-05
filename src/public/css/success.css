@@ -37,3 +37,21 @@ i {
     inline-block;
   margin: 0 auto;
 }
+
+.card {
+  position: relative; 
+}
+
+.back-btn {
+  position: absolute;
+  top: 10px; 
+  left: 10px; 
+}
+
+.notify{
+  border-radius:200px; 
+  height:200px; 
+  width:200px; 
+  background: #F8FAF5; 
+  margin:0 auto;
+}

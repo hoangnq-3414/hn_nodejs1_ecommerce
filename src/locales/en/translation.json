@@ -35,7 +35,12 @@
         "rating": "rating",
         "categoryStarLabel": "Categorized by:",
         "allCategory": "All",
-        "numberSoldLabel": "Number Sold:"
+        "numberSoldLabel": "Number Sold:",
+        "businessStatistics": "Business Statistics",
+         "categoryManagement": "Category Management",
+         "productRanking": "Product Ranking",
+        "fromDateLabel": "From Date",
+        "toDateLabel": "To Date"
     },
     "login": {
         "signin": "Login",
@@ -45,7 +50,8 @@
         "notfound":"Account does not exist",
         "error": "Incorrect password information",
         "notLogin": "Not logged in",
-        "invalid": "Token is not valid"
+        "invalid": "Token is not valid",
+        "accountDisableMessage": "Your account has been disabled."
     },
     "register": {
         "signup": "Sign up",
@@ -65,7 +71,9 @@
         "newPass": "New Password",
         "oldPasswordIncorrect": "Current password is incorrect",
         "passwordChangedSuccessfully": "Password changed successfully",
-        "registerSuccess": "Account registered successfully"
+        "registerSuccess": "Account registered successfully",
+        "addressLengthError": "Address must be at least 6 characters",
+        "phoneLengthError": "Phone number must be 10 digits"
     },
     "detail": {
         "product_name": "Name",
@@ -127,7 +135,11 @@
         "evaluated": "Evaluated",
         "reviewButton": "Review",
         "buyButton": "Buy Again",
-        "reviewTitle": "Review"
+        "reviewTitle": "Review",
+        "priceEmpty": "Price cannot be empty",
+        "quantityEmpty": "Quantity cannot be empty",
+        "unitLength": "Unit must not be empty",
+        "descriptionLength": "Description must be at least 6 characters"
     },
     "status": {
         "allStatus": "All Status",
@@ -166,6 +178,43 @@
         "pageTitle": "Statistical chart",
          "chartCreate": "Create chart",
          "revenueChart": "Revenue chart",
-         "quantityChart": "Quantity chart"  
+         "quantityChart": "Quantity chart",
+         "revenueInMonthLabel": "Revenue in month"  
+      },
+      "product": {
+        "productNameLabel": "Product Name",
+        "descriptionLabel": "Description",
+        "priceLabel": "Price",
+        "quantityLabel": "Quantity",
+        "unitLabel": "Unit",
+        "additionalImagesLabel": "Additional Images",
+        "categoryLabel": "Category",
+        "submitButtonText": "Add New Product",
+        "activeLabel": "Active",
+        "disableLabel": "Disable",
+        "idLabel": "ID",
+        "nameLabel": "Name",
+        "imageLabel": "Image",
+        "soldLabel": "Sold",
+        "operationLabel": "Operation",
+        "productManagement": "Product Management",
+        "manageCategoryTitle": "Manage Category",
+        "addCategoryTitle": "Add Category",
+        "categoryUpdateSuccess": "Category update successfully",
+        "categoryCreateSuccess": "Category created successfully",
+        "productCreateSuccess": "Product created successfully",
+        "productUpdateSuccess": "Product updated successfully"
+      },
+      "validate":{
+        "fullNameRequiredMessage": "*Full name cannot be empty.",
+        "phoneRequiredMessage": "*Phone number cannot be empty.",
+        "addressRequiredMessage": "*Address cannot be empty.",
+        "emailReadOnlyMessage": "*Your email has been registered and cannot be edited.",
+        "productNameRequiredMessage": "Product name cannot be empty.",
+        "descriptionRequiredMessage": "Description cannot be empty.",
+        "priceRequiredMessage": "Price cannot be empty.",
+        "unitRequiredMessage": "Unit cannot be empty.",
+        "additionalImagesLabel": "Additional Images",
+        "categoryInfoMessage": "Category for the product."
       }
 }

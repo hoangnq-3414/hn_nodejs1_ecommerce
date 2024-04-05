@@ -1,12 +1,39 @@
 <link rel="stylesheet" href="/css/product.info.css.css">
 <link rel="stylesheet" href="/css/order.detail.css">
+<link rel="stylesheet" href="/css/order_one.css">
 <div class='col-lg-12'>
-  <div class='box-element'>
-    <a class='btn btn-outline-dark' href='/order/userAllList'>&#x2190;
-      {{t 'order.backToCart'}}</a>
+  <a class='btn btn-outline-dark' href='/order/userAllList'>&#x2190;
+    {{t 'order.backToCart'}}</a>
+    <hr />
+  <div class="each-order" style="margin-bottom: 20px;">
+    <div class="order-infomation" style="border:none;">
+      <div class="ma-don-hang__don-hang order-table-header ">{{i18n 'order.codeOrder'}}: <span
+          class="orderId">{{id}}<span class="ma-don-hang">
+          </span></span></div>
+      <div class="order-table-header ">{{i18n 'order.name'}}: <span class="infor-detail-order">{{order.name}}
+        </span></div>
+      <div class="order-table-header">{{i18n 'order.address'}}: <span class="infor-detail-order">{{order.address}}
+        </span></div>
+      <div class="order-table-header">{{i18n 'order.phone'}}: <span class="infor-detail-order">{{order.phone}}
+        </span></div>
+      <div class="order-table-header email">{{i18n 'order.createBy'}}: <span
+          class="infor-detail-order email">{{user.email}}
+
+        </span></div>
+      <div class="order-table-header">{{i18n 'order.totalAmount'}}: <span
+          class="infor-detail-order">{{order.totalAmount}}
+        </span></div>
+      <div class="order-table-header">{{i18n 'order.paymentMethod'}}: <span
+          class="infor-detail-order">{{order.typeOrder}}
+        </span></div>
+      <div class="order-table-header">{{i18n 'order.orderMadeOn'}}: <span class="infor-detail-order">{{order.createdAt
+          }}
+        </span></div>
+    </div>
+  </div>
+  <div class='box-element' style="width: 85%;margin-left: auto; margin-right: auto; margin-bottom:40px">
     <hr />
     <h3>{{t 'order.orderSummary'}}</h3>
-    <hr />
     <div class='cart-row'>
       <div style='flex:1'></div>
       <div style='flex:1'><strong>{{t 'cart.cartItems'}}</strong></div>
@@ -88,8 +115,10 @@
             </div>
             <textarea class='form-control' name="comment" id='exampleFormControlTextarea1' rows='3'></textarea>
             <div class="wapper-btns">
-              <div class='btn-wapper'><button type="button" class='btn btn-danger btn-cancel'>{{i18n 'status.cancel'}}</button></div>
-              <div class='btn-wapper'><button type="submit" class='btn btn-success'>{{i18n 'status.submit'}}</button></div>
+              <div class='btn-wapper'><button type="button" class='btn btn-danger btn-cancel'>{{i18n
+                  'status.cancel'}}</button></div>
+              <div class='btn-wapper'><button type="submit" class='btn btn-success'>{{i18n 'status.submit'}}</button>
+              </div>
             </div>
           </form>
         </div>

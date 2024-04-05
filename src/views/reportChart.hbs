@@ -10,12 +10,15 @@
 />
 
 <div class='headFunc'>
-  <span>{{t 'dashboard.pageTitle'}}</span>
+  <span>{{t "home.productRanking"}}</span>
 </div>
 
 <div class='selectMonth'>
   <div class='value-field'>
-    <input id='input-value' type='month' />
+     <label >{{t "home.fromDateLabel"}}:</label>
+    <input id='start-date' type='date' />
+    <label >{{t "home.toDateLabel"}}:</label>
+    <input id='end-date' type='date' min='' />
     <select class='form-select' aria-label='Default select example' id='info'>
       <option value='1' selected>{{t 'dashboard.revenueChart'}}</option>
       <option value='2'>{{t 'dashboard.quantityChart'}}</option>
@@ -25,5 +28,7 @@
 </div>
 
 <canvas></canvas>
+
 <script src='/js/chart.js'></script>
-<script src='/js/reportChart.js'></script>
+<script src='/js/reportTopChart.js'></script>
+

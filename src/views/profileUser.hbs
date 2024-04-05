@@ -13,7 +13,7 @@
                     <div class='mx-auto' id="img-container">
                       <div id="avatar-container" class='d-flex justify-content-center align-items-center rounded'>
                         <div>
-                          <img src='{{image}}' alt='' />
+                          <img id="avatar-img" src='{{image}}' alt='' />
                         </div>
                       </div>
                     </div>
@@ -42,6 +42,7 @@
                                 <label>{{t 'register.full_name'}}</label>
                                 <input class='form-control' type='text' name='name' placeholder='name...'
                                   value='{{fullName}}' />
+                                  <small class="form-text text-danger">{{t 'validate.fullNameRequiredMessage'}}</small>
                               </div>
                             </div>
                             <div class='col'>
@@ -49,6 +50,7 @@
                                 <label>{{t 'order.phone'}}</label>
                                 <input class='form-control' type='text' name='phone' placeholder='...'
                                   value='{{phone}}' />
+                                <small class="form-text text-danger">{{t 'validate.phoneRequiredMessage'}}</small>
                               </div>
                             </div>
                           </div>
@@ -58,6 +60,7 @@
                                 <label>{{t 'order.address'}}</label>
                                 <input class='form-control' type='text' name='address' placeholder='address...'
                                   value='{{address}}' />
+                                <small class="form-text text-danger">{{t 'validate.addressRequiredMessage'}}</small>
                               </div>
                             </div>
                           </div>
@@ -66,7 +69,8 @@
                               <div class='form-group'>
                                 <label>{{t 'login.email'}}</label>
                                 <input class='form-control' type='email' name='email' placeholder='user@example.com'
-                                  value='{{email}}' />
+                                  value='{{email}}' readonly/>
+                                <small class="form-text text-danger">{{t 'validate.emailReadOnlyMessage'}}</small>
                               </div>
                             </div>
                           </div>
@@ -79,6 +83,7 @@
                         </div>
                       </div>
                     </div>
+                    <div id="error-message" class="alert alert-danger" style="display: none; margin-top: 20px"></div>
                   </div>
                 </div>
               </div>
@@ -90,3 +95,4 @@
   </div>
 </div>
 <script src='/js/user.profile.js'></script>
+<script src='/bootstrap/sweetalert2@11.js'></script>

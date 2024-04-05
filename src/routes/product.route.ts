@@ -2,6 +2,8 @@ import express from 'express';
 import * as productController from '../controllers/Product.controller';
 const router = express.Router();
 
+// user
+router.get('/topSelling', productController.getSellingProduct);
 router.get('/comment', productController.getRatingInProduct);
 router.get('/ratingProductOfUser', productController.getRatingProductOfUser);
 router.get('/ratingInProduct', productController.getRatingInProduct);

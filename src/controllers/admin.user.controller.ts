@@ -5,8 +5,8 @@ import { AppDataSource } from '../config/database';
 import { User } from '../entities/User';
 import {
   DEFAULT_PAGE,
-  DISABLE,
   PAGE_SIZE,
+  ROLEUSER,
   calculateOffset,
   checkAdmin,
 } from '../utils/constants';
@@ -30,7 +30,11 @@ export const getListUser = async (
     const offset = calculateOffset(page);
     const [listUser, totalUser] = await userRepository
       .createQueryBuilder('user')
-      .where('user.role <> :role', { role: DISABLE })
+      .where('user.role = :role', { role: ROLEUSER })
+      .orderBy({
+        'user.disable': 'ASC',
+        'user.id': 'ASC' 
+      })
       .skip(offset)
       .take(PAGE_SIZE)
       .getManyAndCount();
@@ -202,5 +206,29 @@ export const searchUser = async (
   } catch (error) {
     console.error(error);
     next(error);
+  }
+};
+
+
+// vo hieu hoa hoac kich hoat tai khoan
+export const postChangeStatusUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = +req.params.id;
+    const { disable } = req.body;
+    if (disable) {
+      await userRepository.update({ id: id }, { disable: true });
+    } else {
+      await userRepository.update({ id: id }, { disable: false });
+    }
+    return res
+      .status(200)
+      .json({ message: 'User status updated successfully' });
+  } catch (err) {
+    console.error(err);
+    next(err);
   }
 };
