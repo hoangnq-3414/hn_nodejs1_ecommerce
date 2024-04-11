@@ -13,7 +13,7 @@
         "login": "Đăng nhập",
         "register": "Đăng ký",
         "coppyright": "Bản quyền 2024",
-        "search": "Search",
+        "search": "Tìm kiếm",
         "add_to_cart": "Thêm vào giỏ hàng",
         "view": "Xem",
         "orderHistory": "Lịch sử mua hàng",
@@ -34,7 +34,12 @@
         "rating": "đánh giá ",
         "categoryStarLabel": "Phân loại theo:",
         "allCategory": "tất cả",
-        "numberSoldLabel": "Lượt bán:"
+        "numberSoldLabel": "Lượt bán:",
+        "businessStatistics": "Thống kê kinh doanh",
+        "categoryManagement": "Quản lý danh mục" ,
+        "productRanking": "Bảng xếp hạng sản phẩm",
+        "fromDateLabel": "Từ ngày",
+        "toDateLabel": "Đến ngày" 
     } ,
     "login": {
         "signin": "Đăng Nhập",
@@ -44,7 +49,8 @@
         "notfound":"Không tồn tại tài khoản",
         "error": "Mật khẩu không chính xác",
         "notLogin": "Chưa đăng nhập",
-        "invalid": "Token không hợp lệ"
+        "invalid": "Token không hợp lệ",
+        "accountDisableMessage": "Tài khoản của bạn đã bị vô hiệu hóa."
     },
     "register": {
         "signup": "Đăng ký",
@@ -64,7 +70,9 @@
         "newPass": "Mật khẩu mới",
         "oldPasswordIncorrect": "Mật khẩu cũ không chính xác",
         "passwordChangedSuccessfully": "Thay đổi mật khẩu thành công",
-        "registerSuccess": "Đăng ký tài khoản thành công"
+        "registerSuccess": "Đăng ký tài khoản thành công",
+        "addressLengthError": "Địa chỉ phải có ít nhất 6 ký tự",
+        "phoneLengthError": "Số điện thoại phải là 10 chữ số"
         
     },
     "detail": {
@@ -94,9 +102,9 @@
         "typeOrderIsRequired": "Loại đơn hàng là bắt buộc",
         "inventory": "Tồn kho",
         "shippingInformation": "Thông tin vận chuyển",
-        "namePlaceholder": "Tên..",
-        "phonePlaceholder": "Số điện thoại...",
-        "addressPlaceholder": "Địa chỉ..",
+        "namePlaceholder": "Tên người nhận",
+        "phonePlaceholder": "Số điện thoại",
+        "addressPlaceholder": "Địa chỉ nhận hàng",
         "paymentInformation": "Thông tin thanh toán",
         "cashOnDelivery": "Thanh toán khi nhận hàng",
         "onlinePayment": "Thanh toán trực tuyến",
@@ -127,7 +135,11 @@
         "evaluated": "Đánh giá",
         "reviewButton": "Đánh giá",
         "buyButton": "Mua lại",
-        "reviewTitle": "Đánh giá"
+        "reviewTitle": "Đánh giá",
+        "priceEmpty": "Giá không được để trống",
+        "quantityEmpty": "Số lượng không được để trống",
+        "unitLength": "Đơn vị không được để trống",
+        "descriptionLength": "Mô tả phải có ít nhất 6 ký tự"
     },
     "status": {
         "allStatus": "Tất cả trạng thái",
@@ -166,6 +178,45 @@
         "pageTitle": "Biểu đồ thống kê",
         "chartCreate": "Tạo biểu đồ",
         "revenueChart": "doanh thu",
-        "quantityChart": "số lượng"
-      } 
+        "quantityChart": "số lượng",
+        "revenueInMonthLabel": "Doanh thu trong tháng"
+      },
+      "product":{
+        "productNameLabel": "Tên sản phẩm",
+        "descriptionLabel": "Mô tả",
+        "priceLabel": "Giá",
+        "quantityLabel": "Số lượng",
+        "unitLabel": "Đơn vị",
+        "additionalImagesLabel": "Hình ảnh phụ",
+        "categoryLabel": "Loại danh mục",
+        "submitButtonText": "Thêm sản phẩm mới",
+        "activeLabel": "Kích hoạt",
+        "disableLabel": "Vô hiệu hóa",
+        "idLabel": "ID",
+        "nameLabel": "Tên",
+        "imageLabel": "Hình ảnh",
+        "soldLabel": "Đã bán",
+        "operationLabel": "Thao tác",
+        "productManagement": "Quản lý sản phẩm",
+        "businessStatistics": "Thống kê kinh doanh",
+        "categoryManagement": "Quản lý danh mục",
+        "manageCategoryTitle": "Quản lý danh mục",
+        "addCategoryTitle": "Thêm danh mục",
+        "categoryUpdateSuccess": "Cập nhật danh mục thành công",
+        "categoryCreateSuccess": "Tạo danh mục thành công",
+        "productCreateSuccess": "Tạo sản phẩm thành công",
+        "productUpdateSuccess": "Cập nhật sản phẩm thành công"
+      },
+      "validate":{
+        "fullNameRequiredMessage": "*Tên đầy đủ không được để trống.",
+        "phoneRequiredMessage": "*Số điện thoại không được để trống.",
+        "addressRequiredMessage": "*Địa chỉ không được để trống.",
+        "emailReadOnlyMessage": "*Email của bạn đã được đăng ký và không thể chỉnh sửa.",
+        "productNameRequiredMessage": "Tên sản phẩm không được để trống.",
+        "descriptionRequiredMessage": "Mô tả không được để trống.",
+        "priceRequiredMessage": "Giá không được để trống.",
+        "unitRequiredMessage": "Đơn vị không được để trống.",
+        "categoryInfoMessage": "Danh mục cho sản phẩm."
+      }
+      
 }

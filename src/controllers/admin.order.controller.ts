@@ -9,14 +9,13 @@ import { OrderDetail } from '../entities/OrderDetail';
 const orderRepository = AppDataSource.getRepository(Order);
 const orderDetailRepository = AppDataSource.getRepository(OrderDetail);
 
-// admin history list order
 export const getAllOderListByStatus = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    // const user = await checkAdmin(req, res);
+    const user = await checkAdmin(req, res);
     let isPending = false
 
     if (parseInt(req.params.status) == 1){
@@ -68,15 +67,17 @@ export const getOderDetail = async (
     const offset = calculateOffset(page);
     const [orderDetail, totalItems] = await orderDetailRepository.findAndCount({
       where: { order: { id: parseInt(req.params.id) } },
-      relations: ['product'],
+      relations: ['product','order'],
       take: PAGE_SIZE,
       skip: offset,
     });
     const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+    const order = orderDetail[0].order;
 
     res.render('admin/orderDetail', {
       paginationItemsLinks: generatePaginationLinks(page, totalPages),
       orderDetail,
+      order
     });
   } catch (err) {
     console.error(err);

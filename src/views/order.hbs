@@ -22,8 +22,8 @@
 					'status.rejected'}}</span></a>
 			<a href="/order/ByStatusOfUser/4" id="choose4" class="classify-orders"><span style="margin: auto;">{{t
 					'status.cancel'}}</span></a>
-			<a href="/product/ratingProductOfUser" id="choose0" class="classify-orders"><span style="margin: auto;">{{t
-					'order.haveEvaluated'}}</span></a>
+			{{!-- <a href="/product/ratingProductOfUser" id="choose0" class="classify-orders"><span style="margin: auto;">{{t
+					'order.haveEvaluated'}}</span></a> --}}
 		</div>
 
 		{{#each modifiedOrderLists}}
@@ -39,16 +39,15 @@
 					</span></div>
 				<div class="order-table-header">{{i18n 'order.phone'}}: <span class="infor-detail-order">{{phone}}
 					</span></div>
-				<div class="order-table-header email">{{i18n 'order.createBy'}}: <span
+				{{!-- <div class="order-table-header email">{{i18n 'order.createBy'}}: <span
 						class="infor-detail-order email">{{user.email}}
-
 					</span></div>
 				<div class="order-table-header">{{i18n 'order.totalAmount'}}: <span class="infor-detail-order">{{totalAmount}}
 					</span></div>
 				<div class="order-table-header">{{i18n 'order.paymentMethod'}}: <span class="infor-detail-order">{{typeOrder}}
 					</span></div>
 				<div class="order-table-header">{{i18n 'order.orderMadeOn'}}: <span class="infor-detail-order">{{date}}
-					</span></div>
+					</span></div> --}}
 			</div>
 			<div class="user-don-hang">
 				<div style="margin: auto;">
@@ -96,6 +95,3 @@
 <script src='/js/user.order.list.js'></script>
 
 </html>
-<br>
-<br>
-<br>

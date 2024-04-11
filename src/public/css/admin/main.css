@@ -76,3 +76,11 @@ body {
 	margin-bottom: auto;
 	color: #3d464d !important;
 }
+
+.cart-property{
+  display: flex;
+}
+
+.cart-value{
+  font-weight: 600;
+}

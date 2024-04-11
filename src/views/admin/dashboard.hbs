@@ -6,50 +6,50 @@
   crossorigin='anonymous' referrerpolicy='no-referrer' />
 <div class='main-grid'>
   <div class='element-grid total-amount'>
-    <i class='fa-solid fa-dollar-sign icon-element-grid' style='display: flex;'></i>
+    <i class='fa-solid fa-dollar-sign icon-element-grid cart-property'></i>
     <div class='noi-dung-element-grid'>
-      <div style='font-weight: 600;'>{{t 'cart.total'}}</div>
-      <div class='gia-tri'></div>
+      <div class="cart-value" >{{t 'cart.total'}}</div>
+      <div class='gia-tri'>{{totalSales}}</div>
     </div>
   </div>
 
   <div class='element-grid product-total'>
-    <i class='fa-solid fa-shoe-prints icon-element-grid' style='display: flex;'></i>
+    <i class='fa-solid fa-shoe-prints icon-element-grid cart-property'></i>
     <div class='noi-dung-element-grid'>
-      <div style='font-weight: 600;'>{{t 'cart.items'}}</div>
-      <div class='gia-tri'></div>
+      <div class="cart-value">{{t 'cart.items'}}</div>
+      <div class='gia-tri'>{{totalProduct}}</div>
     </div>
   </div>
 
   <div class='element-grid rating-total'>
-    <i class='fa-regular fa-message icon-element-grid' style='display: flex;'></i>
+    <i class='fa-regular fa-message icon-element-grid cart-property'></i>
     <div class='noi-dung-element-grid'>
-      <div style='font-weight: 600;'>{{t 'dashboard.totalReviews'}}</div>
-      <div class='gia-tri'></div>
+      <div class="cart-value">{{t 'dashboard.totalReviews'}}</div>
+      <div class='gia-tri'>{{productReviewCount}}</div>
     </div>
   </div>
 
   <div class='element-grid user-total'>
-    <i class='fa-solid fa-user icon-element-grid' style='display: flex;'></i>
+    <i class='fa-solid fa-user icon-element-grid cart-property'></i>
     <div class='noi-dung-element-grid'>
-      <div style='font-weight: 600;'>{{t 'dashboard.totalUser'}}</div>
-      <div class='gia-tri'></div>
+      <div class="cart-value">{{t 'dashboard.totalUser'}}</div>
+      <div class='gia-tri'>{{userCount}}</div>
     </div>
   </div>
 
   <div class='element-grid user-visits'>
-    <i class='fa-solid fa-globe icon-element-grid' style='display: flex;'></i>
+    <i class='fa-solid fa-globe icon-element-grid cart-property'></i>
     <div class='noi-dung-element-grid'>
-      <div style='font-weight: 600;'>{{t 'dashboard.totalOnline'}}</div>
-      <div class='gia-tri'></div>
+      <div class="cart-value">{{t 'dashboard.revenueInMonthLabel'}}</div>
+      <div class='gia-tri'>{{totalRevenue}}</div>
     </div>
   </div>
 
   <div class='element-grid product-sold'>
-    <i class='fa-solid fa-check-to-slot icon-element-grid' style='display: flex;'></i>
+    <i class='fa-solid fa-check-to-slot icon-element-grid cart-property'></i>
     <div class='noi-dung-element-grid'>
-      <div style='font-weight: 600;'>{{t 'dashboard.totalProductSell'}}</div>
-      <div class='gia-tri'></div>
+      <div class="cart-value">{{t 'dashboard.totalProductSell'}}</div>
+      <div class='gia-tri'>{{soldProductsCount}}</div>
     </div>
   </div>
 </div>

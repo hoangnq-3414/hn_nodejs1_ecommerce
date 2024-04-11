@@ -11,3 +11,12 @@
 #img-container {
  width: 140px;
 }
+
+#img-label{
+  margin-bottom: 10px;
+}
+
+#error-message{
+  display: none; 
+  margin-top:20px
+}

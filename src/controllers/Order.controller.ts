@@ -19,10 +19,9 @@ import {
   formatDate,
   getStatusText,
   OrderStatus,
-  checkAdmin,
 } from '../utils/constants';
 import { generatePaginationLinks } from '../utils/pagenation';
-import { upload, transporter, handlebarOptions } from '../index';
+import { upload, transporter } from '../index';
 import { Order } from '../entities/Order';
 import { OrderDetail } from '../entities/OrderDetail';
 import { Cart } from '../entities/Cart';
@@ -36,6 +35,7 @@ const orderDetailRepository = AppDataSource.getRepository(OrderDetail);
 const cartRepository = AppDataSource.getRepository(Cart);
 const cartItemRepository = AppDataSource.getRepository(CartItem);
 const productRepository = AppDataSource.getRepository(Product);
+const userRepository = AppDataSource.getRepository(User);
 
 const getUserCart = async (userId: number, res: Response) => {
   const cart = await cartRepository.findOne({
@@ -55,6 +55,9 @@ export const getListItemOrder = async (
 ) => {
   try {
     const user = await checkLoggedIn(req, res);
+    const newUser = await userRepository.findOne({
+      where: {id :+ user.id}
+    })
     const cart = await getUserCart(user.id, res);
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
     const offset = calculateOffset(page);
@@ -78,6 +81,7 @@ export const getListItemOrder = async (
     const { total, items } = rawResult;
 
     res.render('checkout', {
+      newUser,
       paginationItemsLinks: generatePaginationLinks(page, totalPages),
       total,
       items,
@@ -229,7 +233,10 @@ export const postOrder = async (
 ) => {
   try {
     if (req.file && req.file.path) {
-      const imagePath = path.join('/upload', req.file.path.split('/upload')[1]);
+      let imagePath = '';
+      const uploadDir = path.resolve(__dirname, '../public/upload');
+      const relativePath = path.relative(uploadDir, req.file.path);
+      imagePath = '/upload/' + relativePath;
       await ProcessOrder.processOrder(req, res, imagePath);
     } else {
       await ProcessOrder.processOrder(req, res, '');
@@ -365,15 +372,17 @@ export const getUserOderDetail = async (
     const offset = calculateOffset(page);
     const [orderDetail, totalItems] = await orderDetailRepository.findAndCount({
       where: { order: { id: parseInt(req.params.id) } },
-      relations: ['product'],
+      relations: ['product', 'order'],
       take: PAGE_SIZE,
       skip: offset,
     });
     const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+    const order = orderDetail[0].order;
 
     res.render('orderDetail', {
       paginationItemsLinks: generatePaginationLinks(page, totalPages),
       orderDetail,
+      order
     });
   } catch (err) {
     console.error(err);

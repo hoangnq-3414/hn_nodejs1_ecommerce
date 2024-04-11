@@ -13,6 +13,9 @@ export class Category extends ClassicEntity {
   @Column({ nullable: true })
   description: string;
 
+  @Column({ default: false })
+  disable: boolean;
+
   // One-to-Many relationship with Product entity
   @OneToMany(() => Product, (product) => product.category)
   products: Product[];

@@ -72,9 +72,12 @@
               }}</p>
           </div>
           <div style='flex:1'>
-            <a class='btn-delete' href='#' data-item-id='{{id}}'>{{i18n
-                'cart.removeItem'
-              }}</a>
+            <button
+              class='btn-delete'
+              data-item-id='{{id}}'
+            >
+              <i class='fa fa-trash' aria-hidden='true'></i>
+              {{i18n 'home.deleteButton'}}</button>
           </div>
         </div>
       {{/each}}
@@ -87,6 +90,8 @@
     {{{paginationItemsLinks}}}
   {{/if}}
 </ul>
-
+<br>
+<br>
+<br>
 <script src='/js/sweetalert2@11.js'></script>
 <script src='/js/cart.js'></script>

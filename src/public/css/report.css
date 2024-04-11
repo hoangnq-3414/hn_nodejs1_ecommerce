@@ -45,7 +45,7 @@
 canvas {
 	width: 1000px;
 	height: 400px;
-	margin: 70px auto auto auto;
+	margin: 70px auto 50px auto;
 	position: relative;
 	z-index: 1;
 }

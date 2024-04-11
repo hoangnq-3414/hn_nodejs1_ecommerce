@@ -42,7 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const storage = multer.diskStorage({
+export const storage = multer.diskStorage({
   destination: './src/public/upload',
   filename: function (req, file, cb) {
     cb(

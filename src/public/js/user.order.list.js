@@ -39,7 +39,14 @@ document.addEventListener('DOMContentLoaded', function () {
               if (!response.ok) {
                 throw new Error('Network response was not ok');
               }
-              window.location.reload();
+              Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: 'Đơn hàng đã được hủy.',
+                confirmButtonText: 'OK'
+              }).then(() => {
+                window.location.reload();
+              });
             })
             .catch((error) => {
               console.error('Error accepting order:', error);
@@ -63,9 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
       classifyOrdersLinks.forEach((link) => {
         link.classList.remove('status-active');
       });
-
       this.classList.add('active');
-
       const status = this.getAttribute('href').split('/').pop();
       sessionStorage.setItem('selectedStatus', status);
     });

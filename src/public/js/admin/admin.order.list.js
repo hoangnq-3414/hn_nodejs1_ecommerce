@@ -61,7 +61,14 @@ document.addEventListener('DOMContentLoaded', function () {
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-          window.location.reload();
+          Swal.fire({
+            icon: 'success',
+            title: 'Thành công!',
+            text: 'Đơn hàng đã được hủy.',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            window.location.reload();
+          });
         })
         .catch((error) => {
           console.error('There was a problem with the fetch operation:', error);
@@ -109,7 +116,14 @@ document.addEventListener('DOMContentLoaded', function () {
               if (!response.ok) {
                 throw new Error('Network response was not ok');
               }
-              window.location.reload();
+              Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: 'Đơn hàng đã được chấp nhận.',
+                confirmButtonText: 'OK'
+              }).then(() => {
+                window.location.reload();
+              });
             })
             .catch((error) => {
               console.error('Error accepting order:', error);

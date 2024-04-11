@@ -181,13 +181,16 @@
 
 .classify-orders {
 	display: flex;
-	text-decoration: none;
+	text-decoration: none !important;
 	color: #3d464d;
 	font-size: 25px;
 	font-weight: 600;
 	flex: 1;
 	height: 50px;
 	border-radius: 6px;
+	margin: auto;
+	justify-content: center;
+	align-items: center;
 }
 
 .classify-orders:hover {
@@ -202,4 +205,15 @@
 
 .status-active:hover {
 	border: 1px solid rgb(10, 104, 255);
+}
+
+#orderId{
+	font-size: 16px;
+	font-weight: 300; 
+	color: #ff2626; 
+	font-weight: 600;
+}
+
+#reject{
+	display:none;
 }

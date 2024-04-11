@@ -1,5 +1,5 @@
 <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' rel='stylesheet' />
-<link rel="stylesheet" href="/css/home.css">
+<link rel='stylesheet' href='/css/home.css' />
 
 <div class='container-xxl'>
   <div id='carouselExampleDark' class='carousel carousel-dark slide' style='width:100%'>
@@ -43,11 +43,19 @@
   </div>
 
   <div class='row'>
-    <div class='col-md-3'>
+    <div class='col-md-3' style='margin-top: 50px;'>
       <div class='solid-border'>
         <h3>{{t 'home.search'}}</h3>
+        <form class='d-flex' role='search' action='/product/search' method='GET'>
+          <input class='form-control me-2' type='search' placeholder='...' aria-label='Search' name='searchText'
+            value="{{searchText}}" />
+          <button class='btn btn-outline-success' type='submit'><i class='fas fa-search'></i></button>
+        </form>
+        <h3>Lọc</h3>
         <form>
-          <label class="priceLabel" for='priceRange'>{{t 'home.priceLabel'}}</label><br />
+          <label class='priceLabel' for='priceRange'>{{t
+            'home.priceLabel'
+            }}</label><br />
           <input type='checkbox' id='under100' name='priceRange' value='under100' />
           <label for='under100'> &lt;100$</label><br />
           <input type='checkbox' id='100to199' name='priceRange' value='100to199' />
@@ -61,50 +69,49 @@
           <input type='checkbox' id='over500' name='priceRange' value='over500' />
           <label for='over500'>&gt;500$</label><br />
         </form>
-        <label class="priceLabel">{{t 'home.productLineLabel'}}:</label>
+        <label class='priceLabel'>{{t 'home.productLineLabel'}}:</label>
         <br />
         {{#each category}}
         <input type='checkbox' id='{{id}}' name='category' value='{{id}}' />
         <label for='{{id}}'>{{name}}</label><br />
         {{/each}}
-        <button onclick='searchProducts()'>{{t 'home.search'}}
-          <i class='fas fa-search'></i></button>
+        <button onclick='searchProducts()' class='btn btn-outline-success'>
+          <i class='fa fa-filter' aria-hidden='true'></i></button>
       </div>
     </div>
 
     <div class='col-md-9 float-right'>
-      <div id='home_product'>
+      <div id='home_product' style="margin-top: 40px;">
+        <div class='section-container'>
+          <a class="selection-a" href="/">{{t 'home.newProductTitle' }}</a>
+          <a class="selection-a" href="/product/topSelling">{{t 'home.bestSellerTitle' }}</a>
+        </div>
+
         <div class='row'>
-          {{#if topSelling}}
-          <h3 class="section-heading"><strong>{{t 'home.bestSellerTitle'}}</strong>
-          </h3>
-          {{/if}}
           {{#each topSelling}}
-          <div class='col-lg-4' class="product-item">
+          <div class='col-lg-4' class='product-item'>
             <a href='/product/detail/{{id}}'>
               <img src='{{image}}' class='thumbnail' />
             </a>
             <div class='box-element product'>
               <h6><strong>{{name}}</strong></h6>
               <h6>{{i18n 'home.numberSoldLabel'}} {{numberSold}}</h6>
-              <p>{{description}}</p>
+              <div class='description-wrapper'>
+                <p class='description'>{{description}}</p>
+                <button class='expand-button'>...</button>
+              </div>
               <hr />
-              <form action='/cart/add/{{id}}' method='post' class="form-cart">
-                <button type='submit' class='btn btn-outline-success'>{{i18n
-                  'home.add_to_cart'
-                  }}</button>
+              <form action='/cart/add/{{id}}' method='post' class='form-cart'>
+                <button type='submit' class='btn btn-outline-success'><i class='fas fa-shopping-cart'></i></button>
               </form>
-              <a class='btn btn-outline-success' href='/product/detail/{{id}}'>{{i18n 'home.view'}}</a>
-              <h4 class='float-right'><strong>{{price}}</strong></h4>
+              <a class='btn btn-outline-success' href='/product/detail/{{id}}'><i class='fa fa-eye'
+                  aria-hidden='true'></i></a>
+              <h4 class='float-right'><strong>{{price}}$</strong></h4>
             </div>
           </div>
           {{/each}}
         </div>
         <div class='row'>
-          {{#if product}}
-          <h3 class="section-heading"><strong>{{t 'home.newProductTitle'}}</strong>
-          </h3>
-          {{/if}}
           {{#each product}}
           <div class='col-lg-4'>
             <a href='/product/detail/{{id}}'>
@@ -113,15 +120,17 @@
             <div class='box-element product'>
               <h6><strong>{{name}}</strong></h6>
               <h6>{{i18n 'home.numberSoldLabel'}} {{numberSold}}</h6>
-              <p>{{description}}</p>
+              <div class='description-wrapper'>
+                <p class='description'>{{description}}</p>
+                <button class='expand-button'>...</button>
+              </div>
               <hr />
-              <form action='/cart/add/{{id}}' method='post' class="form-cart">
-                <button type='submit' class='btn btn-outline-success'>{{i18n
-                  'home.add_to_cart'
-                  }}</button>
+              <form action='/cart/add/{{id}}' method='post' class='form-cart'>
+                <button type='submit' class='btn btn-outline-success'><i class='fas fa-shopping-cart'></i></button>
               </form>
-              <a class='btn btn-outline-success' href='/product/detail/{{id}}'>{{i18n 'home.view'}}</a>
-              <h4 class='float-right'><strong>{{price}}</strong></h4>
+              <a class='btn btn-outline-success' href='/product/detail/{{id}}'><i class='fa fa-eye'
+                  aria-hidden='true'></i></a>
+              <h4 class='float-right'><strong>{{price}}$</strong></h4>
             </div>
           </div>
           {{/each}}
@@ -137,7 +146,9 @@
       {{#if flash.product_exist}}
       <script src='/js/custom.js'></script>
       {{/if}}
-      <div id='productList'></div>
+      <div class='row'>
+        <div id='productList' class='row'></div>
+      </div>
     </div>
   </div>
 

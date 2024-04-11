@@ -1,49 +1,58 @@
-<link rel='stylesheet' href='/css/validate.css' />
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+  </head>
+  <body>
+    <!-- form signup -->
+    <div class='signup'>
+      <div class='signup__container'>
+        <h1>{{t 'register.signup'}}</h1>
+        <form action='/auth/register' method='post'>
+          {{#if flash.existed}}
+            <p class='flash flash-error'>{{flash.existed}}</p>
+          {{/if}}
 
-<body>
-  <!-- form signup -->
-  <div class='signup'>
-    <div class='signup__container'>
-      <h1>{{t 'register.signup'}}</h1>
-      {{#if flash.existed}}
-      <p class='flash flash-error'>{{flash.existed}}</p>
-      {{/if}}
-      <form action='/auth/register' method='post' id='form-1'>
-        <h5>{{t 'register.full_name'}}</h5>
-        <div class='form-group'>
-          <input id='fullName' type='text' class='input-login-username' name='fullName' />
-          <span class='form-message'></span>
-        </div>
-        <h5>{{t 'register.email'}}</h5>
-        <div class='form-group'>
-          <input id='email' type='email' class='input-signup-email' name='email' />
-          <span class='form-message'></span>
-        </div>
-        <h5>{{t 'register.password'}}</h5>
-        <div class='form-group'>
-          <input id='password' type='password' class='input-signup-password' name='password' />
-          <span class='form-message'></span>
-        </div>
-        <h5>{{t 'register.confirm'}}</h5>
-        <div class='form-group'>
-          <input id='confirmPassord' type='password' class='input-signup-password' name='confirmPassword' />
-          <span class='form-message'></span>
-        </div>
-        <button type='submit' class='signup__signInButton'>{{t
-          'register.signup'
-          }}</button>
-      </form>
-      <a href='/auth/login' class='signup__registerButton'>{{t
-        'login.signin'
-        }}</a>
+          <h5>{{t 'register.full_name'}}</h5>
+          <input type='text' class='input-login-username' name='fullName' />
+          <h5>{{t 'register.email'}}</h5>
+          <input type='email' class='input-signup-email' name='email' />
+          <h5>{{t 'register.password'}}</h5>
+          <input
+            type='password'
+            class='input-signup-password'
+            name='password'
+          />
+          <h5>{{t 'register.confirm'}}</h5>
+          <input
+            type='password'
+            class='input-signup-password'
+            name='confirmPassword'
+          />
+          <button type='submit' class='signup__signInButton'>{{t
+              'register.signup'
+            }}</button>
+          {{#if accountExists}}
+            <p class='flash flash-error' style="color: red;">{{t 'register.existed'}}</p>
+          {{/if}}
+
+          {{#if errors}}
+            <ul>
+              {{#each errors}}
+                <p style="color: red;">{{{msg}}}</p>
+              {{/each}}
+            </ul>
+          {{/if}}
+        </form>
+        <a href='/auth/login' class='signup__registerButton'>{{t
+            'login.signin'
+          }}</a>
+      </div>
     </div>
-    {{#if errors}}
-    <ul>
-      {{#each errors}}
-      <li>{{{msg}}}</li>
-      {{/each}}
-    </ul>
-    {{/if}}
-  </div>
-  
-</body>
+  </body>
+</html>
+<link rel='stylesheet' href='/bootstrap/sweetalert2@11.js' />
+      <script src='/bootstrap/sweetalert2@11.js'></script>
+{{#if accountCreated}}<script src="/js/resgister.js"></script>{{/if}}
+

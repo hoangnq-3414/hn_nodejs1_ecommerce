@@ -96,6 +96,7 @@ export const getSearchProduct = async (
     const searchText = req.query.searchText;
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
     const offset = calculateOffset(page);
+    const category = await categoryRepository.find();
     const [products, total] = await productRepository
       .createQueryBuilder('product')
       .where('product.name like :searchText', { searchText: `%${searchText}%` })
@@ -108,6 +109,8 @@ export const getSearchProduct = async (
 
     const totalPages = Math.ceil(total / PAGE_SIZE);
     res.render('home', {
+      searchText,
+      category,
       product: products,
       totalPages: totalPages,
       currentPage: page,
@@ -221,6 +224,7 @@ export const getRatingProductOfUser = async (
   }
 };
 
+// get home
 export const getHome = async (
   req: Request,
   res: Response,
@@ -230,21 +234,18 @@ export const getHome = async (
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
     const offset = calculateOffset(page);
     const [products, total] = await productRepository.findAndCount({
+      where:{
+        disable: false
+      },
       take: PAGE_SIZE,
       skip: offset,
     });
     const totalPages = Math.ceil(total / PAGE_SIZE);
 
-    const topSelling = await productRepository.find({
-      order: { numberSold: 'DESC' },
-      take: topLimitSelling,
-    });
-
     const category = await categoryRepository.find();
 
     res.render('home', {
       category,
-      topSelling,
       product: products,
       totalPages: totalPages,
       currentPage: page,
@@ -260,7 +261,28 @@ export const getHome = async (
   }
 };
 
-//  search mutil condition product
+// [GET] top selling
+export const getSellingProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const topSelling = await productRepository.find({
+      order: { numberSold: 'DESC' },
+      take: topLimitSelling,
+    });
+    const category = await categoryRepository.find();
+    res.render('home', {
+      category,
+      topSelling,
+    });
+  } catch (error) {
+    console.error(error);
+    next();
+  }
+};
+
 export const multiSearch = async (
   req: Request,
   res: Response,
@@ -269,7 +291,6 @@ export const multiSearch = async (
   try {
     const { priceRanges, categories } = req.body;
     const conditions = [];
-   
     if (priceRanges && priceRanges.length > 0) {
       const priceConditions = priceRanges.map((range) => {
         return `(product.price >= ${priceValues[range].min} AND product.price <= ${priceValues[range].max})`;
@@ -281,7 +302,7 @@ export const multiSearch = async (
       const categoryConditions = categories.map((category) => {
         return `product.categoryId = ${category}`;
       });
-      conditions.push(categoryConditions.join(' OR '));
+      conditions.push(`(${categoryConditions.join(' OR ')})`); 
     }
 
     let query = productRepository.createQueryBuilder('product');

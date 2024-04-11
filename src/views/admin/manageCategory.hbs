@@ -9,33 +9,16 @@
 
 <div class='wapper-form'></div>
 <div class='form-user'>
-  <h1>Thêm tài khoản</h1>
+  <h1>{{t "product.addCategoryTitle"}}</h1>
   <div class='user-input'>
-    <span>{{t 'login.email'}}: </span>
-    <input type='text' name='email' id='user-email' value='' placeholder='Nhập email' />
+    <span>{{t 'order.name'}}: </span>
+    <input type='text' name='email' id='user-email' value='' placeholder='Nhập tên sản phẩm' />
   </div>
   <div class='user-input'>
-    <span>{{t 'order.name'}}:</span>
-    <input type='text' name='ten' id='user-ten' value='' placeholder='Nhập tên' />
-  </div>
-  <div class='user-input'>
-    <span>{{t 'login.password'}}:</span>
-    <input type='password' name='mat-khau' id='user-mat-khau' value='' placeholder='Nhập mật khẩu' />
-  </div>
-  <div class='user-input'>
-    <span>{{t 'home.avatar'}}:</span>
-    <input type='file' name='user-avatar' id='user-avatar' accept='image/*' />
-  </div>
-  <div class='user-input input-img'>
-    <div>
-      <img alt='' />
-      <div class='close-img'>
-        <span><i class='fa-solid fa-xmark'></i></span>
-      </div>
-    </div>
+    <span>{{t 'detail.description'}}:</span>
+    <input type='text' name='ten' id='user-ten' value='' placeholder='Nhập mô tả' />
   </div>
   <input type='hidden' name='user-id' id='user-id' value='' />
-  <input type='hidden' name='user-close-image' id='user-close-image' value='0' />
   <div class='btn-form-user'>
     <div class='user-btn-cancel user-btn'><span>{{t
         'status.cancel'
@@ -45,7 +28,7 @@
 </div>
 
 <div class='title-function'>
-  <span>{{t 'user.manage'}}</span>
+  <span>{{t "product.manageCategoryTitle"}}</span>
 </div>
 
 <div class='search-user'>
@@ -54,6 +37,7 @@
   <div class='nut-search-user'><i class='fa-solid fa-magnifying-glass'></i><span>{{t
       'home.search'
       }}</span></div>
+  <div class='btn-add-user'><i class='fa-solid fa-square-plus'></i><span>new cate</span></div>
 </div>
 <br />
 
@@ -61,20 +45,14 @@
   <table class='table table-striped table-bordered board-result col-xl-12'>
     <thead class='text-center'>
       <tr>
-
         <th class='result-table-title head-id'>ID</th>
-        <th class='result-table-title head-image'>{{t 'dashboard.image'}}</th>
-        <th class='result-table-title head-name'>{{t 'register.full_name'}}</th>
-        <th class='result-table-title head-email'>{{t 'login.email'}}</th>
-        <th class='result-table-title head-name'>{{t 'order.address'}}</th>
-        <th class='result-table-title head-image'>phone</th>
-        <th class='result-table-title head-operation'>{{t
-          'user.operation'
-          }}</th>
+        <th class='result-table-title head-image'>{{t "product.nameLabel"}}</th>
+        <th class='result-table-title head-name'>{{t "detail.description"}}</th>
+        <th class='result-table-title head-operation'>{{t "user.operation"}}</th>
       </tr>
     </thead>
     <tbody>
-      {{#each listUser}}
+      {{#each listCategory}}
       <div class='detailUser text-center'>
         <tr>
           <td>
@@ -83,32 +61,20 @@
             </div>
           </td>
           <td>
-            <div class='data-details br-image'>
-              <span><img src='{{image}}' /></span>
+            <div class='data-details'>
+              <span class='td-div-username'>{{name}}</span>
             </div>
           </td>
           <td>
             <div class='data-details'>
-              <span class='td-div-username'>{{fullName}}</span>
+              <span class="description">{{description}}</span>
             </div>
           </td>
           <td>
             <div class='data-details'>
-              <span>{{email}}</span>
-            </div>
-          </td>
-          <td>
-            <div class='data-details'>
-              <span>{{address}}</span>
-            </div>
-          </td>
-          <td>
-            <div class='data-details'>
-              <span>{{phone}}</span>
-            </div>
-          </td>
-          <td>
-            <div class='data-details'>
+              <div class='table-edit' data-user-id='{{id}}'><i class='fa-solid fa-pen-to-square'></i>
+                <span>{{i18n 'home.editButton'}}</span>
+              </div>
               {{#if disable}}
               <div class='table-delete cate-active' data-user-id='{{id}}'>
                 <i class="fas fa-check-circle" aria-hidden="true"></i>
@@ -127,15 +93,12 @@
       {{/each}}
     </tbody>
   </table>
+  <br />
   <ul class='pagination'>
     {{#if paginationItemsLinks}}
     {{{paginationItemsLinks}}}
     {{/if}}
   </ul>
-  <br>
-  <br>
-  <br>
 </div>
-
-<script src='/js/admin/manage_acount.js'></script>
+<script src='/js/admin/admin.category.js'></script>
 <script src='/js/sweetalert2@11.js'></script>
