@@ -33,7 +33,9 @@ export const postAddCart = async (
     const user = await checkLoggedIn(req, res);
     const cart = await getUserCart(user.id, res);
     const product = await productRepository.findOne({
-      where: { id: parseInt(req.params.id) },
+      where: { id: parseInt(req.params.id),
+        disable: false
+       },
     });
     if (!product) {
       res.redirect('/');

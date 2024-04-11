@@ -1,35 +1,9 @@
 <link rel="stylesheet" href="/css/order_one.css">
 <div class='col-lg-12'>
-  <a class='btn btn-outline-dark' href='/order/allList'>&#x2190;
-    {{t 'order.backToCart'}}</a>
-  <hr />
-  <div class="each-order" style="margin-bottom: 20px;">
-    <div class="order-infomation" style="border:none;">
-      <div class="ma-don-hang__don-hang order-table-header ">{{i18n 'order.codeOrder'}}: <span
-          class="orderId">{{id}}<span class="ma-don-hang">
-          </span></span></div>
-      <div class="order-table-header ">{{i18n 'order.name'}}: <span class="infor-detail-order">{{order.name}}
-        </span></div>
-      <div class="order-table-header">{{i18n 'order.address'}}: <span class="infor-detail-order">{{order.address}}
-        </span></div>
-      <div class="order-table-header">{{i18n 'order.phone'}}: <span class="infor-detail-order">{{order.phone}}
-        </span></div>
-      <div class="order-table-header email">{{i18n 'order.createBy'}}: <span
-          class="infor-detail-order email">{{user.email}}
-
-        </span></div>
-      <div class="order-table-header">{{i18n 'order.totalAmount'}}: <span
-          class="infor-detail-order">{{order.totalAmount}}
-        </span></div>
-      <div class="order-table-header">{{i18n 'order.paymentMethod'}}: <span
-          class="infor-detail-order">{{order.typeOrder}}
-        </span></div>
-      <div class="order-table-header">{{i18n 'order.orderMadeOn'}}: <span class="infor-detail-order">{{order.createdAt
-          }}
-        </span></div>
-    </div>
-  </div>
-  <div class='box-element' style="width: 85%;margin-left: auto; margin-right: auto;">
+  <div class='box-element'>
+    <a class='btn btn-outline-dark' href='/order/allList'>&#x2190;
+      {{t 'order.backToCart'}}</a>
+    <hr />
     <h3>{{t 'order.orderSummary'}}</h3>
     <hr />
     <div class='cart-row'>

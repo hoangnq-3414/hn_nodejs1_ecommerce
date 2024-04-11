@@ -66,7 +66,7 @@
 
 .btn-add-user {
   border-radius: 6px;
-  width: 120px;
+  width: auto;
   height: 30px;
   background-color: #28a745;
   display: flex;
@@ -219,4 +219,5 @@ thead {
 
 .cate-disable{
   width: auto;
+  white-space: nowrap;
 }

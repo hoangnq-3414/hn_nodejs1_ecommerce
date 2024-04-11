@@ -111,8 +111,7 @@ class ProcessOrder {
       
     // tao chi tiet don hang
     await createOrderDetails(order, cartItems);
-    //  cap nhat so luong san pham
-    await updateProductQuantities(cartItems);
+    
     await deleteCartItems(cart);
 
     runOnTransactionRollback(() => console.log('rollbacked'));
@@ -157,25 +156,7 @@ const createOrderDetails = async (order: Order, cartItems: CartItem[]) => {
   return await orderDetailRepository.save(orderDetails);
 };
 
-// Hàm để cập nhật số lượng sản phẩm
-const updateProductQuantities = async (cartItems: CartItem[]) => {
-  const products = cartItems.map((cartItem) => {
-    const count = cartItem.product.quantity - cartItem.quantity;
-    const product = new Product();
-    product.id = cartItem.product.id;
-    product.quantity = count;
-    product.numberSold = cartItem.quantity;
-    return product;
-  });
-  return await Promise.all(
-    products.map((product) => {
-      return productRepository.update(
-        { id: product.id },
-        { quantity: product.quantity, numberSold: product.numberSold },
-      );
-    }),
-  );
-};
+
 
 // Hàm để xóa các mục trong giỏ hàng
 const deleteCartItems = async (cart: Cart) => {
@@ -438,7 +419,6 @@ export const postChangeStatusOrder = async (
     const status = parseInt(req.body.status);
     const rejectReason = req.body.rejectReason;
     const email = req.body.email;
-
     const updateData: any = { status: status };
     if (parseInt(req.body.status) === OrderStatus.Rejected && rejectReason) {
       updateData.comment = rejectReason;
@@ -464,6 +444,10 @@ export const postChangeStatusOrder = async (
       await sendEmail(status, rejectReason, email, orderDetails);
     }
 
+    if (status === OrderStatus.Successful){
+      await updateProductQuantities(orderDetails);
+    }
+
     const sevenDaysLater = new Date();
     sevenDaysLater.setDate(sevenDaysLater.getDate() + 7);
 
@@ -479,6 +463,27 @@ export const postChangeStatusOrder = async (
     next(err);
   }
 };
+
+// Hàm để cập nhật số lượng sản phẩm khi order
+const updateProductQuantities = async (orderDetails: OrderDetail[]) => {
+  const products = orderDetails.map((orderDetail) => {
+    const count = orderDetail.product.quantity - orderDetail.quantity;
+    const product = new Product();
+    product.id = orderDetail.product.id;
+    product.quantity = count;
+    product.numberSold = orderDetail.product.numberSold + orderDetail.quantity; 
+    return product;
+  });
+  return await Promise.all(
+    products.map((product) => {
+      return productRepository.update(
+        { id: product.id },
+        { quantity: product.quantity, numberSold: product.numberSold},
+      );
+    }),
+  );
+};
+
 
 // get filter status and date
 export const getFilterOrderStatusAndDate = async (

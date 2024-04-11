@@ -1,0 +1,122 @@
+<link rel='stylesheet' href='/css/admin/common.css' />
+<link rel='stylesheet' href='/css/admin/admin_page.css' />
+<link rel='stylesheet' href='/css/admin/user_manage.css' />
+<link rel='stylesheet' href='/css/admin/common_admin.css' />
+<link rel='icon' type='image/x-icon' href='../img/shop_icon.ico' />
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+  integrity='sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=='
+  crossorigin='anonymous' referrerpolicy='no-referrer' />
+
+<div class='title-function'>
+  <span>{{t 'product.productManagement'}}</span>
+</div>
+<div class='search-user'>
+  <input type='text' class='value-field' name='query-text' id='query-text' placeholder='Nhập tên sản phẩm hoặc mô tả'
+    value='' tabindex='0' />
+  <div class='nut-search-user'><i class='fa-solid fa-magnifying-glass'></i><span>{{t
+      'home.search'
+      }}</span></div>
+  <div class='btn-add-user'><i class='fa-solid fa-square-plus'></i><span><a href="/product/createProduct"
+        class="text-white">{{t 'product.addProduct'}}</a></span></div>
+</div>
+<br />
+
+<div class='container-xl'>
+  <table class='table table-striped table-bordered board-result col-xl-12'>
+    <thead class='text-center'>
+      <tr>
+        <th class='result-table-title head-id'>{{t 'product.idLabel'}}</th>
+        <th class='result-table-title head-image'>{{t 'product.nameLabel'}}</th>
+        <th class='result-table-title head-image'>{{t 'product.imageLabel'}}</th>
+        <th class='result-table-title head-name'>{{t 'product.descriptionLabel'}}</th>
+        <th class='result-table-title head-price'>{{t 'product.priceLabel'}}</th>
+        <th class='result-table-title head-price'>{{t 'product.quantityLabel'}}</th>
+        <th class='result-table-title head-price'>{{t 'product.unitLabel'}}</th>
+        <th class='result-table-title head-price'>{{t 'product.soldLabel'}}</th>
+        <th class='result-table-title head-price'>{{t 'product.categoryLabel'}}</th>
+        <th class='result-table-title head-price'>{{t 'product.operationLabel'}}</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {{#each listProduct}}
+      <div class='detailUser text-center'>
+        <tr>
+          <td>
+            <div class='data-details'>
+              <span>{{id}}</span>
+            </div>
+          </td>
+          <td>
+            <div class='data-details'>
+              <span class='td-div-username'>{{name}}</span>
+            </div>
+          </td>
+          <td>
+            <div class='data-details br-image'>
+              <span><img src='{{image}}' /></span>
+            </div>
+          </td>
+          <td>
+            <div class='data-details'>
+              <span class="description" id="description-with">{{description}}</span>
+            </div>
+          </td>
+          <td>
+            <div class='data-details'>
+              <span class="description">{{price}}</span>
+            </div>
+          </td>
+          <td>
+            <div class='data-details'>
+              <span class="description">{{quantity}}</span>
+            </div>
+          </td>
+          <td>
+            <div class='data-details'>
+              <span class="description">{{unit}}</span>
+            </div>
+          </td>
+          <td>
+            <div class='data-details'>
+              <span class="description">{{numberSold}}</span>
+            </div>
+          </td>
+          <td>
+            <div class='data-details'>
+              <span class="description">{{category.name}}</span>
+            </div>
+          </td>
+          <td>
+            <div class='data-details'>
+              <div class='table-edit' data-user-id='{{id}}'><i class='fa-solid fa-pen-to-square'></i>
+                <span><a href="/product/update/{{id}}" class="text-white">{{i18n 'home.editButton'}}</a></span>
+              </div>
+              {{#if disable}}
+              <div class='table-delete cate-active' data-user-id='{{id}}'>
+                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                <span>{{i18n 'product.activeLabel'}}</span>
+              </div>
+              {{else}}
+              <div class='table-delete cate-disable' data-user-id='{{id}}'>
+                <i class="fas fa-ban" aria-hidden="true"></i>
+                <span>{{i18n 'product.disableLabel'}}</span>
+              </div>
+
+              {{/if}}
+            </div>
+          </td>
+        </tr>
+      </div>
+      {{/each}}
+    </tbody>
+  </table>
+  <ul class='pagination'>
+    {{#if paginationItemsLinks}}
+    {{{paginationItemsLinks}}}
+    {{/if}}
+  </ul>
+</div>
+<br>
+<script src='/js/admin/admin.product.js'></script>
+<script src='/js/sweetalert2@11.js'></script>

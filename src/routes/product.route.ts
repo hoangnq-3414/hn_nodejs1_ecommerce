@@ -1,6 +1,16 @@
 import express from 'express';
 import * as productController from '../controllers/Product.controller';
+import * as adminProductController from '../controllers/admin.product.controller';
 const router = express.Router();
+
+// admin
+router.get('/manage', adminProductController.getListProduct);
+router.post('/changeStatus/:id', adminProductController.postChangeStatusProduct)
+router.get('/searchProduct', adminProductController.getSearchProduct);
+router.get('/createProduct', adminProductController.getCreateProduct);
+router.post('/createProduct', adminProductController.uploadImages, adminProductController.postCreateValidation, adminProductController.postCreateProduct)
+router.get('/update/:id', adminProductController.getUpdateProduct);
+router.put('/update',adminProductController.uploadImages, adminProductController.postCreateValidation, adminProductController.putUpdateProduct);
 
 // user
 router.get('/topSelling', productController.getSellingProduct);
