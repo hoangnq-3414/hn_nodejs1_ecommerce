@@ -12,21 +12,7 @@ router.get('/detail', userController.getDetailUser);
 
 // admin
 router.get('/search', manageUserController.searchUser)
-router.delete('/delete/:id', manageUserController.deleteUser);
 router.post('/changeStatus/:id', manageUserController.postChangeStatusUser)
-router.post(
-  '/create',
-  manageUserController.handleUpload,
-  manageUserController.postRegisterValidation,
-  manageUserController.postCreateUser,
-);
-
-router.put(
-  '/create',
-  manageUserController.handleUpload,
-  manageUserController.postRegisterValidation,
-  manageUserController.editUser,
-);
 
 router.get('/list', manageUserController.getListUser);
 

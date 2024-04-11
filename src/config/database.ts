@@ -1,9 +1,10 @@
-import { DataSource } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 import { initializeTransactionalContext, addTransactionalDataSource, StorageDriver } from 'typeorm-transactional';
 import * as dotenv from 'dotenv';
+import { AppEnvironmentConfig } from '../enum/app.environment.config.enum';
 dotenv.config();
 
-export const AppDataSource = new DataSource({
+let databaseOptions: DataSourceOptions = {
   type: 'mysql',
   host: process.env.DB_HOST,
   port: +process.env.DB_PORT,
@@ -17,7 +18,32 @@ export const AppDataSource = new DataSource({
 
   entities: ['src/entities/**/*.ts'],
   migrations: ['src/migrations/**/*.ts'],
-});
+}
 
+switch (process.env.NODE_ENV) {
+  case AppEnvironmentConfig.TEST:
+    databaseOptions = {
+      ...databaseOptions,
+      database: 'testdb',
+      logger: 'advanced-console',
+    };
+    break;
+  case AppEnvironmentConfig.DEVELOPMENT:
+    databaseOptions = {
+      ...databaseOptions,
+      logging: false,
+      logger: 'file',
+      host: '',
+      port: +'',
+      username: '',
+      password: '',
+      database: '',
+    };
+    break;
+  default:
+    break;
+}
+const appDataSource = new DataSource(databaseOptions);
 initializeTransactionalContext({ storageDriver: StorageDriver.ASYNC_LOCAL_STORAGE });
-addTransactionalDataSource(AppDataSource);
+addTransactionalDataSource(appDataSource);
+export const AppDataSource = appDataSource;

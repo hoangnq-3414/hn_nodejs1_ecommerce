@@ -110,7 +110,7 @@ export const getSearchProduct = async (
   }
 };
 
-// vo hieu hoa hoac kich hoat san pham
+//get view create product
 export const getCreateProduct = async (
   req: Request,
   res: Response,

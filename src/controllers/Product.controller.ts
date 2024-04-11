@@ -237,7 +237,7 @@ export const getHome = async (
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
     const offset = calculateOffset(page);
     const [products, total] = await productRepository.findAndCount({
-      where: {
+      where:{
         disable: false
       },
       take: PAGE_SIZE,
@@ -305,7 +305,7 @@ export const multiSearch = async (
       const categoryConditions = categories.map((category) => {
         return `product.categoryId = ${category}`;
       });
-      conditions.push(`(${categoryConditions.join(' OR ')})`);
+      conditions.push(`(${categoryConditions.join(' OR ')})`); 
     }
 
     let query = productRepository.createQueryBuilder('product');

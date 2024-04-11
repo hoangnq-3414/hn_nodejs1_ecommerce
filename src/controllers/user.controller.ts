@@ -10,6 +10,7 @@ import path from 'path';
 import { checkLoggedIn, checkPassword, hashPassword } from '../utils/auth';
 import { body, validationResult } from 'express-validator';
 import i18next from 'i18next';
+import { buildUpdateFields, getUser } from '../service/user.service';
 const userRepository = AppDataSource.getRepository(User);
 
 // GET Detail User
@@ -20,9 +21,7 @@ export const getDetailUser = async (
 ) => {
   try {
     const user = await checkLoggedIn(req, res);
-    const newUser = await userRepository.findOne({
-      where: { id: + user.id }
-    })
+    const newUser = await getUser(user.id);
     res.render('profileUser', { ...newUser });
   } catch (err) {
     next(err);
@@ -58,7 +57,7 @@ export const editDetailUser = async (
       return;
     }
     const user = await checkLoggedIn(req, res);
-    const { email, address, fullName, phone } = req.body;
+    const { address, fullName, phone } = req.body;
     let imagePath = '';
 
     if (req.file && req.file.path) {
@@ -66,18 +65,7 @@ export const editDetailUser = async (
       const relativePath = path.relative(uploadDir, req.file.path);
       imagePath = '/upload/' + relativePath;
     }
-    let updateFields: { [key: string]: any } = {
-      email,
-      fullName,
-      address,
-      phone,
-    };
-
-    if (imagePath !== '') {
-      updateFields.image = imagePath;
-    }
-
-    await userRepository.update({ id: parseInt(user.id) }, updateFields);
+    await buildUpdateFields(user,address, fullName, phone, imagePath);
     res.status(200).json({ message: req.t('user.accountUpdateSuccess') });
   } catch (error) {
     next(error);
