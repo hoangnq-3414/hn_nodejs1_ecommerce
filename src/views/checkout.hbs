@@ -15,16 +15,38 @@
           <p>{{t 'order.shippingInformation'}}:</p>
           <hr />
           <div class='form-field'>
-            <input required class='form-control' type='text' name='name' placeholder='{{t "order.namePlaceholder"}}' />
+            <span>{{t "order.namePlaceholder"}}:</span>
+            <input
+              required
+              class='form-control'
+              type='text'
+              name='name'
+              placeholder='{{t "order.namePlaceholder"}}'
+              value='{{newUser.fullName}}'
+            />
           </div>
           <div class='form-field'>
-            <input required class='form-control' type='text' name='phone'
-              placeholder='{{t "order.phonePlaceholder"}}' />
+            <span>{{t "order.phonePlaceholder"}}:</span>
+            <input
+              required
+              class='form-control'
+              type='text'
+              name='phone'
+              placeholder='{{t "order.phonePlaceholder"}}'
+              value='{{newUser.phone}}'
+            />
           </div>
         </div>
         <div id='shipping-info'>
           <div class='form-field'>
-            <input class='form-control' type='text' name='address' placeholder='{{t "order.addressPlaceholder"}}' />
+            <span>{{t "order.addressPlaceholder"}}:</span>
+            <input
+              class='form-control'
+              type='text'
+              name='address'
+              placeholder='{{t "order.addressPlaceholder"}}'
+              value='{{newUser.address}}'
+            />
           </div>
         </div>
         <div id='payment-info'>
@@ -77,33 +99,35 @@
       <h3>{{t 'order.orderSummary'}}</h3>
       <hr />
       <div class='cart-row'>
-        <div style='flex:1'></div>
-        <div style='flex:1'><strong>{{t 'cart.cartItems'}}</strong></div>
-        <div style='flex:1'><strong>{{t 'detail.price'}}</strong></div>
-        <div style='flex:1'><strong>{{t 'detail.quantity'}}</strong></div>
-        <div style='flex:1'><strong>{{t 'order.inventory'}}</strong></div>
-        <div style='flex:1'><strong>{{t 'detail.unit'}}</strong></div>
+        <div ></div>
+        <div><strong>{{t 'cart.cartItems'}}</strong></div>
+        <div><strong>{{t 'detail.price'}}</strong></div>
+        <div ><strong>{{t 'detail.quantity'}}</strong></div>
+        <div><strong>{{t 'order.inventory'}}</strong></div>
+        <div><strong>{{t 'detail.unit'}}</strong></div>
       </div>
       {{#each cartItems}}
-      <div class='cart-row'>
-        <div style='flex:1'><a href='/product/detail/{{product.id}}'><img class='row-image'
-              src='{{product.image}}' /></a></div>
-        <div style='flex:1'>
-          <p class='product-name'>{{product.name}}</p>
+        <div class='cart-row'>
+          <div ><a href='/product/detail/{{product.id}}'><img
+                class='row-image'
+                src='{{product.image}}'
+              /></a></div>
+          <div >
+            <p class='product-name'>{{product.name}}</p>
+          </div>
+          <div >
+            <p>{{product.price}}$</p>
+          </div>
+          <div >
+            <p class='quantity'>{{quantity}}</p>
+          </div>
+          <div >
+            <p class='product-quantity'>{{product.quantity}}</p>
+          </div>
+          <div >
+            <p>{{product.unit}}</p>
+          </div>
         </div>
-        <div style='flex:1'>
-          <p>{{product.price}}$</p>
-        </div>
-        <div style='flex:1'>
-          <p class='quantity'>{{quantity}}</p>
-        </div>
-        <div style='flex:1'>
-          <p class='product-quantity'>{{product.quantity}}</p>
-        </div>
-        <div style='flex:1'>
-          <p>{{product.unit}}</p>
-        </div>
-      </div>
       {{/each}}
       <ul class='pagination'>
         {{#if paginationItemsLinks}}

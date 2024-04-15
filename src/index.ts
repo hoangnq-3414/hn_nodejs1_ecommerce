@@ -141,3 +141,5 @@ app.all('*', (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
+
+export const App = app;

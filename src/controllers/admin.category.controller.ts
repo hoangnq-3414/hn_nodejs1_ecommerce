@@ -1,12 +1,9 @@
 import { Request, Response, NextFunction } from 'express-serve-static-core';
-import { AppDataSource } from '../config/database';
-import { Category } from '../entities/Category';
-import { DEFAULT_PAGE, PAGE_SIZE, calculateOffset, checkAdmin } from '../utils/constants';
+import { DEFAULT_PAGE, checkAdmin } from '../utils/constants';
 import { generatePaginationLinks } from '../utils/pagenation';
 import { body, validationResult } from 'express-validator';
 import i18next from 'i18next';
-
-const categoryRepository = AppDataSource.getRepository(Category);
+import { ListCategory, changeCategoryStatus, createCategory, searchListCategory, updateCategory } from '../service/admin.category.service';
 
 // search category
 export const searchCategory = async (
@@ -18,23 +15,10 @@ export const searchCategory = async (
     await checkAdmin(req, res);
     const text = req.query.text;
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
-    const offset = calculateOffset(page);
     let filterCondition = '';
     filterCondition += `text=${text}&`;
-    const [listCategory, totalUser] = await categoryRepository
-      .createQueryBuilder('category')
-      .where(
-        'category.name LIKE :name OR category.description LIKE :description',
-        {
-          name: `%${text}%`,
-          description: `%${text}%`,
-        },
-      )
-      .skip(offset)
-      .take(PAGE_SIZE)
-      .getManyAndCount();
 
-    const totalPages = Math.ceil(totalUser / PAGE_SIZE);
+    const {listCategory, totalPages} = await searchListCategory(text, page);
     res.render('admin/manageCategory', {
       listCategory,
       paginationItemsLinks: generatePaginationLinks(
@@ -58,19 +42,7 @@ export const getListCategory = async (
   try {
     await checkAdmin(req, res);
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
-    const offset = calculateOffset(page);
-    const [listCategory, totalUser] = await categoryRepository.findAndCount({
-      where:{
-        disable: false
-      },
-      take: PAGE_SIZE,
-      skip: offset,
-      order: {
-        disable: 'ASC',
-        id: 'ASC'
-      }
-    });
-    const totalPages = Math.ceil(totalUser / PAGE_SIZE);
+    const { listCategory, totalPages } = await ListCategory(page);
     res.render('admin/manageCategory', {
       listCategory,
       paginationItemsLinks: generatePaginationLinks(page, totalPages),
@@ -95,11 +67,7 @@ export const postChangeStatusCategory = async (
     }
     const id = +req.params.id;
     const { disable } = req.body;
-    if (disable) {
-      await categoryRepository.update({ id: id }, { disable: true });
-    } else {
-      await categoryRepository.update({ id: id }, { disable: false });
-    }
+    await changeCategoryStatus(id, disable);
     return res
       .status(200)
       .json({ message: 'Category status updated successfully' });
@@ -122,7 +90,7 @@ export const putCategory = async (
       return res.status(400).json({ errors: errors.array() });
     }
     const { id, name, description } = req.body;
-    await categoryRepository.update({ id }, { name, description });
+    await updateCategory(id, name, description);
     return res.status(200).json({ message: req.t('product.categoryUpdateSuccess') });
   } catch (err) {
     console.error(err);
@@ -143,8 +111,7 @@ export const postCreateCategory = async (
       return res.status(400).json({ errors: errors.array() });
     }
     const { name, description } = req.body;
-    const newCate = await categoryRepository.create({ name, description });
-    await categoryRepository.save(newCate);
+    await createCategory(name, description);
     return res.status(200).json({ message: req.t('product.categoryCreateSuccess') });
   } catch (err) {
     console.error(err);

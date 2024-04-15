@@ -130,3 +130,5 @@ dist
 .pnp.*
 
 src/public/upload/**
+
+coverage/

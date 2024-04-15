@@ -1,16 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import i18next from 'i18next';
 import asyncHandler from 'express-async-handler';
 import { body, validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
-import { User } from '../entities/User';
-import { AppDataSource } from '../config/database';
-import { checkPassword, hashPassword, decodeJWT } from '../utils/auth';
-import { Cart } from '../entities/Cart';
+import { checkPassword, decodeJWT } from '../utils/auth';
 import { ROLEADMIN } from '../utils/constants';
-
-const userRepository = AppDataSource.getRepository(User);
-const cartRepository = AppDataSource.getRepository(Cart);
+import { RegistrationResult, findUserByEmail, registerUser } from '../service/auth.service';
 
 // POST register
   export const postRegister = [
@@ -42,47 +38,23 @@ const cartRepository = AppDataSource.getRepository(Cart);
         });
         return;
       }
-
       const { fullName, password, email } = req.body;
-
       try {
-        const user = await userRepository.findOne({
-          where: { email: email },
-        });
-        if (user) {
-          res.render('register', { accountExists: true });
-          return;
-        }
-        const hashedPassword = await hashPassword(password);
-        const newUser = new User();
-        newUser.password = hashedPassword;
-        newUser.email = email;
-        newUser.fullName = fullName;
-        newUser.role = 1;
-        await userRepository.save(newUser);
-
-        const cart = new Cart();
-        cart.user = newUser;
-        await cartRepository.save(cart);
-
+        const registrationResult: RegistrationResult = await registerUser(fullName, email, password);
         res.render('register', { accountCreated: true });
-
       } catch (error) {
         console.error(error);
       }
     }),
   ];
 
+
 // POST Login
 export const postLogin = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, password } = req.body;
-
-      const user = await userRepository.findOne({
-        where: { email: email },
-      });
-
+      const user = await findUserByEmail(email);
       if (!user) {
         req.flash('notfound', req.t('login.notfound'));
         res.redirect('/auth/login');
@@ -95,9 +67,6 @@ export const postLogin = asyncHandler(
         res.redirect('/auth/login');
         return;
       }
-
-      // const token = await generateToken(user.id);
-      // res.cookie('token', token, { httpOnly: true });
       // @ts-ignore
       req.session.user = user;
       if(user.role === ROLEADMIN){
@@ -120,8 +89,6 @@ export const postLogin = asyncHandler(
 // GET Logout
 export const logout = (req: Request, res: Response, next: NextFunction) => {
   try {
-    // Xóa cookie chứa JWT
-    // res.clearCookie('token');
     res.clearCookie('connect.sid');
     res.redirect('/');
   } catch (err) {
