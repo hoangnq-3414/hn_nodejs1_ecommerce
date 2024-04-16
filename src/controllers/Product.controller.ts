@@ -4,16 +4,14 @@ import { AppDataSource } from '../config/database';
 import { Product } from '../entities/Product';
 import { DEFAULT_PAGE, PAGE_SIZE, calculateOffset, priceValues, topLimitSelling } from '../utils/constants';
 import { generatePaginationLinks } from '../utils/pagenation';
-import { ProductReview } from '../entities/ProductReview';
-import { OrderDetail } from '../entities/OrderDetail';
 import { checkLoggedIn } from '../utils/auth';
 import { Category } from '../entities/Category';
+import { createProductReview, getProductReviews, getProductReviewsOfProduct, getProductReviewsOfUser, getProductsWithSearchText } from '../service/product.service';
+import { OrderDetail } from '../entities/OrderDetail';
 
 const productRepository = AppDataSource.getRepository(Product);
-const productReviewRepository = AppDataSource.getRepository(ProductReview);
-const orderDetailRepository = AppDataSource.getRepository(OrderDetail);
 const categoryRepository = AppDataSource.getRepository(Category);
-
+const orderDetailRepository = AppDataSource.getRepository(OrderDetail);
 // GET product detail
 export const getProductDetail = async (
   req: Request,
@@ -34,59 +32,13 @@ export const getProductDetail = async (
       return;
     }
 
-    const countStar = await productReviewRepository
-      .createQueryBuilder('review')
-      .select('COUNT(review.id)', 'totalReviews')
-      .addSelect(
-        'COALESCE(SUM(CASE WHEN review.rating = 1 THEN 1 ELSE 0 END), 0)',
-        'oneStar',
-      )
-      .addSelect(
-        'COALESCE(SUM(CASE WHEN review.rating = 2 THEN 1 ELSE 0 END), 0)',
-        'twoStar',
-      )
-      .addSelect(
-        'COALESCE(SUM(CASE WHEN review.rating = 3 THEN 1 ELSE 0 END), 0)',
-        'threeStar',
-      )
-      .addSelect(
-        'COALESCE(SUM(CASE WHEN review.rating = 4 THEN 1 ELSE 0 END), 0)',
-        'fourStar',
-      )
-      .addSelect(
-        'COALESCE(SUM(CASE WHEN review.rating = 5 THEN 1 ELSE 0 END), 0)',
-        'fiveStar',
-      )
-      .innerJoin('review.product', 'product')
-      .where('product.id = :productId', { productId: parseInt(req.params.id) })
-      .getRawOne();
-
-    const averageRating = calculateAverageRating(countStar);
-
-    const stars = [5, 4, 3, 2, 1];
+    const { countStar, averageRating, stars } = await getProductReviews(product.id);
 
     res.render('detail', { product, countStar, averageRating, stars });
   } catch (err) {
     console.error(err);
     next(err);
   }
-};
-
-const calculateAverageRating = (reviewCounts): number => {
-  const totalReviews = + reviewCounts.totalReviews;
-  const oneStar = + reviewCounts.oneStar;
-  const twoStar = + reviewCounts.twoStar;
-  const threeStar = + reviewCounts.threeStar;
-  const fourStar = + reviewCounts.fourStar;
-  const fiveStar = + reviewCounts.fiveStar;
-
-  const totalStars =
-    oneStar + twoStar * 2 + threeStar * 3 + fourStar * 4 + fiveStar * 5;
-  const averageStars = totalStars / totalReviews;
-
-  const averageRating = Math.round(averageStars * 10) / 10;
-
-  return averageRating;
 };
 
 // GET search product
@@ -98,19 +50,7 @@ export const getSearchProduct = async (
   try {
     const searchText = req.query.searchText;
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
-    const offset = calculateOffset(page);
-    const category = await categoryRepository.find();
-    const [products, total] = await productRepository
-      .createQueryBuilder('product')
-      .where('product.name like :searchText', { searchText: `%${searchText}%` })
-      .orWhere('product.description like :searchText', {
-        searchText: `%${searchText}%`,
-      })
-      .take(PAGE_SIZE)
-      .skip(offset)
-      .getManyAndCount();
-
-    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const { category, products, totalPages } = await getProductsWithSearchText(searchText, page);
     res.render('home', {
       searchText,
       category,
@@ -138,13 +78,7 @@ export const postRatingProduct = async (
   try {
     const user = await checkLoggedIn(req, res);
     const { orderDetailId, productId, rating, comment } = req.body;
-    const productReview = productReviewRepository.create({
-      comment: comment,
-      rating: parseInt(rating),
-      user: user,
-      product: { id: parseInt(productId) },
-    });
-    await productReviewRepository.save(productReview);
+    await createProductReview(user.id, parseInt(productId), parseInt(rating), comment);
     await orderDetailRepository.update(
       { id: parseInt(orderDetailId) },
       { reviewed: false },
@@ -166,27 +100,10 @@ export const getRatingInProduct = async (
 ) => {
   try {
     const productId = parseInt(req.query.productId as string);
-    const whereCondition: any = { product: { id: productId } };
-
     const rating = parseInt(req.query.rating as string);
-    if (rating !== 0) {
-      whereCondition.rating = rating;
-    }
-
     const page = parseInt(req.query.page as string) || 1;
-    const offset = calculateOffset(page);
-
-    const [productReviews, totalItems] =
-      await productReviewRepository.findAndCount({
-        where: whereCondition,
-        relations: ['user', 'product'],
-        take: PAGE_SIZE,
-        skip: offset,
-      });
-
-    const totalPages = Math.ceil(totalItems / PAGE_SIZE); // Tính tổng số trang
+    const { productReviews, totalPages} = await getProductReviewsOfProduct(productId, rating, page);
     const paginationLinks = generatePaginationLinks(page, totalPages);
-
     return res
       .status(200)
       .json({ productReviews, totalPages, currentPage: page, paginationLinks });
@@ -205,16 +122,7 @@ export const getRatingProductOfUser = async (
   try {
     const user = await checkLoggedIn(req, res);
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
-    const offset = calculateOffset(page);
-
-    const [productReviews, totalItems] =
-      await productReviewRepository.findAndCount({
-        where: { user: { id: user.id } },
-        relations: ['user', 'product'],
-        take: PAGE_SIZE,
-        skip: offset,
-      });
-    const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+    const {productReviews, totalPages} = await getProductReviewsOfUser(user.id, page);
     res.render('order', {
       productReviews,
       totalPages: totalPages,
