@@ -4,10 +4,9 @@ import { PAGE_SIZE, calculateOffset, DEFAULT_PAGE, formatDate, getStatusText, ch
 import { generatePaginationLinks } from '../utils/pagenation';
 import { AppDataSource } from '../config/database';
 import { Order } from '../entities/Order';
-import { OrderDetail } from '../entities/OrderDetail';
+import { getAdminOrderList, getOrderDetail, getOrderListByStatus } from '../service/admin.order.service';
 
 const orderRepository = AppDataSource.getRepository(Order);
-const orderDetailRepository = AppDataSource.getRepository(OrderDetail);
 
 export const getAllOderListByStatus = async (
   req: Request,
@@ -16,24 +15,14 @@ export const getAllOderListByStatus = async (
 ) => {
   try {
     const user = await checkAdmin(req, res);
+    const status = parseInt(req.params.status);
     let isPending = false
 
     if (parseInt(req.params.status) == 1){
       isPending = true;
     }
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
-    const offset = calculateOffset(page);
-    const [orderLists, total] = await orderRepository.findAndCount({
-      relations: ['user'],
-      where: {
-        status: parseInt(req.params.status)
-      },
-      take: PAGE_SIZE,
-      skip: offset,
-      order: { createdAt: 'DESC' },
-    });
-
-    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const {orderLists, totalPages} = await getOrderListByStatus(status, page);
     const modifiedOrderLists = orderLists.map((order) => {
       return {
         ...order,
@@ -64,14 +53,8 @@ export const getOderDetail = async (
 ) => {
   try {
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
-    const offset = calculateOffset(page);
-    const [orderDetail, totalItems] = await orderDetailRepository.findAndCount({
-      where: { order: { id: parseInt(req.params.id) } },
-      relations: ['product','order'],
-      take: PAGE_SIZE,
-      skip: offset,
-    });
-    const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+    const orderId = parseInt(req.params.id);
+    const { orderDetail, totalPages } = await getOrderDetail(orderId, page);
     const order = orderDetail[0].order;
 
     res.render('admin/orderDetail', {
@@ -158,16 +141,7 @@ export const getAdminAllOderList = async (
   try {
     const user = await checkAdmin(req, res);
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
-    const offset = calculateOffset(page);
-
-    const [orderLists, total] = await orderRepository.findAndCount({
-      relations: ['user'],
-      take: PAGE_SIZE,
-      skip: offset,
-      order: { createdAt: 'DESC' },
-    });
-
-    const totalPages = Math.ceil(total / PAGE_SIZE);
+    const { orderLists, totalPages } = await getAdminOrderList(page);
     const modifiedOrderLists = orderLists.map((order) => {
       return {
         ...order,
