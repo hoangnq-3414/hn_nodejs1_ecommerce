@@ -4,7 +4,7 @@ import * as authController from '../controllers/Auth.controller';
 
 router.get('/logout', authController.logout)
 router.get('/register', authController.getRegister);
-router.post('/register', authController.postRegister);
+router.post('/register', authController.validateRegister, authController.handleRegister);
 router.get('/login', authController.getLogin);
 router.post('/login', authController.postLogin);
 

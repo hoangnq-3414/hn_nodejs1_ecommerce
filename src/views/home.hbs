@@ -46,10 +46,10 @@
     <div class='col-md-3' style='margin-top: 50px;'>
       <div class='solid-border'>
         <h3>{{t 'home.search'}}</h3>
-        <form class='d-flex' role='search' action='/product/search' method='GET'>
-          <input class='form-control me-2' type='search' placeholder='...' aria-label='Search' name='searchText'
-            value="{{searchText}}" />
-          <button class='btn btn-outline-success' type='submit'><i class='fas fa-search'></i></button>
+        <form class='d-flex' role='search'>
+          <input id='searchInput' class='form-control me-2' type='search' placeholder='...' aria-label='Search'
+            name='searchText' value='{{searchText}}' />
+          <button id='searchButton' class='btn btn-outline-success' type='submit'><i class='fas fa-search'></i></button>
         </form>
         <h3>Lọc</h3>
         <form>
@@ -81,10 +81,12 @@
     </div>
 
     <div class='col-md-9 float-right'>
-      <div id='home_product' style="margin-top: 40px;">
+      <div id='home_product' style='margin-top: 40px;'>
         <div class='section-container'>
-          <a class="selection-a" href="/">{{t 'home.newProductTitle' }}</a>
-          <a class="selection-a" href="/product/topSelling">{{t 'home.bestSellerTitle' }}</a>
+          <a class='selection-a' href='/'>{{t 'home.newProductTitle'}}</a>
+          <a class='selection-a' href='/product/topSelling'>{{t
+            'home.bestSellerTitle'
+            }}</a>
         </div>
 
         <div class='row'>
@@ -148,9 +150,9 @@
       {{/if}}
       <div class='row'>
         <div id='productList' class='row'></div>
+        <div id='searchResults' class="row"></div>
       </div>
     </div>
   </div>
-
 </div>
 <script src='/js/home.js'></script>

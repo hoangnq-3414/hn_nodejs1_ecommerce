@@ -1,17 +1,18 @@
-<html lang='en'>
+{{!-- <html lang='en'>
 
 <head>
   <meta charset='UTF-8' />
   <meta http-equiv='X-UA-Compatible' content='IE=edge' />
   <meta name='viewport' content='width=device-width, initial-scale=1.0' />
 </head>
+
 <body>
   <!-- from login -->
   <div class='login'>
     <div class='login__container'>
       <h1>{{t 'login.signin'}}</h1>
       {{#if accountDisable}}
-        <p class="text-danger">{{t "login.accountDisableMessage"}}</p>
+      <p class="text-danger">{{t "login.accountDisableMessage"}}</p>
       {{/if}}
       <form method='post' action='/auth/login'>
         <h5>{{t 'login.email'}}</h5>
@@ -29,12 +30,46 @@
           <p class='flash flash-error text-danger'>{{flash.error}}</p>
           {{/if}}
         </div>
+        <a href='/auth/register' class='login__registerButton'>{{t
+          'login.cre_account'
+          }}</a>
+    </div>
+  </div>
+</body>
+<script src="/js/login.js"></script>
+
+</html> --}}
+
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8' />
+  <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+  <title>Login</title>
+</head>
+
+<body>
+  <div class='login'>
+    <div class='login__container'>
+      <h1>{{t 'login.signin'}}</h1>
+      <form id='loginForm'>
+        <h5>{{t 'login.email'}}</h5>
+        <input type='text' class='input-login-username' id='email' name='email' />
+        <h5>{{t 'login.password'}}</h5>
+        <input type='password' class='input-login-password' id='password' name='password' />
+        <button type='submit' class='login__signInButton'>{{t
+          'login.signin'
+          }}</button>
+        <div class='flash-messages' id='flashMessages'></div>
+      </form>
       <a href='/auth/register' class='login__registerButton'>{{t
         'login.cre_account'
         }}</a>
     </div>
   </div>
+  <script src='/bootstrap/sweetalert2@11.js'></script>
+  <script src='/js/login.js'></script>
 </body>
-</html>
 
 </html>

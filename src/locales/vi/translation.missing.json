@@ -58,5 +58,8 @@
     "priceRequiredMessage": "product.priceRequiredMessage",
     "unitRequiredMessage": "product.unitRequiredMessage",
     "categoryInfoMessage": "product.categoryInfoMessage"
+  },
+  "login": {
+    "create_account": "login.create_account"
   }
 }

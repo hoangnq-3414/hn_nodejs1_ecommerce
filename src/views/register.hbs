@@ -1,58 +1,31 @@
-<html lang='en'>
-  <head>
-    <meta charset='UTF-8' />
-    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-  </head>
-  <body>
-    <!-- form signup -->
-    <div class='signup'>
-      <div class='signup__container'>
-        <h1>{{t 'register.signup'}}</h1>
-        <form action='/auth/register' method='post'>
-          {{#if flash.existed}}
-            <p class='flash flash-error'>{{flash.existed}}</p>
-          {{/if}}
-
-          <h5>{{t 'register.full_name'}}</h5>
-          <input type='text' class='input-login-username' name='fullName' />
-          <h5>{{t 'register.email'}}</h5>
-          <input type='email' class='input-signup-email' name='email' />
-          <h5>{{t 'register.password'}}</h5>
-          <input
-            type='password'
-            class='input-signup-password'
-            name='password'
-          />
-          <h5>{{t 'register.confirm'}}</h5>
-          <input
-            type='password'
-            class='input-signup-password'
-            name='confirmPassword'
-          />
-          <button type='submit' class='signup__signInButton'>{{t
-              'register.signup'
-            }}</button>
-          {{#if accountExists}}
-            <p class='flash flash-error' style="color: red;">{{t 'register.existed'}}</p>
-          {{/if}}
-
-          {{#if errors}}
-            <ul>
-              {{#each errors}}
-                <p style="color: red;">{{{msg}}}</p>
-              {{/each}}
-            </ul>
-          {{/if}}
-        </form>
-        <a href='/auth/login' class='signup__registerButton'>{{t
-            'login.signin'
-          }}</a>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+</head>
+<body>
+  <!-- form signup -->
+  <div class="signup">
+    <div class="signup__container">
+      <h1>{{t 'register.signup'}}</h1>
+      <form id="registerForm">
+        <h5>{{t 'register.full_name'}}</h5>
+        <input type="text" class="input-login-username" id="fullName" />
+        <h5>{{t 'register.email'}}</h5>
+        <input type="email" class="input-signup-email" id="email" />
+        <h5>{{t 'register.password'}}</h5>
+        <input type="password" class="input-signup-password" id="password" />
+        <h5>{{t 'register.confirm'}}</h5>
+        <input type="password" class="input-signup-password" id="confirmPassword" />
+        <button type="submit" class="signup__signInButton">{{t 'register.signup'}}</button>
+      </form>
+      <a href="/auth/login" class="signup__registerButton">{{t 'login.signin'}}</a>
     </div>
-  </body>
+  </div>
+  <script src='/bootstrap/sweetalert2@11.js'></script>
+  <script src="/js/register.js"></script>
+</body>
 </html>
-<link rel='stylesheet' href='/bootstrap/sweetalert2@11.js' />
-      <script src='/bootstrap/sweetalert2@11.js'></script>
-{{#if accountCreated}}<script src="/js/resgister.js"></script>{{/if}}
-

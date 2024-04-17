@@ -1,41 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const registerForm = document.getElementById('registerForm');
+  const loginForm = document.getElementById('loginForm');
 
-  registerForm.addEventListener('submit', async (event) => {
+  loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const fullName = document.getElementById('fullName').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
 
     try {
-      const response = await fetch('/auth/register', {
+      const response = await fetch('/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ fullName, email, password, confirmPassword })
+        body: JSON.stringify({ email, password })
       });
+
       const data = await response.json();
       if (response.ok) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Tài khoản đã được tạo thành công!',
-          showConfirmButton: true,
-          confirmButtonText: 'OK'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = '/auth/login';
-          }
-        });
+        if (data.redirectUrl) {
+          window.location.href = data.redirectUrl;
+        } else if (data.accountDisable) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Tài khoản của bạn đã bị vô hiệu hóa!',
+            showConfirmButton: true,
+            confirmButtonText: 'OK'
+          });
+        }
       } else {
-        const errorMessage = Array.isArray(data.message) ? data.message.join('<br>') : data.message || 'Có lỗi xảy ra!';
+        const errorMessage = data.message || 'Có lỗi xảy ra!';
         console.error(errorMessage);
         Swal.fire({
           icon: 'error',
           title: 'Lỗi',
-          html: errorMessage, 
+          text: errorMessage,
           showConfirmButton: true,
           confirmButtonText: 'OK'
         });

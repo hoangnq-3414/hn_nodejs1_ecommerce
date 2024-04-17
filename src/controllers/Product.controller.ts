@@ -51,21 +51,9 @@ export const getSearchProduct = async (
     const searchText = req.query.searchText;
     const page = parseInt(req.query.page as string) || DEFAULT_PAGE;
     const { category, products, totalPages } = await getProductsWithSearchText(searchText, page);
-    res.render('home', {
-      searchText,
-      category,
-      product: products,
-      totalPages: totalPages,
-      currentPage: page,
-      paginationLinks: generatePaginationLinks(
-        page,
-        totalPages,
-        `searchText=${searchText}`,
-      ),
-    });
+    res.json({ searchText, category, products, totalPages, currentPage: page });
   } catch (err) {
-    console.error(err);
-    next();
+    next(err);
   }
 };
 
