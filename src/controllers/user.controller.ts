@@ -28,6 +28,19 @@ export const getDetailUser = async (
   }
 };
 
+export const getUserJson = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = await userRepository.find();
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+};
+
 // Handle multipart/form-data trước khi kiểm tra dữ liệu
 export const handleUpload = (req, res, next) => {
   upload(req, res, async (err) => {

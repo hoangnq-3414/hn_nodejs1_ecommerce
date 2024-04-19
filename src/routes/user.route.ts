@@ -9,6 +9,7 @@ router.post('/changePass',userController.postPasswordValidation, userController.
 router.get('/changePass', userController.getChangePass);
 router.post('/edit', userController.handleUpload, userController.postRegisterValidation, userController.editDetailUser)
 router.get('/detail', userController.getDetailUser);
+// router.get('/api', userController.getUserJson);
 
 // admin
 router.get('/search', manageUserController.searchUser)
