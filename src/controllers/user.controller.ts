@@ -105,7 +105,7 @@ export const getChangePass = async (
   }
 };
 
-// GET change password
+// POST change password
 export const postChangePass = async (
   req: Request,
   res: Response,
